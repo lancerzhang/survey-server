@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,4 +17,6 @@ public class SurveyRequest {
     private Timestamp startTime;
     private Timestamp endTime;
     private Integer maxResponses;
+
+    private List<QuestionRequest> questions;
 }
