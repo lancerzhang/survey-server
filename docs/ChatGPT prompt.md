@@ -22,6 +22,10 @@
 20. Implement code for adding question and option when creating or updating survey.
 21. Implement survey response with create and update method.
 22. Verify this db schema, see if there is any problem, ``paste your db schema here``
+23. Convert above db schema to plantUml entity diagram
+24. Provide jpa entity java base on above db schema, use lombok setter and getter
+25. Give me unit test code of above controller and service java
+26. Give me unit test of below service java, ``paste your java code here``
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.
