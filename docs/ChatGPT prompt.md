@@ -18,6 +18,7 @@
 16. I want to add initial user and survey data to in memory db when start the application.
 17. There are two types of user, one is anonymous user, another is not, please update data schema, data entity, request and response bean.
 18. Add last_modified, public key field to user table, give me updated code.
+19. User can set delegates, so that others can read his/her survey, create/update survey for him. Please update codes.
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.

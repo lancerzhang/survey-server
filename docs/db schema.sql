@@ -77,5 +77,14 @@ CREATE TABLE winners (
     FOREIGN KEY (prize_id) REFERENCES prizes(id)
 );
 
+CREATE TABLE delegate (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    delegator_id INT NOT NULL,
+    delegate_id INT NOT NULL,
+    FOREIGN KEY (delegator_id) REFERENCES user(id),
+    FOREIGN KEY (delegate_id) REFERENCES user(id),
+    UNIQUE (delegator_id, delegate_id)
+);
+
 ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
 add constraint FK9i4p8ve2y3iqrfayg1cdj8f1h foreign key (user_id) references user
