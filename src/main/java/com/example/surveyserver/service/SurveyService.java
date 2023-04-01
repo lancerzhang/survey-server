@@ -1,5 +1,6 @@
 package com.example.surveyserver.service;
 
+import com.example.surveyserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,15 @@ public class SurveyService {
 
     @Autowired
     private SurveyRepository surveyRepository;
+    @Autowired
+    private UserService userService;
 
-    public Survey createSurvey(Survey survey) {
+    public Survey createSurvey(Survey survey, Integer userId) {
+        User user = userService.getUser(userId);
+        if (user == null) {
+            return null;
+        }
+        survey.setUser(user);
         return surveyRepository.save(survey);
     }
 

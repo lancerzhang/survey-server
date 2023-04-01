@@ -14,7 +14,8 @@
 12. Give me postman collection json file, so that I can test above controller endpoints
 13. Implement UserService and UserController with create, read and update methods.
 14. Give me postman collection json file content for UserController.
-
+15. Write a GitHub Readme file for this project, give me source of this Readme.
+16. I want to add initial user and survey data to in memory db when start the application
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.

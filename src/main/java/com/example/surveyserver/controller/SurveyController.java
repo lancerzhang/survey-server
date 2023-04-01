@@ -15,9 +15,9 @@ public class SurveyController {
     @Autowired
     private SurveyService surveyService;
 
-    @PostMapping
-    public Survey createSurvey(@RequestBody Survey survey) {
-        return surveyService.createSurvey(survey);
+    @PostMapping("/user/{userId}")
+    public Survey createSurvey(@RequestBody Survey survey, @PathVariable Integer userId) {
+        return surveyService.createSurvey(survey, userId);
     }
 
     @GetMapping("/{id}")
