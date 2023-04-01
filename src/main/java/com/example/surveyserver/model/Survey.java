@@ -19,12 +19,12 @@ public class Survey {
     private User user;
     private String title;
     private String description;
-    private Boolean allowAnonymousResponse;
+    private Boolean allowAnonymousReply;
     private Boolean allowResubmit;
     private Boolean isDeleted;
     private Timestamp lastModified;
     private Timestamp startTime;
     private Timestamp endTime;
-    private Integer maxResponses;
+    private Integer maxReplies;
     private Timestamp createdAt;
 }

@@ -4,22 +4,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
+@Entity
+@Table(name = "option_reply")
 @Getter
 @Setter
-@Entity
-public class UserPrize {
+public class OptionReply {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "question_reply_id", nullable = false)
+    private QuestionReply questionReply;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prize_id", nullable = false)
-    private Prize prize;
-    private Timestamp createdAt;
+    @JoinColumn(name = "option_id", nullable = false)
+    private Option option;
+
+    private boolean selected;
 }

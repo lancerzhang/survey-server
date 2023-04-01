@@ -6,20 +6,26 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class Prize {
+@Table(name = "winners")
+public class Winner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-
+    private int id;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    
     @ManyToOne
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
-    private String name;
-    private String description;
-    private Integer quantity;
-    private Timestamp createdAt;
+    
+    @ManyToOne
+    @JoinColumn(name = "prize_id", nullable = false)
+    private Prize prize;
+    
+    private Timestamp wonAt;
 }

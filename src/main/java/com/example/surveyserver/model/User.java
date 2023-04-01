@@ -18,13 +18,9 @@ public class User {
 
     private String username;
     private String password;
-    @Column(nullable = false)
-    private boolean anonymous;
+    private Boolean isAnonymous;
     private String publicKey;
-
     private String email;
-    @OneToMany(mappedBy = "delegator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Delegate> delegates;
     private Timestamp createdAt;
     private Timestamp lastModified;
 }

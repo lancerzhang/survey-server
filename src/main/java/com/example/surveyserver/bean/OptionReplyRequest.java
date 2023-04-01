@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserPrizeResponse {
-    private Integer id;
-    private String createdAt;
+public class OptionReplyRequest {
+    private Integer optionId;
+    private boolean selected;
 }

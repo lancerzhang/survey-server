@@ -5,30 +5,28 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
+@Entity
+@Table(name = "survey_reply")
 @Getter
 @Setter
-@Entity
-public class Response {
+public class SurveyReply {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
-    @ManyToOne
-    @JoinColumn(name = "option_id", nullable = false)
-    private Option option;
-    private String responseText;
+    @OneToMany(mappedBy = "surveyReply", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuestionReply> questionReply;
+
     private Timestamp createdAt;
 }

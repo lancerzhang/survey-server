@@ -3,12 +3,12 @@ package com.example.surveyserver.bean;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class ResponseRequest {
+public class SurveyReplyRequest {
     private Integer userId;
     private Integer surveyId;
-    private Integer questionId;
-    private Integer optionId;
-    private String responseText;
+    private List<QuestionReplyRequest> questionResponses;
 }

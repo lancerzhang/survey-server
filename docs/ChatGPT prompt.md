@@ -20,12 +20,15 @@
 18. Add last_modified, public key field to user table, give me updated code.
 19. User can set delegates, so that others can read his/her survey, create/update survey for him. Please update codes.
 20. Implement code for adding question and option when creating or updating survey.
+21. Implement survey response with create and update method.
+22. Verify this db schema, see if there is any problem, ``paste your db schema here``
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.
-2. You may try to limit the response words, otherwise the result may be break. You can achieve this by reducing the requirement in one question.
+2. You may try to limit the response words, otherwise the result may be break. You can achieve this by reducing the requirement in one question. If it exceed words limit, type "give me rest of the code".
 3. The result may be not correct, please verify the result.
 4. GPT will use different implementation even in the same context, e.g. it will call another service B in service A, but if you ask it again, it will use repository directly...
+5. After modify it partially few times, you can ask it to verify the full db schema again.
 
 # Tips
 * You can copy the code from ChatGPT, and the select a package folder, then directly paste it, IDEA will create a file for it.

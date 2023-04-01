@@ -29,7 +29,7 @@ public class InitialDataLoader implements CommandLineRunner {
         Survey survey = new Survey();
         survey.setTitle("Sample Survey");
         survey.setDescription("A sample survey for testing purposes");
-        survey.setAllowAnonymousResponse(true);
+        survey.setAllowAnonymousReply(true);
         survey.setAllowResubmit(true);
         survey.setIsDeleted(false);
         survey.setUser(user);
