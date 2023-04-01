@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.service.SurveyService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/surveys")
 public class SurveyController {
@@ -23,6 +25,11 @@ public class SurveyController {
     @GetMapping("/{id}")
     public Survey getSurvey(@PathVariable Integer id) {
         return surveyService.getSurvey(id);
+    }
+
+    @GetMapping
+    public List<Survey> getSurvey() {
+        return surveyService.getAllSurveys();
     }
 
     @PutMapping("/{id}")

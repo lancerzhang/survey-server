@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getUser() {
-        return userService.getUsers();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")

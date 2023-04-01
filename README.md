@@ -35,6 +35,7 @@ The application will start running at `http://localhost:8080`.
 
 ## To do feature
 * Upload image
+* Template
 
 ## Testing
 

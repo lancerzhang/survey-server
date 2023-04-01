@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.repository.SurveyRepository;
 
+import java.util.List;
+
 @Service
 public class SurveyService {
 
@@ -27,6 +29,10 @@ public class SurveyService {
 
     public Survey getSurvey(Integer id) {
         return surveyRepository.findById(id).orElse(null);
+    }
+
+    public List<Survey> getAllSurveys() {
+        return surveyRepository.findAll();
     }
 
     public Survey updateSurvey(Survey survey) {
