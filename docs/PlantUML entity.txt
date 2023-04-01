@@ -1,4 +1,5 @@
 @startuml
+' view diagram online at http://www.plantuml.com/plantuml
 !define table(x) class x << (T,#FFAAAA) >>
 !define primary_key(x) <b><color:#191970>x</color></b>
 !define foreign_key(x) <color:#191970>x</color>

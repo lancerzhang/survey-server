@@ -11,9 +11,8 @@ import java.sql.Timestamp;
 @Entity
 public class Prize {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
-
 
     @ManyToOne
     @JoinColumn(name = "survey_id", nullable = false)
@@ -22,4 +21,5 @@ public class Prize {
     private String description;
     private Integer quantity;
     private Timestamp createdAt;
+    private Timestamp lastModified;
 }

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Entity
 public class Survey {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @ManyToOne
@@ -21,10 +21,10 @@ public class Survey {
     private String description;
     private Boolean allowAnonymousReply;
     private Boolean allowResubmit;
-    private Boolean isDeleted;
-    private Timestamp lastModified;
     private Timestamp startTime;
     private Timestamp endTime;
     private Integer maxReplies;
     private Timestamp createdAt;
+    private Timestamp lastModified;
+    private Boolean isDeleted;
 }

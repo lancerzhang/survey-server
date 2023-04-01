@@ -14,7 +14,7 @@ import java.util.List;
 public class SurveyReply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,4 +29,5 @@ public class SurveyReply {
     private List<QuestionReply> questionReply;
 
     private Timestamp createdAt;
+    private Timestamp lastModified;
 }

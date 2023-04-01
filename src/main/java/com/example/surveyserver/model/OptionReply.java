@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class OptionReply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -24,8 +24,6 @@ git clone https://github.com/your-username/survey-server.git
 ```
 2. Import the project into your favorite IDE.
 
-3. Set up the database connection in the `application.properties` file.
-
 ## Running the Application
 
 To run the application, execute the following command in the terminal:
@@ -35,28 +33,8 @@ mvn spring-boot:run
 
 The application will start running at `http://localhost:8080`.
 
-## API Endpoints
-
-### Users
-- **Create User:** `POST /api/users`
-- **Get User:** `GET /api/users/{id}`
-- **Update User:** `PUT /api/users/{id}`
-
-### Surveys
-- **Create Survey:** `POST /api/surveys`
-- **Get Survey:** `GET /api/surveys/{id}`
-- **Update Survey:** `PUT /api/surveys/{id}`
-- **Get Surveys By User:** `GET /api/surveys/user/{userId}`
-
-### Questions
-- **Create Question:** `POST /api/questions`
-- **Get Question:** `GET /api/questions/{id}`
-- **Update Question:** `PUT /api/questions/{id}`
-
-### Options
-- **Create Option:** `POST /api/options`
-- **Get Option:** `GET /api/options/{id}`
-- **Update Option:** `PUT /api/options/{id}`
+## To do feature
+* Upload image
 
 ## Testing
 

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -17,6 +19,10 @@ public class UserService {
 
     public User getUser(Integer id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 
     public User updateUser(Integer id, User updatedUser) {

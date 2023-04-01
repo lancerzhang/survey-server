@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "winners")
 public class Winner {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     
     @ManyToOne

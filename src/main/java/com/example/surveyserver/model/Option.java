@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class Option {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     private String optionText;

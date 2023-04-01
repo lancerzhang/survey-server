@@ -13,7 +13,7 @@ import java.util.List;
 public class QuestionReply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

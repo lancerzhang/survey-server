@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Entity
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @ManyToOne
@@ -25,6 +25,11 @@ public class Question {
         RADIO,
         CHECKBOX
     }
-
+    private Boolean isMandatory;
+    private Boolean isMultiline;
+    private Integer minSelection;
+    private Integer maxSelection;
     private Timestamp createdAt;
+    private String sectionTitle;
+    private String sectionDescription;
 }

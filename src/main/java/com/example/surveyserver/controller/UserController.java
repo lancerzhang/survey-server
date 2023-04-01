@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -15,6 +17,11 @@ public class UserController {
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
+    }
+
+    @GetMapping
+    public List<User> getUser() {
+        return userService.getUsers();
     }
 
     @GetMapping("/{id}")
