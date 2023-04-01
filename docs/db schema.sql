@@ -2,7 +2,10 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    anonymous BOOLEAN NOT NULL DEFAULT false,
+    public_key VARCHAR(255) NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
+    last_modified TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
