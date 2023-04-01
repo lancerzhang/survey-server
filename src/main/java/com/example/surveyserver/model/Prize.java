@@ -13,6 +13,9 @@ public class Prize {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
     private String name;
     private String description;

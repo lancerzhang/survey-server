@@ -13,6 +13,10 @@ public class Option {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Question question;
+    @Column(name = "option_text", nullable = false)
     private String optionText;
+
+    @ManyToOne
+    @JoinColumn(name = "question_id", nullable = false)
+    private Question question;
 }

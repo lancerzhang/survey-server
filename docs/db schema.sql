@@ -73,3 +73,6 @@ CREATE TABLE winners (
     FOREIGN KEY (survey_id) REFERENCES surveys(id),
     FOREIGN KEY (prize_id) REFERENCES prizes(id)
 );
+
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+add constraint FK9i4p8ve2y3iqrfayg1cdj8f1h foreign key (user_id) references user

@@ -13,6 +13,8 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
     private String questionText;
     private String questionType;
