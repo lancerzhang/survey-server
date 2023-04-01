@@ -1,0 +1,84 @@
+@startuml
+
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+!define foreign_key(x) <font color="#blue"><i>x</i></font>
+
+Table(users, "users") {
+  primary_key(id) : INT
+  username : VARCHAR(255)
+  password : VARCHAR(255)
+  email : VARCHAR(255)
+  created_at : TIMESTAMP
+}
+
+Table(surveys, "surveys") {
+  primary_key(id) : INT
+  user_id : INT
+  title : VARCHAR(255)
+  description : TEXT
+  allow_anonymous_response : BOOLEAN
+  allow_resubmit : BOOLEAN
+  is_deleted : BOOLEAN
+  last_modified : TIMESTAMP
+  start_time : TIMESTAMP
+  end_time : TIMESTAMP
+  max_responses : INT
+  created_at : TIMESTAMP
+}
+
+Table(questions, "questions") {
+  primary_key(id) : INT
+  survey_id : INT
+  question_text : TEXT
+  question_type : ENUM
+  created_at : TIMESTAMP
+}
+
+Table(options, "options") {
+  primary_key(id) : INT
+  question_id : INT
+  option_text : VARCHAR(255)
+}
+
+Table(responses, "responses") {
+  primary_key(id) : INT
+  user_id : INT
+  survey_id : INT
+  question_id : INT
+  option_id : INT
+  response_text : TEXT
+  created_at : TIMESTAMP
+}
+
+Table(prizes, "prizes") {
+  primary_key(id) : INT
+  survey_id : INT
+  prize_name : VARCHAR(255)
+  prize_description : TEXT
+  total_quantity : INT
+  remaining_quantity : INT
+  created_at : TIMESTAMP
+}
+
+Table(winners, "winners") {
+  primary_key(id) : INT
+  user_id : INT
+  survey_id : INT
+  prize_id : INT
+  won_at : TIMESTAMP
+}
+
+users "1" -- "0..*" surveys : foreign_key(user_id)
+surveys "1" -- "0..*" questions : foreign_key(survey_id)
+questions "1" -- "0..*" options : foreign_key(question_id)
+users "1" -- "0..*" responses : foreign_key(user_id)
+surveys "1" -- "0..*" responses : foreign_key(survey_id)
+questions "1" -- "0..*" responses : foreign_key(question_id)
+options "0..1" -- "0..*" responses : foreign_key(option_id)
+surveys "1" -- "0..*" prizes : foreign_key(survey_id)
+users "1" -- "0..*" winners : foreign_key(user_id)
+surveys "1" -- "0..*" winners : foreign_key(survey_id)
+prizes "1" -- "0..*" winners : foreign_key(prize_id)
+
+@enduml
