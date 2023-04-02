@@ -5,7 +5,7 @@ entity "users" as users {
     username: VARCHAR(255)
     staffId: VARCHAR(255)
     is_anonymous: BOOLEAN
-    public_key: VARCHAR(255)
+    public_key: VARCHAR(1000)
     email: VARCHAR(255)
     last_modified: TIMESTAMP
     created_at: TIMESTAMP
@@ -42,13 +42,19 @@ entity "questions" as questions {
     seq: INT
     question_text: TEXT
     question_type: ENUM
+    section_text: TEXT
+    section_description: TEXT
+    isMandatory: BOOLEAN
+    isMultiline: BOOLEAN
+    minSelection: INT
+    maxSelection: INT
 }
 
 entity "options" as options {
     id: INT <<PK>>
     question_id: INT <<FK>>
     seq: INT
-    option_text: VARCHAR(255)
+    option_text: TEXT
 }
 
 entity "survey_reply" as survey_reply {

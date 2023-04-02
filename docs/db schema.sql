@@ -3,7 +3,7 @@ CREATE TABLE users (
     username VARCHAR(255) NOT NULL UNIQUE,
     staffId VARCHAR(255) NOT NULL,
     is_anonymous BOOLEAN NOT NULL DEFAULT false,
-    public_key VARCHAR(255) NULL,
+    public_key VARCHAR(1000) NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -43,6 +43,12 @@ CREATE TABLE questions (
     seq INT NOT NULL,
     question_text TEXT NOT NULL,
     question_type ENUM('TEXT', 'RADIO', 'CHECKBOX') NOT NULL,
+    section_text TEXT NOT NULL,
+    section_description TEXT NOT NULL,
+    isMandatory BOOLEAN NOT NULL DEFAULT FALSE,
+    isMultiline BOOLEAN NOT NULL DEFAULT FALSE,
+    minSelection INT,
+    maxSelection INT,
     FOREIGN KEY (survey_id) REFERENCES surveys(id)
     FOREIGN KEY (template_id) REFERENCES templates(id)
 );
@@ -51,7 +57,7 @@ CREATE TABLE options (
     id INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
     seq INT NOT NULL,
-    option_text VARCHAR(255) NOT NULL,
+    option_text TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
