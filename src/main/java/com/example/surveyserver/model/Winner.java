@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -26,6 +27,12 @@ public class Winner {
     @ManyToOne
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;
-    
-    private Timestamp wonAt;
+
+    @Column(nullable = false, updatable = false)
+    private Date wonAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.wonAt = new Date();
+    }
 }

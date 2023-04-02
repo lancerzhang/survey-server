@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -24,7 +25,16 @@ public class Survey {
     private Timestamp startTime;
     private Timestamp endTime;
     private Integer maxReplies;
-    private Timestamp createdAt;
-    private Timestamp lastModified;
     private Boolean isDeleted;
+    @Column(nullable = false, updatable = false)
+    private Date createdAt;
+    @Column(nullable = false)
+    private Date lastModified;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Date();
+        this.lastModified = new Date();
+    }
+
 }

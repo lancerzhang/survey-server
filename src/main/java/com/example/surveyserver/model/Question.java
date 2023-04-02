@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -29,7 +30,6 @@ public class Question {
     private Boolean isMultiline;
     private Integer minSelection;
     private Integer maxSelection;
-    private Timestamp createdAt;
     private String sectionTitle;
     private String sectionDescription;
 }

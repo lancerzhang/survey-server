@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -20,6 +21,14 @@ public class Prize {
     private String name;
     private String description;
     private Integer quantity;
-    private Timestamp createdAt;
-    private Timestamp lastModified;
+    @Column(nullable = false, updatable = false)
+    private Date createdAt;
+    @Column(nullable = false)
+    private Date lastModified;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Date();
+        this.lastModified = new Date();
+    }
 }
