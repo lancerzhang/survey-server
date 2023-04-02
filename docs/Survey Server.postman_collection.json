@@ -6,6 +6,70 @@
 	},
 	"item": [
 		{
+			"name": "Submit Survey Reply",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"surveyId\": 1,\n    \"replies\": [\n        {\n            \"questionId\": 1,\n            \"replyText\": \"I'm doing well\",\n            \"selectedOptions\": []\n        },\n        {\n            \"questionId\": 2,\n            \"replyText\": \"\",\n            \"selectedOptions\": [1, 3]\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Reply by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Survey Replies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create User",
 			"request": {
 				"method": "POST",
@@ -26,7 +90,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users",
+					"raw": "{{base_url}}/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -46,7 +110,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users/1",
+					"raw": "{{base_url}}/api/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -67,7 +131,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users",
+					"raw": "{{base_url}}/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -91,7 +155,7 @@
 					"raw": "{\n  \"username\": \"updatedUser\",\n  \"email\": \"updateduser@example.com\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/1",
+					"raw": "{{base_url}}/api/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -122,7 +186,7 @@
 					"raw": "{\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"seq\": 1,\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"seq\": 2,\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\",\n                \"seq\": 1\n            },\n            {\n                \"optionText\": \"blue\",\n                \"seq\": 2\n            },\n            {\n                \"optionText\": \"green\",\n                \"seq\": 3\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/surveys/user/1",
+					"raw": "{{base_url}}/api/surveys/user/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -144,7 +208,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/surveys/1",
+					"raw": "{{base_url}}/api/surveys/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -165,7 +229,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/surveys",
+					"raw": "{{base_url}}/api/surveys",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -189,7 +253,7 @@
 					"raw": "{\n  \"title\": \"Updated Survey Title\",\n  \"description\": \"Updated Survey Description\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/surveys/1",
+					"raw": "{{base_url}}/api/surveys/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -210,7 +274,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/surveys/user/1?page=0&size=10&sortBy=createdAt",
+					"raw": "{{base_url}}/api/surveys/user/1?page=0&size=10&sortBy=createdAt",
 					"protocol": "http",
 					"host": [
 						"localhost"
