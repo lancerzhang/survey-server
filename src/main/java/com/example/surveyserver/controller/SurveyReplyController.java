@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -16,7 +17,7 @@ public class SurveyReplyController {
     private SurveyReplyService surveyReplyService;
 
     @PostMapping
-    public ResponseEntity<SurveyReply> createSurveyReply(@RequestBody SurveyReply surveyReply) {
+    public ResponseEntity<SurveyReply> createSurveyReply(@Valid @RequestBody SurveyReply surveyReply) {
         SurveyReply createdSurveyReply = surveyReplyService.createSurveyReply(surveyReply);
         return ResponseEntity.ok(createdSurveyReply);
     }
@@ -28,7 +29,7 @@ public class SurveyReplyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SurveyReply> updateSurveyReply(@PathVariable Integer id, @RequestBody SurveyReply updatedSurveyReply) {
+    public ResponseEntity<SurveyReply> updateSurveyReply(@PathVariable Integer id, @Valid @RequestBody SurveyReply updatedSurveyReply) {
         Optional<SurveyReply> existingSurveyReply = surveyReplyService.getSurveyReply(id);
         if (existingSurveyReply.isPresent()) {
             updatedSurveyReply.setId(id);

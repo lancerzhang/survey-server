@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.service.SurveyService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @PostMapping("/user/{userId}")
-    public Survey createSurvey(@RequestBody Survey survey, @PathVariable Integer userId) {
+    public Survey createSurvey(@Valid @RequestBody Survey survey, @PathVariable Integer userId) {
         return surveyService.createSurvey(survey, userId);
     }
 
@@ -33,7 +34,7 @@ public class SurveyController {
     }
 
     @PutMapping("/{id}")
-    public Survey updateSurvey(@PathVariable Integer id, @RequestBody Survey updatedSurvey) {
+    public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey) {
         Survey survey = surveyService.getSurvey(id);
         if (survey == null) {
             return null;

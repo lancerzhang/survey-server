@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,9 @@ public class Survey {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column(nullable = false)
+    @Size(max = 255)
     private String title;
+    @Size(max = 4000)
     private String description;
     private Boolean allowAnonymousReply;
     private Boolean allowResubmit;

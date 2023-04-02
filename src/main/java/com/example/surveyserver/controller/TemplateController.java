@@ -5,6 +5,8 @@ import com.example.surveyserver.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/templates")
 public class TemplateController {
@@ -13,7 +15,7 @@ public class TemplateController {
     private TemplateService templateService;
 
     @PostMapping("/user/{userId}")
-    public Template createTemplate(@RequestBody Template template, @PathVariable Integer userId) {
+    public Template createTemplate(@Valid @RequestBody Template template, @PathVariable Integer userId) {
         return templateService.createTemplate(template, userId);
     }
 

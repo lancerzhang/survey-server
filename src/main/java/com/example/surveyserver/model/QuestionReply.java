@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,7 @@ public class QuestionReply {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
+    @Size(max = 4000)
     private String replyText;
 
 }

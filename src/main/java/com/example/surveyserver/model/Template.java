@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -17,7 +18,9 @@ public class Template {
     @GeneratedValue
     private Integer id;
     @Column(nullable = false)
+    @Size(max = 255)
     private String title;
+    @Size(max = 4000)
     private String description;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

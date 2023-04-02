@@ -1,10 +1,11 @@
 package com.example.surveyserver.controller;
 
-import com.example.surveyserver.bean.DelegateRequest;
 import com.example.surveyserver.model.Delegate;
 import com.example.surveyserver.service.DelegateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/delegates")
@@ -14,8 +15,8 @@ public class DelegateController {
     private DelegateService delegateService;
 
     @PostMapping
-    public Delegate addDelegate(@RequestBody DelegateRequest delegateRequest) {
-        return delegateService.addDelegate(delegateRequest.getDelegatorId(), delegateRequest.getDelegateId());
+    public Delegate addDelegate(@Valid @RequestBody Delegate delegate) {
+        return delegateService.addDelegate(delegate);
     }
 
     @DeleteMapping("/{id}")

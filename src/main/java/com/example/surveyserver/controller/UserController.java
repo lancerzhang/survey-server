@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Integer id, @RequestBody User updatedUser) {
+    public User updateUser(@PathVariable Integer id, @Valid @RequestBody User updatedUser) {
         return userService.updateUser(id, updatedUser);
     }
 }

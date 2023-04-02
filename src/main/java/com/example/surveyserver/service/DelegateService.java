@@ -16,19 +16,9 @@ public class DelegateService {
     @Autowired
     private UserRepository userRepository;
 
-    public Delegate addDelegate(Integer delegatorId, Integer delegateId) {
-        User delegator = userRepository.findById(delegatorId).orElse(null);
-        User delegate = userRepository.findById(delegateId).orElse(null);
+    public Delegate addDelegate(Delegate delegate) {
 
-        if (delegator == null || delegate == null) {
-            return null;
-        }
-
-        Delegate newDelegate = new Delegate();
-        newDelegate.setDelegator(delegator);
-        newDelegate.setDelegate(delegate);
-
-        return delegateRepository.save(newDelegate);
+        return delegateRepository.save(delegate);
     }
 
     public void removeDelegate(Integer id) {
