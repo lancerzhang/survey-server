@@ -1,7 +1,7 @@
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+    staffId VARCHAR(255) NOT NULL,
     is_anonymous BOOLEAN NOT NULL DEFAULT false,
     public_key VARCHAR(255) NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -25,6 +25,18 @@ CREATE TABLE surveys (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE templates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    user_id INT NOT NULL,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
 CREATE TABLE questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     survey_id INT NOT NULL,
@@ -32,6 +44,7 @@ CREATE TABLE questions (
     question_text TEXT NOT NULL,
     question_type ENUM('TEXT', 'RADIO', 'CHECKBOX') NOT NULL,
     FOREIGN KEY (survey_id) REFERENCES surveys(id)
+    FOREIGN KEY (template_id) REFERENCES templates(id)
 );
 
 CREATE TABLE options (

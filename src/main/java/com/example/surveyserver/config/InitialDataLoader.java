@@ -22,6 +22,7 @@ public class InitialDataLoader implements CommandLineRunner {
         // Create a sample user
         User user = new User();
         user.setUsername("sampleUser");
+        user.setStaffId("01234567");
         user.setEmail("sample.user@example.com");
         user = userService.createUser(user);
 

@@ -29,9 +29,8 @@ public class SurveyReply {
     @OneToMany(mappedBy = "surveyReply", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionReply> questionReply;
 
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private Date createdAt;
-    @Column(nullable = false)
     private Date lastModified;
 
     @PrePersist

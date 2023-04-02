@@ -19,6 +19,7 @@ public class Survey {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    @Column(nullable = false)
     private String title;
     private String description;
     private Boolean allowAnonymousReply;
@@ -30,13 +31,15 @@ public class Survey {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "survey_id")
     private List<Question> questions;
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private Date createdAt;
-    @Column(nullable = false)
     private Date lastModified;
 
     @PrePersist
     public void prePersist() {
+        this.allowAnonymousReply=false;
+        this.allowResubmit=false;
+        this.isDeleted=false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,18 +14,20 @@ public class User {
     @GeneratedValue
     private Integer id;
 
+    @Column(nullable = false)
     private String username;
-    private String password;
+    @Column(nullable = false)
+    private String staffId;
     private Boolean isAnonymous;
     private String publicKey;
     private String email;
-    @Column(nullable = false, updatable = false)
     private Date createdAt;
-    @Column(nullable = false)
+    @Column
     private Date lastModified;
 
     @PrePersist
     public void prePersist() {
+        this.isAnonymous=false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

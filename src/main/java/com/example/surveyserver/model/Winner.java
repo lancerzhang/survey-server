@@ -27,8 +27,6 @@ public class Winner {
     @ManyToOne
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;
-
-    @Column(nullable = false, updatable = false)
     private Date wonAt;
 
     @PrePersist

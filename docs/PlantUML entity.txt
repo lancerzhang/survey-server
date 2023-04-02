@@ -1,108 +1,117 @@
 @startuml
-' view diagram online at http://www.plantuml.com/plantuml
-!define table(x) class x << (T,#FFAAAA) >>
-!define primary_key(x) <b><color:#191970>x</color></b>
-!define foreign_key(x) <color:#191970>x</color>
-!define unique(x) <color:#228B22>x</color>
 
-table(users) {
-    primary_key(id) INT
-    unique(username) VARCHAR(255)
-    password VARCHAR(255)
-    is_anonymous BOOLEAN
-    public_key VARCHAR(255)
-    unique(email) VARCHAR(255)
-    last_modified TIMESTAMP
-    created_at TIMESTAMP
+entity "users" as users {
+    id: INT <<PK>>
+    username: VARCHAR(255)
+    staffId: VARCHAR(255)
+    is_anonymous: BOOLEAN
+    public_key: VARCHAR(255)
+    email: VARCHAR(255)
+    last_modified: TIMESTAMP
+    created_at: TIMESTAMP
 }
 
-table(surveys) {
-    primary_key(id) INT
-    title VARCHAR(255)
-    description TEXT
-    foreign_key(user_id) INT
-    allow_anonymous_reply BOOLEAN
-    allow_resubmit BOOLEAN
-    is_deleted BOOLEAN
-    last_modified TIMESTAMP
-    start_time TIMESTAMP
-    end_time TIMESTAMP
-    max_replies INT
-    created_at TIMESTAMP
+entity "surveys" as surveys {
+    id: INT <<PK>>
+    title: VARCHAR(255)
+    description: TEXT
+    user_id: INT <<FK>>
+    allow_anonymous_reply: BOOLEAN
+    allow_resubmit: BOOLEAN
+    is_deleted: BOOLEAN
+    start_time: TIMESTAMP
+    end_time: TIMESTAMP
+    max_replies: INT
+    last_modified: TIMESTAMP
+    created_at: TIMESTAMP
 }
 
-table(questions) {
-    primary_key(id) INT
-    foreign_key(survey_id) INT
-    question_text TEXT
-    question_type ENUM
-    created_at TIMESTAMP
+entity "templates" as templates {
+    id: INT <<PK>>
+    title: VARCHAR(255)
+    description: TEXT
+    user_id: INT <<FK>>
+    is_deleted: BOOLEAN
+    last_modified: TIMESTAMP
+    created_at: TIMESTAMP
 }
 
-table(options) {
-    primary_key(id) INT
-    foreign_key(question_id) INT
-    option_text VARCHAR(255)
+entity "questions" as questions {
+    id: INT <<PK>>
+    survey_id: INT <<FK>>
+    seq: INT
+    question_text: TEXT
+    question_type: ENUM
 }
 
-table(survey_reply) {
-    primary_key(id) INT
-    foreign_key(user_id) INT
-    foreign_key(survey_id) INT
-    created_at TIMESTAMP
+entity "options" as options {
+    id: INT <<PK>>
+    question_id: INT <<FK>>
+    seq: INT
+    option_text: VARCHAR(255)
 }
 
-table(question_reply) {
-    primary_key(id) INT
-    foreign_key(survey_reply_id) INT
-    foreign_key(question_id) INT
-    reply_text TEXT
+entity "survey_reply" as survey_reply {
+    id: INT <<PK>>
+    user_id: INT <<FK>>
+    survey_id: INT <<FK>>
+    last_modified: TIMESTAMP
+    created_at: TIMESTAMP
 }
 
-table(option_reply) {
-    primary_key(id) INT
-    foreign_key(question_reply_id) INT
-    foreign_key(option_id) INT
-    selected BOOLEAN
+entity "question_reply" as question_reply {
+    id: INT <<PK>>
+    survey_reply_id: INT <<FK>>
+    question_id: INT <<FK>>
+    reply_text: TEXT
 }
 
-table(prizes) {
-    primary_key(id) INT
-    foreign_key(survey_id) INT
-    prize_name VARCHAR(255)
-    prize_description TEXT
-    total_quantity INT
-    remaining_quantity INT
-    created_at TIMESTAMP
+entity "option_reply" as option_reply {
+    id: INT <<PK>>
+    question_reply_id: INT <<FK>>
+    option_id: INT <<FK>>
+    selected: BOOLEAN
 }
 
-table(winners) {
-    primary_key(id) INT
-    foreign_key(user_id) INT
-    foreign_key(survey_id) INT
-    foreign_key(prize_id) INT
-    won_at TIMESTAMP
+entity "prizes" as prizes {
+    id: INT <<PK>>
+    survey_id: INT <<FK>>
+    prize_name: VARCHAR(255)
+    prize_description: TEXT
+    total_quantity: INT
+    remaining_quantity: INT
+    last_modified: TIMESTAMP
+    created_at: TIMESTAMP
 }
 
-table(delegate) {
-    primary_key(id) INT
-    foreign_key(delegator_id) INT
-    foreign_key(delegate_id) INT
+entity "winners" as winners {
+    id: INT <<PK>>
+    user_id: INT <<FK>>
+    survey_id: INT <<FK>>
+    prize_id: INT <<FK>>
+    won_at: TIMESTAMP
 }
 
-users -down-> surveys : user_id
-surveys -down-> questions : survey_id
-questions -down-> options : question_id
-users -down-> survey_reply : user_id
-surveys -down-> survey_reply : survey_id
-survey_reply -down-> question_reply : survey_reply_id
-questions -down-> question_reply : question_id
-question_reply -down-> option_reply : question_reply_id
-options -down-> option_reply : option_id
-surveys -down-> prizes : survey_id
-users -down-> winners : user_id
-surveys -down-> winners : survey_id
-prizes -down-> winners : prize_id
-users -down-> delegate : delegator_id
-users -down-> delegate : delegate_id
+entity "delegate" as delegate {
+    id: INT <<PK>>
+    delegator_id: INT <<FK>>
+    delegate_id: INT <<FK>>
+}
+
+users -- surveys : user_id
+users -- templates : user_id
+users -- survey_reply : user_id
+users -- winners : user_id
+users -- delegate : delegator_id
+users -- delegate : delegate_id
+surveys -- questions : survey_id
+templates -- questions : template_id
+questions -- options : question_id
+survey_reply -- question_reply : survey_reply_id
+question_reply -- option_reply : question_reply_id
+options -- option_reply : option_id
+surveys -- prizes : survey_id
+prizes -- winners : prize_id
+surveys -- winners : survey_id
+
 @enduml

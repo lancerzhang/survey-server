@@ -10,25 +10,26 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-public class Prize {
+@Table(name = "templates")
+public class Template {
+    
     @Id
     @GeneratedValue
     private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "survey_id", nullable = false)
-    private Survey survey;
     @Column(nullable = false)
-    private String name;
+    private String title;
     private String description;
-    @Column(nullable = false)
-    private Integer quantity;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    private boolean isDeleted;
     @Column(updatable = false)
     private Date createdAt;
     private Date lastModified;
 
     @PrePersist
     public void prePersist() {
+        this.isDeleted=false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

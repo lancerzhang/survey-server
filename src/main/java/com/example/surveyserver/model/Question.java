@@ -21,8 +21,11 @@ public class Question {
     @JoinColumn(name = "survey_id")
     @JsonIgnore
     private Survey survey;
+    @Column(nullable = false)
     private Integer seq;
+    @Column(nullable = false)
     private String questionType;
+    @Column(nullable = false)
     private String questionText;
 
     public enum QuestionType {
@@ -39,4 +42,10 @@ public class Question {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "question_id")
     private List<Option> options;
+
+    @PrePersist
+    public void prePersist() {
+        this.isMandatory=false;
+        this.isMultiline=false;
+    }
 }

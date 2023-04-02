@@ -13,8 +13,9 @@ public class Option {
     @Id
     @GeneratedValue
     private Integer id;
-
+    @Column(nullable = false)
     private Integer seq;
+    @Column(nullable = false)
     private String optionText;
 
     @ManyToOne
