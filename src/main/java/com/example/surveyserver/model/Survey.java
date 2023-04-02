@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +27,9 @@ public class Survey {
     private Timestamp endTime;
     private Integer maxReplies;
     private Boolean isDeleted;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "survey_id")
+    private List<Question> questions;
     @Column(nullable = false, updatable = false)
     private Date createdAt;
     @Column(nullable = false)

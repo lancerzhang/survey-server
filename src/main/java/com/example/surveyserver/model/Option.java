@@ -1,5 +1,6 @@
 package com.example.surveyserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,11 @@ public class Option {
     @GeneratedValue
     private Integer id;
 
+    private Integer seq;
     private String optionText;
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "question_id")
+    @JsonIgnore
     private Question question;
 }

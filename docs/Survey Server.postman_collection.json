@@ -119,7 +119,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": 1,\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\"\n}"
+					"raw": "{\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"seq\": 1,\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"seq\": 2,\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\",\n                \"seq\": 1\n            },\n            {\n                \"optionText\": \"blue\",\n                \"seq\": 2\n            },\n            {\n                \"optionText\": \"green\",\n                \"seq\": 3\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/surveys/user/1",
@@ -165,7 +165,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/surveys/",
+					"raw": "http://localhost:8080/api/surveys",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -173,8 +173,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"surveys",
-						""
+						"surveys"
 					]
 				}
 			},

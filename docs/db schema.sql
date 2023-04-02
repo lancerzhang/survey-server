@@ -5,7 +5,7 @@ CREATE TABLE users (
     is_anonymous BOOLEAN NOT NULL DEFAULT false,
     public_key VARCHAR(255) NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    last_modified TIMESTAMP NULL,
+    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -17,10 +17,10 @@ CREATE TABLE surveys (
     allow_anonymous_reply BOOLEAN NOT NULL DEFAULT FALSE,
     allow_resubmit BOOLEAN NOT NULL DEFAULT FALSE,
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP,
     max_replies INT,
+    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -28,15 +28,16 @@ CREATE TABLE surveys (
 CREATE TABLE questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     survey_id INT NOT NULL,
+    seq INT NOT NULL,
     question_text TEXT NOT NULL,
     question_type ENUM('TEXT', 'RADIO', 'CHECKBOX') NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (survey_id) REFERENCES surveys(id)
 );
 
 CREATE TABLE options (
     id INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
+    seq INT NOT NULL,
     option_text VARCHAR(255) NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
@@ -45,6 +46,7 @@ CREATE TABLE survey_reply (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     survey_id INT NOT NULL,
+    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (survey_id) REFERENCES surveys(id),
@@ -78,6 +80,7 @@ CREATE TABLE prizes (
     prize_description TEXT,
     total_quantity INT NOT NULL,
     remaining_quantity INT NOT NULL,
+    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (survey_id) REFERENCES surveys(id)
 );
