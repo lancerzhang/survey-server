@@ -18,7 +18,6 @@ public class User {
     @Column(nullable = false)
     @Size(max = 255)
     private String username;
-    @Column(nullable = false)
     @Size(max = 255)
     private String staffId;
     private Boolean isAnonymous;
