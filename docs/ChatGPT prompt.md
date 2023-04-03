@@ -32,7 +32,7 @@
 30. Update code, implement update one Template, Get All Templates sort by createdAt with pagination.
 31. Give me postman collection of template controller, current controller is, ``paste your java code here``
 32. Implement delete survey function. just update the is_deleted to true.
-33. 
+33. Implement get survey replies by user id, and sort by createdAt with pagination. Pls also update postman content for this.
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.

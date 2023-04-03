@@ -40,8 +40,6 @@ http://localhost:8080/swagger-ui/
 * Update one Survey. @Jenn
 * Post Survey Reply. @Sishi
 * Survey report, calculate count / percentage of each option.
-* Clone Survey.
-* Delete Survey (update isDeleted = true)
 * Upload image
 
 ## Testing
