@@ -28,6 +28,9 @@
 26. I want to use oauth login, such as GitHub login, to protect my API, please change the code, I'm using maven and application.yaml.
 27. how can I validate the field type and length in this spring boot web request?
 28. I want to generate API rest doc at runtime, so that I can browse the doc in browser.
+29. Give me postman collection json file content for SurveyReplyController.
+30. Update code, implement update one Template, Get All Templates sort by createdAt with pagination.
+31. Give me postman collection of template controller, current controller is, ``paste your java code here``
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.
@@ -35,6 +38,7 @@
 3. The result may be not correct, please verify the result. It can help you to debug, just paste the error to it.
 4. GPT will use different implementation even in the same context, e.g. it will call another service B in service A, but if you ask it again, it will use repository directly... sometimes it will use Integer type, but sometimes it use int type...
 5. After modify it partially few times, you can ask it to verify the full db schema again.
+6. The end date of GPT training data is September 2021. You should use an old version of dependency, e.g. spring boot 2.5.8
 
 # Tips
 * You can copy the code from ChatGPT, and the select a package folder, then directly paste it, IDEA will create a file for it.

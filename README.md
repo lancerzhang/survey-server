@@ -33,14 +33,15 @@ mvn spring-boot:run
 
 The application will start running at `http://localhost:8080`.
 
+## API spec
+http://localhost:8080/swagger-ui/
+
 ## To do feature
 * Update one Survey. @Jenn
 * Post Survey Reply. @Sishi
 * Survey report, calculate count / percentage of each option.
 * Clone Survey.
 * Delete Survey (update isDeleted = true)
-* Create / Delete delegate.
-* Create / Get / Update one Template, Get All Templates with pagination.
 * Upload image
 
 ## Testing
