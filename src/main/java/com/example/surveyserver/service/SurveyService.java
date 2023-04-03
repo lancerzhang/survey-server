@@ -42,4 +42,13 @@ public class SurveyService {
     public Page<Survey> getSurveysByUser(Integer userId, Pageable pageable) {
         return surveyRepository.findByUserIdOrderById(userId, pageable);
     }
+
+    public Survey deleteSurvey(Integer id) {
+        Survey survey = getSurvey(id);
+        if (survey != null) {
+            survey.setIsDeleted(true);
+            return updateSurvey(survey);
+        }
+        return null;
+    }
 }

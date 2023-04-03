@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.service.SurveyService;
@@ -50,6 +51,16 @@ public class SurveyController {
                                          @RequestParam(defaultValue = "createdAt") String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
         return surveyService.getSurveysByUser(userId, pageable);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Survey> deleteSurvey(@PathVariable Integer id) {
+        Survey deletedSurvey = surveyService.deleteSurvey(id);
+        if (deletedSurvey != null) {
+            return ResponseEntity.ok(deletedSurvey);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 
