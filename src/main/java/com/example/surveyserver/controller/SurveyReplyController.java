@@ -3,18 +3,12 @@ package com.example.surveyserver.controller;
 import com.example.surveyserver.model.SurveyReply;
 import com.example.surveyserver.service.SurveyReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @RestController
@@ -52,21 +46,5 @@ public class SurveyReplyController {
         return surveyReplyService.getRepliesByUser(userId, pageable);
     }
 
-    @GetMapping("/survey/{surveyId}/csv")
-    public ResponseEntity<Resource> downloadRepliesAsCsv(@PathVariable Integer surveyId) throws IOException {
-        String csvContent = surveyReplyService.generateRepliesCsvContent(surveyId);
-
-        byte[] contentAsBytes = csvContent.getBytes(StandardCharsets.UTF_8);
-        ByteArrayResource byteArrayResource = new ByteArrayResource(contentAsBytes);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("text/csv"));
-        headers.setContentLength(contentAsBytes.length);
-        headers.set("Content-Disposition", "attachment; filename=survey_replies.csv");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(byteArrayResource);
-    }
 }
 

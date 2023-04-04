@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bb75fa03-0d51-4f57-bf00-cad13cf4c81d",
+		"_postman_id": "6c5281da-4dce-4ac4-9094-b8f9555eacd2",
 		"name": "Survey Server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -15,6 +15,10 @@
 						"value": "application/json"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Template Title\",\n    \"description\": \"Template description\"\n}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/api/templates/user/{{userId}}",
 					"host": [
@@ -26,10 +30,6 @@
 						"user",
 						"{{userId}}"
 					]
-				},
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Template Title\",\n    \"description\": \"Template description\"\n}"
 				}
 			},
 			"response": []
@@ -38,6 +38,7 @@
 			"name": "Get Template",
 			"request": {
 				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "{{baseUrl}}/api/templates/{{templateId}}",
 					"host": [
@@ -62,6 +63,10 @@
 						"value": "application/json"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/api/templates/{{templateId}}",
 					"host": [
@@ -72,10 +77,6 @@
 						"templates",
 						"{{templateId}}"
 					]
-				},
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
 				}
 			},
 			"response": []
@@ -84,6 +85,7 @@
 			"name": "Get All Templates",
 			"request": {
 				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "{{baseUrl}}/api/templates?page={{page}}&size={{size}}",
 					"host": [
@@ -119,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"surveyId\": 1,\n    \"replies\": [\n        {\n            \"questionId\": 1,\n            \"replyText\": \"I'm doing well\",\n            \"selectedOptions\": []\n        },\n        {\n            \"questionId\": 2,\n            \"replyText\": \"\",\n            \"selectedOptions\": [1, 3]\n        }\n    ]\n}"
+					"raw": "{\n    \"user\": {\n        \"id\": 1\n    },\n    \"survey\": {\n        \"id\": 2\n    },\n    \"questionReplies\": [\n        {\n            \"question\": {\n                \"id\": 3\n            },\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"question\": {\n                \"id\": 4\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 5\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 6\n                    },\n                    \"selected\": false\n                }\n            ]\n        },\n        {\n            \"question\": {\n                \"id\": 7\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 8\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 9\n                    },\n                    \"selected\": false\n                },\n                {\n                    \"option\": {\n                        \"id\": 10\n                    },\n                    \"selected\": false\n                }\n            ]\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/api/survey-replies",
@@ -135,19 +137,19 @@
 			"response": []
 		},
 		{
-			"name": "Get Survey Reply by ID",
+			"name": "Get Survey Reply CSV by Survey ID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/1",
+					"raw": "{{base_url}}/api/survey-replies/11",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"survey-replies",
-						"1"
+						"11"
 					]
 				}
 			},
@@ -177,7 +179,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/user/1",
+					"raw": "{{base_url}}/api/survey-replies/user/1?page=0&size=10&sort=createdAt,desc",
 					"host": [
 						"{{base_url}}"
 					],
@@ -185,7 +187,7 @@
 						"api",
 						"survey-replies",
 						"user",
-						":userId"
+						"1"
 					],
 					"query": [
 						{
@@ -200,6 +202,27 @@
 							"key": "sort",
 							"value": "createdAt,desc"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Reply CSV by Survey ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/survey/2/csv",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"survey",
+						"2",
+						"csv"
 					]
 				}
 			},

@@ -1,16 +1,23 @@
 package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.Survey;
+import com.example.surveyserver.model.SurveySummary;
 import com.example.surveyserver.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -62,6 +69,29 @@ public class SurveyController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    @GetMapping("/{surveyId}/replies/csv")
+    public ResponseEntity<Resource> downloadRepliesAsCsv(@PathVariable Integer surveyId) throws IOException {
+        String csvContent = surveyService.generateRepliesCsvContent(surveyId);
+
+        byte[] contentAsBytes = csvContent.getBytes(StandardCharsets.UTF_8);
+        ByteArrayResource byteArrayResource = new ByteArrayResource(contentAsBytes);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentLength(contentAsBytes.length);
+        headers.set("Content-Disposition", "attachment; filename=survey_replies.csv");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(byteArrayResource);
+    }
+
+    @GetMapping("/{surveyId}/summary")
+    public SurveySummary getSurveySummary(@PathVariable Integer surveyId) {
+        return surveyService.getSurveySummary(surveyId);
     }
 }
 

@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "delegate")
 @Getter
 @Setter
 public class Delegate {
@@ -15,11 +14,11 @@ public class Delegate {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "delegator_id", nullable = false)
     private User delegator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "delegate_id", nullable = false)
     private User delegate;
 }

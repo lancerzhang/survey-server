@@ -31,7 +31,7 @@ public class Survey {
     private Timestamp endTime;
     private Integer maxReplies;
     private Boolean isDeleted;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "survey_id")
     private List<Question> questions;
     @Column(updatable = false)

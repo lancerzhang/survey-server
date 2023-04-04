@@ -20,6 +20,10 @@ public class Question {
     @JoinColumn(name = "survey_id")
     @JsonIgnore
     private Survey survey;
+    @ManyToOne
+    @JoinColumn(name = "template_id")
+    @JsonIgnore
+    private Template template;
     @Column(nullable = false)
     private Integer seq;
     @Column(nullable = false)
@@ -43,7 +47,7 @@ public class Question {
     private String sectionTitle;
     @Size(max = 4000)
     private String sectionDescription;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "question_id")
     private List<Option> options;
 

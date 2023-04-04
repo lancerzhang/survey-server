@@ -37,9 +37,11 @@ The application will start running at `http://localhost:8080`.
 http://localhost:8080/swagger-ui/
 
 ## To do feature
-* Update one Survey. @Jenn
-* Post Survey Reply. @Sishi
-* Survey report, calculate count / percentage of each option.
+* Test update, delete Survey. @Jenn
+* Test create, update, get one & all templates. @Sishi
+* Test update survey reply.
+* Test add and delete delegate.
+* Implement prize function.
 * Upload image
 
 ## Testing
@@ -57,4 +59,11 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 # Reference
 https://start.spring.io/
+
 https://plantuml.com/
+
+https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+
+https://vladmihalcea.com/14-high-performance-java-persistence-tips/
+
+https://www.baeldung.com/hibernate-one-to-many
