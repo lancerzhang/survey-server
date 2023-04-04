@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -15,15 +14,15 @@ public class Winner {
     @Id
     @GeneratedValue
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
+
     @ManyToOne
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
-    
+
     @ManyToOne
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;

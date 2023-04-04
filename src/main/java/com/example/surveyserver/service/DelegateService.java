@@ -1,7 +1,6 @@
 package com.example.surveyserver.service;
 
 import com.example.surveyserver.model.Delegate;
-import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.DelegateRepository;
 import com.example.surveyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

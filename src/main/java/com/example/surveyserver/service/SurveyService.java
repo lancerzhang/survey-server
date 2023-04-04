@@ -1,12 +1,12 @@
 package com.example.surveyserver.service;
 
+import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.model.User;
+import com.example.surveyserver.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.example.surveyserver.model.Survey;
-import com.example.surveyserver.repository.SurveyRepository;
 
 import java.util.List;
 

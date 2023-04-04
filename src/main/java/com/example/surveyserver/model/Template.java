@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
@@ -13,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name = "templates")
 public class Template {
-    
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -32,7 +31,7 @@ public class Template {
 
     @PrePersist
     public void prePersist() {
-        this.isDeleted=false;
+        this.isDeleted = false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

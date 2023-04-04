@@ -177,7 +177,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/user/:userId",
+					"raw": "{{base_url}}/api/survey-replies/user/1",
 					"host": [
 						"{{base_url}}"
 					],

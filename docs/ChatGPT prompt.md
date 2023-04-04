@@ -35,10 +35,94 @@
 33. Implement get survey replies by user id, and sort by createdAt with pagination. Pls also update postman content for this.
 34. User can download all replies of a survey as csv file, each row is a survey reply, each question reply is a column, for text question type, just fill the reply text,  for radio need to get option text of the selected option, for checkbox, combine all selected option text as a string,  update the code.
 35. User can view summary of the replies for a survey, e.g. how many replies. For radio and checkbox question, how many people select each option, percentage of each option for a question.
+36. User can download all replies of a survey as csv file, each row is a survey reply, so each question or reply is a column. For header row, need to get question text from survey table. Other rows, fill reply to the column, for text question type, just fill the reply text,  for radio need to get option text of the selected option, for checkbox, combine all selected option text as a string,  update the code. Below are data models:
+public class Survey {
+@Id
+@GeneratedValue
+private Integer id;
+private User user;
+private String title;
+private String description;
+@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+@JoinColumn(name = "survey_id")
+private List<Question> questions;
+}
+public enum QuestionType {
+TEXT,
+RADIO,
+CHECKBOX
+}
+public class Question {
+@Id
+@GeneratedValue
+private Integer id;
+private Survey survey;
+private Integer seq;
+private String questionType;
+private String questionText;
+@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+@JoinColumn(name = "question_id")
+private List<Option> options;
+}
+public class Option {
+@Id
+@GeneratedValue
+private Integer id;
+private Integer seq;
+private String optionText;
+@ManyToOne
+@JoinColumn(name = "question_id")
+@JsonIgnore
+private Question question;
+}
+
+public class SurveyReply {
+@Id
+@GeneratedValue
+private Integer id;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "user_id", nullable = false)
+private User user;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "survey_id", nullable = false)
+private Survey survey;
+@OneToMany(mappedBy = "surveyReply", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<QuestionReply> questionReply;
+}
+
+public class QuestionReply {
+@Id
+@GeneratedValue
+private Integer id;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "survey_reply_id", nullable = false)
+private SurveyReply surveyReply;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "question_id", nullable = false)
+private Question question;
+@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+@JoinColumn(name = "question_reply_id")
+private List<OptionReply> optionReplies;
+@Size(max = 4000)
+private String replyText;
+}
+
+public class OptionReply {
+@Id
+@GeneratedValue
+private Integer id;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "question_reply_id", nullable = false)
+private QuestionReply questionReply;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "option_id", nullable = false)
+private Option option;
+private boolean selected;
+}
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.
-2. You may try to limit the response words, otherwise the result may be break. You can achieve this by reducing the requirement in one question. If it exceed words limit, type "give me rest of the code".
+2. You may try to limit the response words, otherwise the result may be break. You can achieve this by reducing the requirement in one question. If it exceeds words limit, type "give me rest of the code".
 3. The result may be not correct, please verify the result. It can help you to debug, just paste the error to it.
 4. GPT will use different implementation even in the same context, e.g. it will call another service B in service A, but if you ask it again, it will use repository directly... sometimes it will use Integer type, but sometimes it use int type...
 5. After modify it partially few times, you can ask it to verify the full db schema again.

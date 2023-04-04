@@ -31,7 +31,7 @@ public class User {
 
     @PrePersist
     public void prePersist() {
-        this.isAnonymous=false;
+        this.isAnonymous = false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

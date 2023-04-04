@@ -6,8 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -36,6 +34,7 @@ public class Question {
         RADIO,
         CHECKBOX
     }
+
     private Boolean isMandatory;
     private Boolean isMultiline;
     private Integer minSelection;
@@ -50,7 +49,7 @@ public class Question {
 
     @PrePersist
     public void prePersist() {
-        this.isMandatory=false;
-        this.isMultiline=false;
+        this.isMandatory = false;
+        this.isMultiline = false;
     }
 }

@@ -40,9 +40,9 @@ public class Survey {
 
     @PrePersist
     public void prePersist() {
-        this.allowAnonymousReply=false;
-        this.allowResubmit=false;
-        this.isDeleted=false;
+        this.allowAnonymousReply = false;
+        this.allowResubmit = false;
+        this.isDeleted = false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }
