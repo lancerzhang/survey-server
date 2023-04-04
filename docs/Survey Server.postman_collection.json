@@ -177,9 +177,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/survey-replies/user/:userId",
+					"raw": "{{base_url}}/api/survey-replies/user/:userId",
 					"host": [
-						"{{url}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",

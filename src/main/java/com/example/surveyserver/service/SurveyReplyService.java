@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,4 +31,9 @@ public class SurveyReplyService {
     public Page<SurveyReply> getRepliesByUser(Integer userId, Pageable pageable) {
         return surveyReplyRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
     }
+
+    public List<SurveyReply> getRepliesBySurveyId(Integer surveyId) {
+        return surveyReplyRepository.findBySurveyId(surveyId);
+    }
+
 }

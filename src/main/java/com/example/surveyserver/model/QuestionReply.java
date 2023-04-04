@@ -25,6 +25,10 @@ public class QuestionReply {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "question_reply_id")
+    private List<OptionReply> optionReplies;
+
     @Size(max = 4000)
     private String replyText;
 

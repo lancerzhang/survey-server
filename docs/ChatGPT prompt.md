@@ -33,6 +33,8 @@
 31. Give me postman collection of template controller, current controller is, ``paste your java code here``
 32. Implement delete survey function. just update the is_deleted to true.
 33. Implement get survey replies by user id, and sort by createdAt with pagination. Pls also update postman content for this.
+34. User can download all replies of a survey as csv file, each row is a survey reply, each question reply is a column, for text question type, just fill the reply text,  for radio need to get option text of the selected option, for checkbox, combine all selected option text as a string,  update the code.
+35. User can view summary of the replies for a survey, e.g. how many replies. For radio and checkbox question, how many people select each option, percentage of each option for a question.
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.
