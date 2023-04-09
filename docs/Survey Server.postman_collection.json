@@ -20,15 +20,15 @@
 					"raw": "{\n    \"title\": \"Template Title\",\n    \"description\": \"Template description\"\n}"
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/templates/user/{{userId}}",
+					"raw": "{{base_url}}/api/templates/user/1",
 					"host": [
-						"{{baseUrl}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"templates",
 						"user",
-						"{{userId}}"
+						"1"
 					]
 				}
 			},
@@ -40,9 +40,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/templates/{{templateId}}",
+					"raw": "{{base_url}}/api/templates/{{templateId}}",
 					"host": [
-						"{{baseUrl}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
@@ -68,9 +68,9 @@
 					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/templates/{{templateId}}",
+					"raw": "{{base_url}}/api/templates/{{templateId}}",
 					"host": [
-						"{{baseUrl}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
@@ -87,9 +87,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/templates?page={{page}}&size={{size}}",
+					"raw": "{{base_url}}/api/templates?page=0&size=10",
 					"host": [
-						"{{baseUrl}}"
+						"{{base_url}}"
 					],
 					"path": [
 						"api",
@@ -98,11 +98,11 @@
 					"query": [
 						{
 							"key": "page",
-							"value": "{{page}}"
+							"value": "0"
 						},
 						{
 							"key": "size",
-							"value": "{{size}}"
+							"value": "10"
 						}
 					]
 				}

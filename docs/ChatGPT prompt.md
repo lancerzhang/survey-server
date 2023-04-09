@@ -122,7 +122,7 @@ private boolean selected;
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.
-2. You may try to limit the response words, otherwise the result may be break. You can achieve this by reducing the requirement in one question. If it exceeds words limit, type "give me rest of the code".
+2. You may try to limit the response words, otherwise the result may be break. You can achieve this by reducing the requirement in one question. If it exceeds words limit, type "give me rest of the code" or "go on". (Do NOT type "continue", it doesn't work.)
 3. The result may be not correct, please verify the result. It can help you to debug, just paste the error to it.
 4. GPT will use different implementation even in the same context, e.g. it will call another service B in service A, but if you ask it again, it will use repository directly... sometimes it will use Integer type, but sometimes it use int type...
 5. After modify it partially few times, you can ask it to verify the full db schema again.

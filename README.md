@@ -42,6 +42,9 @@ http://localhost:8080/swagger-ui/
 * Test update survey reply.
 * Test add and delete delegate.
 * Implement prize function.
+* oauth login
+* Anonymous reply
+* Performance tuning, adding db index
 * Upload image
 
 ## Testing
