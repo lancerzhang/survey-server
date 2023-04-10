@@ -78,6 +78,7 @@ public class SurveyService {
                 Question.QuestionType questionType = Question.QuestionType.valueOf(questionReply.getQuestion().getQuestionType());
                 switch (questionType) {
                     case TEXT:
+                    case TEXTAREA:
                         csvContent.append(questionReply.getReplyText());
                         break;
                     case RADIO:

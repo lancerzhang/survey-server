@@ -26,6 +26,13 @@ entity "surveys" as surveys {
     created_at: TIMESTAMP
 }
 
+entity "subpages" as subpages {
+    id: INT <<PK>>
+    survey_id: INT <<FK>>
+    title: VARCHAR(255)
+    description: TEXT
+}
+
 entity "templates" as templates {
     id: INT <<PK>>
     title: VARCHAR(255)
@@ -39,13 +46,11 @@ entity "templates" as templates {
 entity "questions" as questions {
     id: INT <<PK>>
     survey_id: INT <<FK>>
+    subpage_id: INT <<FK>>
     seq: INT
     question_text: TEXT
     question_type: ENUM
-    section_text: TEXT
-    section_description: TEXT
     isMandatory: BOOLEAN
-    isMultiline: BOOLEAN
     minSelection: INT
     maxSelection: INT
 }

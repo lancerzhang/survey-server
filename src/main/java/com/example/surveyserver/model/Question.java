@@ -16,11 +16,15 @@ public class Question {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subpage_id")
+    @JsonIgnore
+    private Subpage subpage;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     @JsonIgnore
     private Survey survey;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")
     @JsonIgnore
     private Template template;
@@ -36,17 +40,13 @@ public class Question {
     public enum QuestionType {
         TEXT,
         RADIO,
-        CHECKBOX
+        CHECKBOX,
+        TEXTAREA
     }
 
     private Boolean isMandatory;
-    private Boolean isMultiline;
     private Integer minSelection;
     private Integer maxSelection;
-    @Size(max = 255)
-    private String sectionTitle;
-    @Size(max = 4000)
-    private String sectionDescription;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "question_id")
     private List<Option> options;
@@ -54,6 +54,5 @@ public class Question {
     @PrePersist
     public void prePersist() {
         this.isMandatory = false;
-        this.isMultiline = false;
     }
 }

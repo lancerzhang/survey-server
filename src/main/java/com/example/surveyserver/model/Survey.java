@@ -37,6 +37,8 @@ public class Survey {
     @Column(updatable = false)
     private Date createdAt;
     private Date lastModified;
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.PERSIST)
+    private List<Subpage> subpages;
 
     @PrePersist
     public void prePersist() {

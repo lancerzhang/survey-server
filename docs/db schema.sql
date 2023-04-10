@@ -25,6 +25,14 @@ CREATE TABLE surveys (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE subpages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    survey_id INT NOT NULL,
+    title VARCHAR(255),
+    description TEXT,
+    FOREIGN KEY (survey_id) REFERENCES surveys(id)
+);
+
 CREATE TABLE templates (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -40,16 +48,15 @@ CREATE TABLE templates (
 CREATE TABLE questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     survey_id INT NOT NULL,
+    subpage_id INT NOT NULL,
     seq INT NOT NULL,
     question_text TEXT NOT NULL,
-    question_type ENUM('TEXT', 'RADIO', 'CHECKBOX') NOT NULL,
-    section_text TEXT NOT NULL,
-    section_description TEXT NOT NULL,
+    question_type ENUM('TEXT', 'RADIO', 'CHECKBOX', 'TEXTAREA') NOT NULL,
     isMandatory BOOLEAN NOT NULL DEFAULT FALSE,
-    isMultiline BOOLEAN NOT NULL DEFAULT FALSE,
     minSelection INT,
     maxSelection INT,
     FOREIGN KEY (survey_id) REFERENCES surveys(id)
+    FOREIGN KEY (subpage_id) REFERENCES subpages(id)
     FOREIGN KEY (template_id) REFERENCES templates(id)
 );
 
