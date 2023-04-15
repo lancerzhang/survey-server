@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,28 +18,36 @@ public class Survey {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Integer userId;
+
     @Column(nullable = false)
     @Size(max = 255)
     private String title;
+
     @Size(max = 4000)
     private String description;
+
     private Boolean allowAnonymousReply;
+
     private Boolean allowResubmit;
+
     private Timestamp startTime;
+
     private Timestamp endTime;
+
     private Integer maxReplies;
+
     private Boolean isDeleted;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "survey_id")
-    private List<Question> questions;
+
     @Column(updatable = false)
     private Date createdAt;
+
     private Date lastModified;
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.PERSIST)
-    private List<Subpage> subpages;
+
+
+    @OneToMany(mappedBy = "survey")
+    private List<Question> questions = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

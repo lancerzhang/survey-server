@@ -33,8 +33,8 @@ public class SurveyController {
     }
 
     @GetMapping("/{id}")
-    public Survey getSurvey(@PathVariable Integer id) {
-        return surveyService.getSurvey(id);
+    public Survey getSurveyWithChildren(@PathVariable int id) {
+        return surveyService.getSurveyWithChildren(id);
     }
 
     @GetMapping
