@@ -1,5 +1,6 @@
 package com.example.surveyserver.service;
 
+import com.example.surveyserver.exception.ResourceNotFoundException;
 import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.OptionRepository;
 import com.example.surveyserver.repository.QuestionRepository;
@@ -9,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,15 +26,19 @@ public class SurveyService {
     private OptionRepository optionRepository;
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private SurveyReplyService surveyReplyService;
+
+    // For simply create with cascade = CascadeType.PERSIST
+//    public Survey createSurvey(Survey survey) {
+//        return surveyRepository.save(survey);
+//    }
 
     public Survey createSurvey(Survey survey) {
         Survey savedSurvey = surveyRepository.save(survey);
         List<Question> questions = survey.getQuestions();
         questions.forEach(question -> {
             // bidirectional association to reduce sql statements
+            // https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
             question.setSurvey(savedSurvey);
             questionRepository.save(question);
             List<Option> options = question.getOptions();
@@ -51,16 +53,132 @@ public class SurveyService {
     }
 
     public Survey getSurvey(Integer id) {
-        return surveyRepository.findById(id).orElse(null);
+        return surveyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
     }
 
     public List<Survey> getAllSurveys() {
         //TODO, how to avoid loading questions and options here? FetchType.LAZY not work
+        /* ChatGPT
+        In your example, FetchType.LAZY should work as expected for the @OneToMany relationship between Survey and Question.
+        However, when you are serializing the Survey object into JSON format and the getter for the questions field is called,
+        it will trigger the lazy loading of the associated Question objects.
+        The most common cause of this behavior is using the default Jackson serializer that calls the getter methods on the object,
+        * thus causing the associated collection to be fetched.
+
+        To avoid the automatic fetching of the questions field when serializing the Survey object, you can use the @JsonIgnore
+        annotation on the questions field in the Survey entity:
+
+        With the @JsonIgnore annotation, the questions field will not be serialized, and the associated Question objects will not be fetched unless explicitly called in the code.
+
+        Please note that with this change, the questions field will not be included in the JSON output when you call the getAllSurveys() method.
+        If you need to load the questions field explicitly, you will have to do so in your service or repository layer.
+        */
         return surveyRepository.findAll();
     }
 
-    public Survey updateSurvey(Survey survey) {
-        return surveyRepository.save(survey);
+    // For simply update with cascade = CascadeType.PERSIST
+//    public Survey updateSurvey(Survey survey) {
+//        return surveyRepository.save(survey);
+//    }
+
+    public Survey updateSurvey(Survey updatedSurvey) {
+        Survey existingSurvey = surveyRepository.findById(updatedSurvey.getId())
+                .orElseThrow(() -> new RuntimeException("Survey not found"));
+
+        // Update the survey details
+        existingSurvey.setTitle(updatedSurvey.getTitle());
+        existingSurvey.setDescription(updatedSurvey.getDescription());
+        surveyRepository.save(existingSurvey);
+
+        // Load the existing questions and options
+        List<Question> existingQuestions = questionRepository.findBySurveyId(existingSurvey.getId());
+        List<Option> existingOptions = optionRepository.findByQuestionIdIn(
+                existingQuestions.stream().map(Question::getId).collect(Collectors.toList()));
+
+        Set<Integer> existingQuestionIds = existingQuestions.stream().map(Question::getId).collect(Collectors.toSet());
+        Set<Integer> updatedQuestionIds = updatedSurvey.getQuestions().stream().map(Question::getId).collect(Collectors.toSet());
+
+        // Remove questions that no longer exist
+        List<Question> questionsToRemove = existingQuestions.stream()
+                .filter(question -> !updatedQuestionIds.contains(question.getId()))
+                .collect(Collectors.toList());
+        questionRepository.deleteAll(questionsToRemove);
+
+        // Update existing questions and add new questions
+        List<Question> questionsToUpdate = new ArrayList<>();
+        List<Question> newQuestions = new ArrayList<>();
+        for (Question updatedQuestion : updatedSurvey.getQuestions()) {
+            if (updatedQuestion.getId() != null && existingQuestionIds.contains(updatedQuestion.getId())) {
+                // Update existing question
+                Question existingQuestion = existingQuestions.stream()
+                        .filter(question -> question.getId().equals(updatedQuestion.getId()))
+                        .findFirst().orElseThrow(() -> new RuntimeException("Question not found"));
+                existingQuestion.setQuestionText(updatedQuestion.getQuestionText());
+                existingQuestion.setQuestionType(updatedQuestion.getQuestionType());
+                questionsToUpdate.add(existingQuestion);
+            } else {
+                // Add new question
+                updatedQuestion.setSurvey(existingSurvey);
+                newQuestions.add(updatedQuestion);
+            }
+        }
+        questionRepository.saveAll(questionsToUpdate);
+        questionRepository.saveAll(newQuestions);
+
+        // Load the updated questions
+        List<Question> updatedQuestions = questionRepository.findBySurveyId(existingSurvey.getId());
+
+        // Update options
+        for (Question updatedQuestion : updatedSurvey.getQuestions()) {
+            Question currentQuestion = updatedQuestions.stream()
+                    .filter(question -> question.getId().equals(updatedQuestion.getId()))
+                    .findFirst().orElse(null);
+
+            if (currentQuestion == null) {
+                continue;
+            }
+
+            List<Option> existingQuestionOptions = existingOptions.stream()
+                    .filter(option -> option.getQuestion().getId().equals(currentQuestion.getId()))
+                    .collect(Collectors.toList());
+            Set<Integer> existingOptionIds = existingQuestionOptions.stream()
+                    .map(Option::getId).collect(Collectors.toSet());
+
+            List<Option> updatedQuestionOptions = updatedQuestion.getOptions();
+            if (updatedQuestionOptions == null) {
+                continue;
+            }
+            Set<Integer> updatedOptionIds = updatedQuestionOptions.stream()
+                    .map(Option::getId).collect(Collectors.toSet());
+
+            // Remove options that no longer exist
+            List<Option> optionsToRemove = existingQuestionOptions.stream()
+                    .filter(option -> !updatedOptionIds.contains(option.getId()))
+                    .collect(Collectors.toList());
+            optionRepository.deleteAll(optionsToRemove);
+
+            // Update existing options and add new options
+            List<Option> optionsToUpdate = new ArrayList<>();
+            List<Option> newOptions = new ArrayList<>();
+            for (Option updatedOption : updatedQuestionOptions) {
+                if (updatedOption.getId() != null && existingOptionIds.contains(updatedOption.getId())) {
+                    // Update existing option
+                    Option existingOption = existingQuestionOptions.stream()
+                            .filter(option -> option.getId().equals(updatedOption.getId()))
+                            .findFirst().orElseThrow(() -> new RuntimeException("Option not found"));
+                    existingOption.setOptionText(updatedOption.getOptionText());
+                    optionsToUpdate.add(existingOption);
+                } else {
+                    // Add new option
+                    updatedOption.setQuestion(currentQuestion);
+                    newOptions.add(updatedOption);
+                }
+            }
+            optionRepository.saveAll(optionsToUpdate);
+            optionRepository.saveAll(newOptions);
+        }
+
+        return existingSurvey;
     }
 
     public Page<Survey> getSurveysByUser(Integer userId, Pageable pageable) {
@@ -118,10 +236,7 @@ public class SurveyService {
     }
 
     public SurveySummary getSurveySummary(Integer surveyId) {
-        Survey survey = surveyRepository.findById(surveyId).orElse(null);
-        if (survey == null) {
-            return null;
-        }
+        Survey survey = getSurvey(surveyId);
 
         // Calculate survey summary
         List<SurveyReply> surveyReplies = surveyReplyService.getRepliesBySurveyId(surveyId);

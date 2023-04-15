@@ -17,9 +17,6 @@ public class Question {
     private Integer id;
 
     @Column(nullable = false)
-    private Integer seq;
-
-    @Column(nullable = false)
     @Size(max = 255)
     private String questionType;
 

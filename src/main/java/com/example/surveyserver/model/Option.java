@@ -14,8 +14,7 @@ public class Option {
     @Id
     @GeneratedValue
     private Integer id;
-    @Column(nullable = false)
-    private Integer seq;
+
     @Column(nullable = false)
     @Size(max = 4000)
     private String optionText;

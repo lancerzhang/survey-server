@@ -49,7 +49,6 @@ CREATE TABLE questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     survey_id INT NOT NULL,
     subpage_id INT NOT NULL,
-    seq INT NOT NULL,
     question_text TEXT NOT NULL,
     question_type ENUM('TEXT', 'RADIO', 'CHECKBOX', 'TEXTAREA') NOT NULL,
     isMandatory BOOLEAN NOT NULL DEFAULT FALSE,
@@ -63,7 +62,6 @@ CREATE TABLE questions (
 CREATE TABLE options (
     id INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
-    seq INT NOT NULL,
     option_text TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
