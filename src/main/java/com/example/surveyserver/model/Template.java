@@ -21,7 +21,7 @@ public class Template {
     private String title;
     @Size(max = 4000)
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @OneToMany(cascade = CascadeType.PERSIST)

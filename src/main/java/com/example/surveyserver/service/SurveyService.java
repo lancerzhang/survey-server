@@ -32,15 +32,10 @@ public class SurveyService {
     @Autowired
     private SurveyReplyService surveyReplyService;
 
-    public Survey createSurvey(Survey survey, Integer userId) {
-        User user = userService.getUser(userId);
-        if (user == null) {
-            return null;
-        }
-        survey.setUserId(userId);
+    public Survey createSurvey(Survey survey) {
 
         Survey savedSurvey = surveyRepository.save(survey);
-        List<Question> questions =survey.getQuestions();
+        List<Question> questions = survey.getQuestions();
         questions.forEach(question -> question.setSurvey(savedSurvey));
         questionRepository.saveAll(questions);
 
@@ -94,7 +89,7 @@ public class SurveyService {
 
     public String generateRepliesCsvContent(Integer surveyId) {
         List<SurveyReply> surveyReplies = surveyReplyService.getRepliesBySurveyId(surveyId);
-        Survey survey = surveyReplies.get(0).getSurvey();
+        Survey survey = getSurvey(surveyId);
 
         StringBuilder csvContent = new StringBuilder();
 

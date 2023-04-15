@@ -20,7 +20,7 @@ public class Option {
     @Size(max = 4000)
     private String optionText;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     @JsonIgnore
     private Question question;

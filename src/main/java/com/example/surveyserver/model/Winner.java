@@ -14,18 +14,19 @@ public class Winner {
     @GeneratedValue
     private int id;
 
-    @ManyToOne
+    private Date wonAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;
-    private Date wonAt;
 
     @PrePersist
     public void prePersist() {

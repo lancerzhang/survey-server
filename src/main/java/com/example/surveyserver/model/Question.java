@@ -33,8 +33,7 @@ public class Question {
 
     private Integer maxSelection;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "question_id")
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     private List<Option> options;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,16 +51,15 @@ public class Question {
     @JsonIgnore
     private Template template;
 
+    @PrePersist
+    public void prePersist() {
+        this.isMandatory = false;
+    }
 
     public enum QuestionType {
         TEXT,
         RADIO,
         CHECKBOX,
         TEXTAREA
-    }
-
-    @PrePersist
-    public void prePersist() {
-        this.isMandatory = false;
     }
 }

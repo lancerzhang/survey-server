@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6c5281da-4dce-4ac4-9094-b8f9555eacd2",
+		"_postman_id": "5de9bbd4-3d01-4721-81f6-be6a8e2239f9",
 		"name": "Survey Server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -121,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"user\": {\n        \"id\": 1\n    },\n    \"survey\": {\n        \"id\": 2\n    },\n    \"questionReplies\": [\n        {\n            \"question\": {\n                \"id\": 3\n            },\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"question\": {\n                \"id\": 4\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 5\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 6\n                    },\n                    \"selected\": false\n                }\n            ]\n        },\n        {\n            \"question\": {\n                \"id\": 7\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 8\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 9\n                    },\n                    \"selected\": false\n                },\n                {\n                    \"option\": {\n                        \"id\": 10\n                    },\n                    \"selected\": false\n                }\n            ]\n        }\n    ]\n}"
+					"raw": "{\n    \"userId\": 1,\n    \"surveyId\": 2,\n    \"questionReplies\": [\n        {\n            \"question\": {\n                \"id\": 3\n            },\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"question\": {\n                \"id\": 4\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 5\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 6\n                    },\n                    \"selected\": false\n                }\n            ]\n        },\n        {\n            \"question\": {\n                \"id\": 7\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 8\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 9\n                    },\n                    \"selected\": false\n                },\n                {\n                    \"option\": {\n                        \"id\": 10\n                    },\n                    \"selected\": false\n                }\n            ]\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/api/survey-replies",
@@ -342,10 +342,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"seq\": 1,\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"seq\": 2,\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\",\n                \"seq\": 1\n            },\n            {\n                \"optionText\": \"blue\",\n                \"seq\": 2\n            },\n            {\n                \"optionText\": \"green\",\n                \"seq\": 3\n            }\n        ]\n    }\n]\n}"
+					"raw": "{\n  \"userId\" : 1,\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"seq\": 1,\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"seq\": 2,\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\",\n                \"seq\": 1\n            },\n            {\n                \"optionText\": \"blue\",\n                \"seq\": 2\n            },\n            {\n                \"optionText\": \"green\",\n                \"seq\": 3\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/surveys/user/1",
+					"raw": "{{base_url}}/api/surveys",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -353,9 +353,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"surveys",
-						"user",
-						"1"
+						"surveys"
 					]
 				}
 			},

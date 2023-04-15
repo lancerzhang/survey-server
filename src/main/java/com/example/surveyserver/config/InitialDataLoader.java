@@ -43,6 +43,7 @@ public class InitialDataLoader implements CommandLineRunner {
 
         // Create a sample survey
         String surveyJsonStr = "{\n" +
+                "    \"userId\": 1,\n" +
                 "    \"title\": \"Test Survey 1\",\n" +
                 "    \"description\": \"Tes Survey Description 1\",\n" +
                 "    \"questions\":[\n" +
@@ -88,18 +89,14 @@ public class InitialDataLoader implements CommandLineRunner {
                 "  ]\n" +
                 "  }";
         Survey survey = new ObjectMapper().readValue(surveyJsonStr, Survey.class);
-        surveyService.createSurvey(survey, user.getId());
+        surveyService.createSurvey(survey);
 
         List<Question> allQuestions = questionRepository.findAll();
         Survey survey1 = surveyService.getSurvey(survey.getId());
 
         String replyJsonStr = "{\n" +
-                "    \"user\": {\n" +
-                "        \"id\": 1\n" +
-                "    },\n" +
-                "    \"survey\": {\n" +
-                "        \"id\": 2\n" +
-                "    },\n" +
+                "    \"userId\": 1,\n" +
+                "    \"surveyId\": 2,\n" +
                 "    \"questionReplies\": [\n" +
                 "        {\n" +
                 "            \"question\": {\n" +

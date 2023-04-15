@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,9 +44,8 @@ public class Survey {
 
     private Date lastModified;
 
-
-    @OneToMany(mappedBy = "survey")
-    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
+    private List<Question> questions;
 
     @PrePersist
     public void prePersist() {

@@ -16,21 +16,19 @@ public class SurveyReply {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Integer userId;
 
-    @ManyToOne
-    @JoinColumn(name = "survey_id", nullable = false)
-    private Survey survey;
-
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "surveyReply_id")
-    private List<QuestionReply> questionReplies;
+    @Column(nullable = false)
+    private Integer surveyId;
 
     @Column(updatable = false)
     private Date createdAt;
+
     private Date lastModified;
+
+    @OneToMany(mappedBy = "surveyReply", fetch = FetchType.LAZY)
+    private List<QuestionReply> questionReplies;
 
     @PrePersist
     public void prePersist() {

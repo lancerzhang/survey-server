@@ -7,9 +7,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
@@ -94,7 +96,7 @@ public class UserServiceTest {
         User result = userService.updateUser(1, updatedUser);
 
         assertEquals(updatedUser.getUsername(), result.getUsername());
-        verify(userRepository, times(1)).findById(        1);
+        verify(userRepository, times(1)).findById(1);
         verify(userRepository, times(1)).save(updatedUser);
     }
 
