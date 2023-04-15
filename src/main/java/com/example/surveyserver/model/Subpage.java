@@ -13,11 +13,16 @@ public class Subpage {
     @Id
     @GeneratedValue
     private Integer id;
+
+    private String title;
+
+    private String description;
+
+    @OneToMany(mappedBy = "subpage", fetch = FetchType.LAZY)
+    private List<Question> questions;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
-    private String title;
-    private String description;
-    @OneToMany(mappedBy = "subpage", cascade = CascadeType.PERSIST)
-    private List<Question> questions;
 }

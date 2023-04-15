@@ -16,21 +16,26 @@ public class Template {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Column(nullable = false)
+    private Integer userId;
+
     @Column(nullable = false)
     @Size(max = 255)
     private String title;
+
     @Size(max = 4000)
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "survey_id")
-    private List<Question> questions;
+
     private boolean isDeleted;
     @Column(updatable = false)
+
     private Date createdAt;
+
     private Date lastModified;
+
+    @OneToMany(mappedBy = "template", fetch = FetchType.LAZY)
+    private List<Question> questions;
 
     @PrePersist
     public void prePersist() {

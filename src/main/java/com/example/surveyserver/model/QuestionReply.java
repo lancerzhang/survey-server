@@ -26,8 +26,8 @@ public class QuestionReply {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "questionReply_id")
+
+    @OneToMany(mappedBy = "questionReply", fetch = FetchType.LAZY)
     private List<OptionReply> optionReplies;
 
     @Size(max = 4000)

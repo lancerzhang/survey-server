@@ -37,7 +37,7 @@ The application will start running at `http://localhost:8080`.
 http://localhost:8080/swagger-ui/
 
 ## To do feature
-* Test update, delete Survey. @Jenn
+* Test delete Survey. @Jenn
 * Test create, update, get one & all templates. @Sishi
 * Test update survey reply.
 * Test add and delete delegate.

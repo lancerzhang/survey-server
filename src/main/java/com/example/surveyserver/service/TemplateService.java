@@ -1,13 +1,17 @@
 package com.example.surveyserver.service;
 
+import com.example.surveyserver.model.Option;
+import com.example.surveyserver.model.Question;
 import com.example.surveyserver.model.Template;
-import com.example.surveyserver.model.User;
+import com.example.surveyserver.repository.OptionRepository;
+import com.example.surveyserver.repository.QuestionRepository;
 import com.example.surveyserver.repository.TemplateRepository;
-import com.example.surveyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TemplateService {
@@ -16,15 +20,28 @@ public class TemplateService {
     private TemplateRepository templateRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private QuestionRepository questionRepository;
 
-    public Template createTemplate(Template template, Integer userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            return null;
-        }
-        template.setUser(user);
-        return templateRepository.save(template);
+    @Autowired
+    private OptionRepository optionRepository;
+
+    public Template createTemplate(Template template) {
+        Template savedTemplate = templateRepository.save(template);
+        List<Question> questions = template.getQuestions();
+        questions.forEach(question -> {
+            // bidirectional association to reduce sql statements
+            // https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+            question.setTemplate(savedTemplate);
+            questionRepository.save(question);
+            List<Option> options = question.getOptions();
+            if (options != null) {
+                options.forEach(option -> {
+                    option.setQuestion(question);
+                    optionRepository.save(option);
+                });
+            }
+        });
+        return savedTemplate;
     }
 
     public Template getTemplate(Integer id) {

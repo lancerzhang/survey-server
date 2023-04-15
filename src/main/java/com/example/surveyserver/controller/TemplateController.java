@@ -16,9 +16,9 @@ public class TemplateController {
     @Autowired
     private TemplateService templateService;
 
-    @PostMapping("/user/{userId}")
-    public Template createTemplate(@Valid @RequestBody Template template, @PathVariable Integer userId) {
-        return templateService.createTemplate(template, userId);
+    @PostMapping
+    public Template createTemplate(@Valid @RequestBody Template template) {
+        return templateService.createTemplate(template);
     }
 
     @GetMapping("/{id}")
