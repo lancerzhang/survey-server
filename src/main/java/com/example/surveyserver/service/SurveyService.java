@@ -33,13 +33,20 @@ public class SurveyService {
     private SurveyReplyService surveyReplyService;
 
     public Survey createSurvey(Survey survey) {
-
         Survey savedSurvey = surveyRepository.save(survey);
         List<Question> questions = survey.getQuestions();
-        questions.forEach(question -> question.setSurvey(savedSurvey));
-        questionRepository.saveAll(questions);
-
-
+        questions.forEach(question -> {
+            // bidirectional association to reduce sql statements
+            question.setSurvey(savedSurvey);
+            questionRepository.save(question);
+            List<Option> options = question.getOptions();
+            if (options != null) {
+                options.forEach(option -> {
+                    option.setQuestion(question);
+                    optionRepository.save(option);
+                });
+            }
+        });
         return savedSurvey;
     }
 
@@ -47,26 +54,8 @@ public class SurveyService {
         return surveyRepository.findById(id).orElse(null);
     }
 
-
-    public Survey getSurveyWithChildren(int id) {
-        Survey survey = surveyRepository.findById(id).orElse(null);
-        List<Question> questions = questionRepository.findBySurveyId(survey.getId());
-        List<Integer> questionIds = questions.stream().map(Question::getId).collect(Collectors.toList());
-        List<Option> options = optionRepository.findByQuestionIdIn(questionIds);
-
-        // Associate the retrieved questions and options with the survey
-        questions.forEach(question -> question.setSurvey(survey));
-        options.forEach(option -> option.setQuestion(
-                questions.stream().filter(q -> q.getId() == option.getQuestion().getId()).findFirst().orElse(null)
-        ));
-
-        // Set the questions field in the Survey entity
-        survey.setQuestions(questions);
-
-        return survey;
-    }
-
     public List<Survey> getAllSurveys() {
+        //TODO, how to avoid loading questions and options here? FetchType.LAZY not work
         return surveyRepository.findAll();
     }
 

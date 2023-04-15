@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5de9bbd4-3d01-4721-81f6-be6a8e2239f9",
+		"_postman_id": "058165b1-3e5f-4bf7-a05c-5c4b3781d4d4",
 		"name": "Survey Server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -250,11 +250,9 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/api/users",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users"
@@ -270,11 +268,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/users/1",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -291,11 +287,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/users",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users"
@@ -315,11 +309,9 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/api/users/1",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -346,11 +338,9 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/api/surveys",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys"
@@ -365,16 +355,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/1",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/surveys/2",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -387,11 +375,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/surveys",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys"
@@ -411,11 +397,9 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/api/surveys/1",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys",
@@ -432,11 +416,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/surveys/user/1?page=0&size=10&sortBy=createdAt",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys",
