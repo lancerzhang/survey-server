@@ -28,7 +28,7 @@ public class SurveyService {
     @Autowired
     private SurveyReplyService surveyReplyService;
 
-    // For simply create with cascade = CascadeType.PERSIST
+    // For simply create with cascade = CascadeType.ALL
 //    public Survey createSurvey(Survey survey) {
 //        return surveyRepository.save(survey);
 //    }

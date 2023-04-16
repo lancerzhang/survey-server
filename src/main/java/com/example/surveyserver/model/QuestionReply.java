@@ -28,7 +28,7 @@ public class QuestionReply {
     private Question question;
 
 
-    @OneToMany(mappedBy = "questionReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "questionReply", fetch = FetchType.LAZY)
     private List<OptionReply> optionReplies;
 
     @Size(max = 4000)

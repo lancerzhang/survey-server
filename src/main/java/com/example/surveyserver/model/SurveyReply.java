@@ -28,7 +28,7 @@ public class SurveyReply {
 
     private Date lastModified;
 
-    @OneToMany(mappedBy = "surveyReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "surveyReply", fetch = FetchType.LAZY)
     private List<QuestionReply> questionReplies;
 
     @PrePersist

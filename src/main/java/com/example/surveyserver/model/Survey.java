@@ -45,10 +45,10 @@ public class Survey {
 
     private Date lastModified;
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
     private List<Subpage> subpages;
 
     @PrePersist

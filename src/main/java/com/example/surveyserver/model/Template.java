@@ -35,7 +35,7 @@ public class Template {
 
     private Date lastModified;
 
-    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "template", fetch = FetchType.LAZY)
     private List<Question> questions;
 
     @PrePersist
