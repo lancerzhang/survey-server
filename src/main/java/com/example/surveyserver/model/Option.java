@@ -10,17 +10,17 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Entity
+@Table(name = "options")
 public class Option {
     @Id
     @GeneratedValue
     private Integer id;
-    @Column(nullable = false)
-    private Integer seq;
+
     @Column(nullable = false)
     @Size(max = 4000)
     private String optionText;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     @JsonIgnore
     private Question question;

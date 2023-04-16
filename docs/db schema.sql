@@ -49,7 +49,6 @@ CREATE TABLE questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     survey_id INT NOT NULL,
     subpage_id INT NOT NULL,
-    seq INT NOT NULL,
     question_text TEXT NOT NULL,
     question_type ENUM('TEXT', 'RADIO', 'CHECKBOX', 'TEXTAREA') NOT NULL,
     isMandatory BOOLEAN NOT NULL DEFAULT FALSE,
@@ -63,12 +62,11 @@ CREATE TABLE questions (
 CREATE TABLE options (
     id INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
-    seq INT NOT NULL,
     option_text TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
-CREATE TABLE survey_reply (
+CREATE TABLE survey_replies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     survey_id INT NOT NULL,
@@ -79,22 +77,22 @@ CREATE TABLE survey_reply (
     UNIQUE (user_id, survey_id)
 );
 
-CREATE TABLE question_reply (
+CREATE TABLE question_replies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     survey_reply_id INT NOT NULL,
     question_id INT NOT NULL,
     reply_text TEXT,
-    FOREIGN KEY (survey_reply_id) REFERENCES survey_reply(id),
+    FOREIGN KEY (survey_reply_id) REFERENCES survey_replies(id),
     FOREIGN KEY (question_id) REFERENCES questions(id),
     UNIQUE (survey_reply_id, question_id)
 );
 
-CREATE TABLE option_reply (
+CREATE TABLE option_replies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     question_reply_id INT NOT NULL,
     option_id INT NOT NULL,
     selected BOOLEAN NOT NULL DEFAULT false,
-    FOREIGN KEY (question_reply_id) REFERENCES question_reply(id),
+    FOREIGN KEY (question_reply_id) REFERENCES question_replies(id),
     FOREIGN KEY (option_id) REFERENCES options(id),
     UNIQUE (question_reply_id, option_id)
 );
@@ -122,7 +120,7 @@ CREATE TABLE winners (
     FOREIGN KEY (prize_id) REFERENCES prizes(id)
 );
 
-CREATE TABLE delegate (
+CREATE TABLE delegates (
     id INT AUTO_INCREMENT PRIMARY KEY,
     delegator_id INT NOT NULL,
     delegate_id INT NOT NULL,

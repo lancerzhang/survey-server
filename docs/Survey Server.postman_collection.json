@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6c5281da-4dce-4ac4-9094-b8f9555eacd2",
+		"_postman_id": "058165b1-3e5f-4bf7-a05c-5c4b3781d4d4",
 		"name": "Survey Server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -121,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"user\": {\n        \"id\": 1\n    },\n    \"survey\": {\n        \"id\": 2\n    },\n    \"questionReplies\": [\n        {\n            \"question\": {\n                \"id\": 3\n            },\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"question\": {\n                \"id\": 4\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 5\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 6\n                    },\n                    \"selected\": false\n                }\n            ]\n        },\n        {\n            \"question\": {\n                \"id\": 7\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 8\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 9\n                    },\n                    \"selected\": false\n                },\n                {\n                    \"option\": {\n                        \"id\": 10\n                    },\n                    \"selected\": false\n                }\n            ]\n        }\n    ]\n}"
+					"raw": "{\n    \"userId\": 1,\n    \"surveyId\": 2,\n    \"questionReplies\": [\n        {\n            \"question\": {\n                \"id\": 3\n            },\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"question\": {\n                \"id\": 4\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 5\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 6\n                    },\n                    \"selected\": false\n                }\n            ]\n        },\n        {\n            \"question\": {\n                \"id\": 7\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 8\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 9\n                    },\n                    \"selected\": false\n                },\n                {\n                    \"option\": {\n                        \"id\": 10\n                    },\n                    \"selected\": false\n                }\n            ]\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/api/survey-replies",
@@ -250,11 +250,9 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/api/users",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users"
@@ -270,11 +268,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/users/1",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -291,11 +287,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/users",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users"
@@ -315,11 +309,9 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/api/users/1",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"users",
@@ -342,20 +334,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"seq\": 1,\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"seq\": 2,\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\",\n                \"seq\": 1\n            },\n            {\n                \"optionText\": \"blue\",\n                \"seq\": 2\n            },\n            {\n                \"optionText\": \"green\",\n                \"seq\": 3\n            }\n        ]\n    }\n]\n}"
+					"raw": "{\n  \"userId\" : 1,\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/surveys/user/1",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/surveys",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
-						"surveys",
-						"user",
-						"1"
+						"surveys"
 					]
 				}
 			},
@@ -367,16 +355,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/1",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/surveys/2",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -389,11 +375,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/surveys",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys"
@@ -406,22 +390,26 @@
 			"name": "Update Survey",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Updated Survey Title\",\n  \"description\": \"Updated Survey Description\"\n}"
+					"raw": " {\n        \"id\": 2,\n        \"userId\": 1,\n        \"title\": \"Test Survey 2\",\n        \"description\": \"Tes Survey Description 1\",\n        \"allowAnonymousReply\": false,\n        \"allowResubmit\": false,\n        \"startTime\": null,\n        \"endTime\": null,\n        \"maxReplies\": null,\n        \"isDeleted\": false,\n        \"createdAt\": \"2023-04-15T09:23:18.245+00:00\",\n        \"lastModified\": \"2023-04-15T09:23:18.245+00:00\",\n        \"questions\": [\n            {\n                \"id\": 3,\n                \"questionType\": \"TEXT\",\n                \"questionText\": \"Your name 2?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": []\n            },\n            {\n                \"id\": 4,\n                \"questionType\": \"RADIO\",\n                \"questionText\": \"Your Gender?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 6,\n                        \"optionText\": \"Male 2\"\n                    },\n                    {\n                        \"id\": 7,\n                        \"optionText\": \"Female\"\n                    }\n                ]\n            },\n            {\n                \"id\": 5,\n                \"questionType\": \"CHECKBOX\",\n                \"questionText\": \"Your favor color?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 8,\n                        \"optionText\": \"red\"\n                    },\n                    {\n                        \"id\": 9,\n                        \"optionText\": \"blue\"\n                    },\n                    {\n                        \"id\": 10,\n                        \"optionText\": \"green\"\n                    }\n                ]\n            }\n        ]\n    }"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/surveys/1",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/surveys/2",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -434,11 +422,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/surveys/user/1?page=0&size=10&sortBy=createdAt",
-					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"surveys",

@@ -10,12 +10,13 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@Table(name = "prizes")
 public class Prize {
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
     @Column(nullable = false)

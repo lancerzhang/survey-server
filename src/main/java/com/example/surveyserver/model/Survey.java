@@ -12,32 +12,43 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "surveys")
 public class Survey {
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Integer userId;
+
     @Column(nullable = false)
     @Size(max = 255)
     private String title;
+
     @Size(max = 4000)
     private String description;
+
     private Boolean allowAnonymousReply;
+
     private Boolean allowResubmit;
+
     private Timestamp startTime;
+
     private Timestamp endTime;
+
     private Integer maxReplies;
+
     private Boolean isDeleted;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "survey_id")
-    private List<Question> questions;
+
     @Column(updatable = false)
     private Date createdAt;
+
     private Date lastModified;
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.PERSIST)
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Question> questions;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Subpage> subpages;
 
     @PrePersist

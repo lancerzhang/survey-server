@@ -8,17 +8,16 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Table(name = "delegates")
 public class Delegate {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "delegator_id", nullable = false)
-    private User delegator;
+    @Column(nullable = false)
+    private Integer delegator_id;
 
-    @ManyToOne
-    @JoinColumn(name = "delegate_id", nullable = false)
-    private User delegate;
+    @Column(nullable = false)
+    private Integer delegate_id;
 }

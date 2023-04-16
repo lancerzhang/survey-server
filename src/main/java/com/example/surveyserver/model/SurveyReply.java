@@ -10,27 +10,26 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "survey_replies")
 public class SurveyReply {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Integer userId;
 
-    @ManyToOne
-    @JoinColumn(name = "survey_id", nullable = false)
-    private Survey survey;
-
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "surveyReply_id")
-    private List<QuestionReply> questionReplies;
+    @Column(nullable = false)
+    private Integer surveyId;
 
     @Column(updatable = false)
     private Date createdAt;
+
     private Date lastModified;
+
+    @OneToMany(mappedBy = "surveyReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuestionReply> questionReplies;
 
     @PrePersist
     public void prePersist() {

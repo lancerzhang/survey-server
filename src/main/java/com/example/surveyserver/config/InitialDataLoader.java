@@ -43,63 +43,52 @@ public class InitialDataLoader implements CommandLineRunner {
 
         // Create a sample survey
         String surveyJsonStr = "{\n" +
+                "    \"userId\": 1,\n" +
                 "    \"title\": \"Test Survey 1\",\n" +
                 "    \"description\": \"Tes Survey Description 1\",\n" +
                 "    \"questions\":[\n" +
                 "      {\n" +
-                "          \"seq\": 1,\n" +
                 "          \"questionType\": \"TEXT\",\n" +
                 "          \"questionText\": \"Your name?\"\n" +
                 "      },\n" +
                 "      {\n" +
-                "          \"seq\": 2,\n" +
                 "          \"questionType\": \"RADIO\",\n" +
                 "          \"questionText\": \"Your Gender?\",\n" +
                 "          \"options\": [\n" +
                 "              {\n" +
-                "                  \"optionText\": \"Male\",\n" +
-                "                  \"seq\": 1\n" +
+                "                  \"optionText\": \"Male\"\n" +
                 "              },\n" +
                 "              {\n" +
-                "                  \"optionText\": \"Female\",\n" +
-                "                  \"seq\": 2\n" +
+                "                  \"optionText\": \"Female\"\n" +
                 "              }\n" +
                 "          ]\n" +
                 "      },\n" +
                 "      {\n" +
-                "          \"seq\": 3,\n" +
                 "          \"questionType\": \"CHECKBOX\",\n" +
                 "          \"questionText\": \"Your favor color?\",\n" +
                 "          \"options\": [\n" +
                 "              {\n" +
-                "                  \"optionText\": \"red\",\n" +
-                "                  \"seq\": 1\n" +
+                "                  \"optionText\": \"red\"\n" +
                 "              },\n" +
                 "              {\n" +
-                "                  \"optionText\": \"blue\",\n" +
-                "                  \"seq\": 2\n" +
+                "                  \"optionText\": \"blue\"\n" +
                 "              },\n" +
                 "              {\n" +
-                "                  \"optionText\": \"green\",\n" +
-                "                  \"seq\": 3\n" +
+                "                  \"optionText\": \"green\"\n" +
                 "              }\n" +
                 "          ]\n" +
                 "      }\n" +
                 "  ]\n" +
                 "  }";
         Survey survey = new ObjectMapper().readValue(surveyJsonStr, Survey.class);
-        surveyService.createSurvey(survey, user.getId());
+        surveyService.createSurvey(survey);
 
         List<Question> allQuestions = questionRepository.findAll();
         Survey survey1 = surveyService.getSurvey(survey.getId());
 
         String replyJsonStr = "{\n" +
-                "    \"user\": {\n" +
-                "        \"id\": 1\n" +
-                "    },\n" +
-                "    \"survey\": {\n" +
-                "        \"id\": 2\n" +
-                "    },\n" +
+                "    \"userId\": 1,\n" +
+                "    \"surveyId\": 2,\n" +
                 "    \"questionReplies\": [\n" +
                 "        {\n" +
                 "            \"question\": {\n" +

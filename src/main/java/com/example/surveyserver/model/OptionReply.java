@@ -9,18 +9,19 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@Table(name = "option_replies")
 public class OptionReply {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionReply_id")
     @JsonIgnore
     private QuestionReply questionReply;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id")
     private Option option;
 

@@ -11,23 +11,24 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "question_replies")
 public class QuestionReply {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surveyReply_id")
     @JsonIgnore
     private SurveyReply surveyReply;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "questionReply_id")
+
+    @OneToMany(mappedBy = "questionReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OptionReply> optionReplies;
 
     @Size(max = 4000)

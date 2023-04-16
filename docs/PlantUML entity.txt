@@ -47,7 +47,6 @@ entity "questions" as questions {
     id: INT <<PK>>
     survey_id: INT <<FK>>
     subpage_id: INT <<FK>>
-    seq: INT
     question_text: TEXT
     question_type: ENUM
     isMandatory: BOOLEAN
@@ -58,7 +57,6 @@ entity "questions" as questions {
 entity "options" as options {
     id: INT <<PK>>
     question_id: INT <<FK>>
-    seq: INT
     option_text: TEXT
 }
 

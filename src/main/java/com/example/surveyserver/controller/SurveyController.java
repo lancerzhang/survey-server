@@ -27,13 +27,13 @@ public class SurveyController {
     @Autowired
     private SurveyService surveyService;
 
-    @PostMapping("/user/{userId}")
-    public Survey createSurvey(@Valid @RequestBody Survey survey, @PathVariable Integer userId) {
-        return surveyService.createSurvey(survey, userId);
+    @PostMapping
+    public Survey createSurvey(@Valid @RequestBody Survey survey) {
+        return surveyService.createSurvey(survey);
     }
 
     @GetMapping("/{id}")
-    public Survey getSurvey(@PathVariable Integer id) {
+    public Survey getSurvey(@PathVariable int id) {
         return surveyService.getSurvey(id);
     }
 

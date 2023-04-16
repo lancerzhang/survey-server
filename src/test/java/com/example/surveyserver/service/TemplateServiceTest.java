@@ -1,4 +1,5 @@
 package com.example.surveyserver.service;
+
 import com.example.surveyserver.model.Template;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.TemplateRepository;
@@ -116,28 +117,29 @@ public class TemplateServiceTest {
         verify(templateRepository, times(1)).findById(1);
 //        verify(templateRepository, times(0)).save(any(T        // ... previous test methods
     }
-        @Test
-        public void testGetAllTemplates() {
-            Template template1 = new Template();
-            template1.setId(1);
-            template1.setTitle("Template 1");
 
-            Template template2 = new Template();
-            template2.setId(2);
-            template2.setTitle("Template 2");
+    @Test
+    public void testGetAllTemplates() {
+        Template template1 = new Template();
+        template1.setId(1);
+        template1.setTitle("Template 1");
 
-            Page<Template> templatePage = new PageImpl<>(Arrays.asList(template1, template2));
-            PageRequest pageable = PageRequest.of(0, 10);
+        Template template2 = new Template();
+        template2.setId(2);
+        template2.setTitle("Template 2");
 
-            when(templateRepository.findAllByOrderByCreatedAtDesc(pageable)).thenReturn(templatePage);
+        Page<Template> templatePage = new PageImpl<>(Arrays.asList(template1, template2));
+        PageRequest pageable = PageRequest.of(0, 10);
 
-            Page<Template> result = templateService.getAllTemplates(pageable);
+        when(templateRepository.findAllByOrderByCreatedAtDesc(pageable)).thenReturn(templatePage);
 
-            assertNotNull(result);
-            assertEquals(2, result.getContent().size());
-            assertEquals(template1, result.getContent().get(0));
-            assertEquals(template2, result.getContent().get(1));
-            verify(templateRepository, times(1)).findAllByOrderByCreatedAtDesc(pageable);
-        }
+        Page<Template> result = templateService.getAllTemplates(pageable);
+
+        assertNotNull(result);
+        assertEquals(2, result.getContent().size());
+        assertEquals(template1, result.getContent().get(0));
+        assertEquals(template2, result.getContent().get(1));
+        verify(templateRepository, times(1)).findAllByOrderByCreatedAtDesc(pageable);
     }
+}
 
