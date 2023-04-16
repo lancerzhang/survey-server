@@ -10,6 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@Table(name="prizes")
 public class Prize {
     @Id
     @GeneratedValue

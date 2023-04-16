@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Entity
+@Table(name="options")
 public class Option {
     @Id
     @GeneratedValue

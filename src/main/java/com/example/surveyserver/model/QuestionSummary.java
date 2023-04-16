@@ -3,6 +3,7 @@ package com.example.surveyserver.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Table;
 import java.util.Map;
 
 @Getter

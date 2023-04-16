@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name="question_replies")
 public class QuestionReply {
 
     @Id

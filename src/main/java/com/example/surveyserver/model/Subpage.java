@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name="subpages")
 public class Subpage {
     @Id
     @GeneratedValue

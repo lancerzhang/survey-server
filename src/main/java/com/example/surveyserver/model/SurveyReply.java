@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name="survey_replies")
 public class SurveyReply {
 
     @Id

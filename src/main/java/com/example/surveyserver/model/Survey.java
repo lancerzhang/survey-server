@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name="surveys")
 public class Survey {
     @Id
     @GeneratedValue
