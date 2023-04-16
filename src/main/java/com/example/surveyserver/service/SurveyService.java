@@ -28,29 +28,41 @@ public class SurveyService {
     @Autowired
     private SurveyReplyService surveyReplyService;
 
-    // For simply create with cascade = CascadeType.PERSIST
-//    public Survey createSurvey(Survey survey) {
-//        return surveyRepository.save(survey);
-//    }
-
+    // For simply create with cascade = CascadeType.ALL
     public Survey createSurvey(Survey survey) {
-        Survey savedSurvey = surveyRepository.save(survey);
         List<Question> questions = survey.getQuestions();
         questions.forEach(question -> {
             // bidirectional association to reduce sql statements
             // https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
-            question.setSurvey(savedSurvey);
-            questionRepository.save(question);
+            question.setSurvey(survey);
             List<Option> options = question.getOptions();
             if (options != null) {
                 options.forEach(option -> {
                     option.setQuestion(question);
-                    optionRepository.save(option);
                 });
             }
         });
-        return savedSurvey;
+        return surveyRepository.save(survey);
     }
+
+//    public Survey createSurvey(Survey survey) {
+//        Survey savedSurvey = surveyRepository.save(survey);
+//        List<Question> questions = survey.getQuestions();
+//        questions.forEach(question -> {
+//            // bidirectional association to reduce sql statements
+//            // https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+//            question.setSurvey(savedSurvey);
+//            questionRepository.save(question);
+//            List<Option> options = question.getOptions();
+//            if (options != null) {
+//                options.forEach(option -> {
+//                    option.setQuestion(question);
+//                    optionRepository.save(option);
+//                });
+//            }
+//        });
+//        return savedSurvey;
+//    }
 
     public Survey getSurvey(Integer id) {
         return surveyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
