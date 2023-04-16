@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="template")
+@Table(name = "template")
 public class Template {
 
     @Id
@@ -35,7 +35,7 @@ public class Template {
 
     private Date lastModified;
 
-    @OneToMany(mappedBy = "template", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
 
     @PrePersist

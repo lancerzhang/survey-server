@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name="winners")
+@Table(name = "winners")
 public class Winner {
     @Id
     @GeneratedValue

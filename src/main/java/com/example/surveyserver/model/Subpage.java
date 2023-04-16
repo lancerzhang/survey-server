@@ -4,12 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name="subpages")
+@Table(name = "subpages")
 public class Subpage {
     @Id
     @GeneratedValue
@@ -18,10 +17,6 @@ public class Subpage {
     private String title;
 
     private String description;
-
-    @OneToMany(mappedBy = "subpage", fetch = FetchType.LAZY)
-    private List<Question> questions;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)

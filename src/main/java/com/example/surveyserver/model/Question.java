@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="questions")
+@Table(name = "questions")
 public class Question {
     @Id
     @GeneratedValue
@@ -31,18 +31,13 @@ public class Question {
 
     private Integer maxSelection;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Option> options;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     @JsonIgnore
     private Survey survey;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subpage_id")
-    @JsonIgnore
-    private Subpage subpage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")

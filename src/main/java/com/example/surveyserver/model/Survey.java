@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="surveys")
+@Table(name = "surveys")
 public class Survey {
     @Id
     @GeneratedValue
@@ -45,8 +45,11 @@ public class Survey {
 
     private Date lastModified;
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Subpage> subpages;
 
     @PrePersist
     public void prePersist() {

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="survey_replies")
+@Table(name = "survey_replies")
 public class SurveyReply {
 
     @Id
@@ -28,7 +28,7 @@ public class SurveyReply {
 
     private Date lastModified;
 
-    @OneToMany(mappedBy = "surveyReply", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "surveyReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<QuestionReply> questionReplies;
 
     @PrePersist

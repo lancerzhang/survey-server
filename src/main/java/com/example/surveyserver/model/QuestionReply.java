@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="question_replies")
+@Table(name = "question_replies")
 public class QuestionReply {
 
     @Id
@@ -28,7 +28,7 @@ public class QuestionReply {
     private Question question;
 
 
-    @OneToMany(mappedBy = "questionReply", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "questionReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OptionReply> optionReplies;
 
     @Size(max = 4000)
