@@ -31,7 +31,7 @@ public class Question {
 
     private Integer maxSelection;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Option> options;
 
     @ManyToOne(fetch = FetchType.LAZY)
