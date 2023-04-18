@@ -119,6 +119,10 @@ private QuestionReply questionReply;
 private Option option;
 private boolean selected;
 }
+37. Here is the db schema.``your db schema`` Please write the update survey in service, which will update the questions/options that exists, remove questions/options that exists in db but are not in the given survey object, and add questions/options that are not exists in db.
+38. I have cascade = CascadeType.ALL in Survey entity, pls use cascade to simplify below method
+39. How to return 404 in controller if can not find a survey in service surveyRepository.findById(id)?
+40. How to handle it generally for all controllers and services?
 
 # Notes
 1. Please note it may generate different answer each time, such as spring boot version may be different. The field name maybe different as well, e.g. "max_response" and "response_limit", you may try to generate the result few times and use better one.

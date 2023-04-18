@@ -65,8 +65,10 @@ https://start.spring.io/
 
 https://plantuml.com/
 
+https://www.baeldung.com/hibernate-one-to-many
+
+https://vladmihalcea.com/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
+
 https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
 
 https://vladmihalcea.com/14-high-performance-java-persistence-tips/
-
-https://www.baeldung.com/hibernate-one-to-many
