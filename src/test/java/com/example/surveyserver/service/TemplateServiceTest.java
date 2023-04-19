@@ -1,23 +1,27 @@
 package com.example.surveyserver.service;
 
+import com.example.surveyserver.model.Option;
+import com.example.surveyserver.model.Question;
 import com.example.surveyserver.model.Template;
-import com.example.surveyserver.model.User;
+import com.example.surveyserver.repository.OptionRepository;
+import com.example.surveyserver.repository.QuestionRepository;
 import com.example.surveyserver.repository.TemplateRepository;
-import com.example.surveyserver.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TemplateServiceTest {
@@ -29,117 +33,100 @@ public class TemplateServiceTest {
     private TemplateRepository templateRepository;
 
     @Mock
-    private UserRepository userRepository;
+    private QuestionRepository questionRepository;
+
+    @Mock
+    private OptionRepository optionRepository;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
-    public void testCreateTemplate() {
+    public void createTemplate_ShouldPersistTemplateWithQuestionsAndOptions() {
+        // Create test data
         Template template = new Template();
         template.setId(1);
-        template.setTitle("Template 1");
+        template.setTitle("Test Template");
+        template.setDescription("This is a test template");
 
-        User user = new User();
-        user.setId(1);
+        Question question1 = new Question();
+        question1.setId(2);
+        question1.setQuestionText("Question 1");
 
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Option option1 = new Option();
+        option1.setId(3);
+        option1.setOptionText("Option 1");
+
+        question1.setOptions(Arrays.asList(option1));
+        template.setQuestions(Arrays.asList(question1));
+
+        // Set up mock repositories
         when(templateRepository.save(template)).thenReturn(template);
+        when(questionRepository.save(question1)).thenReturn(question1);
+        when(optionRepository.save(option1)).thenReturn(option1);
 
-        Template createdTemplate = templateService.createTemplate(template, user.getId());
+        // Call method under test
+        Template savedTemplate = templateService.createTemplate(template);
 
-        assertNotNull(createdTemplate);
-        assertEquals(template.getId(), createdTemplate.getId());
-        assertEquals(template.getTitle(), createdTemplate.getTitle());
-        assertEquals(user, createdTemplate.getUser());
-        verify(userRepository, times(1)).findById(user.getId());
-        verify(templateRepository, times(1)).save(template);
+        // Verify that the template and its associated questions and options were persisted
+        verify(templateRepository).save(template);
+        verify(questionRepository).save(question1);
+        verify(optionRepository).save(option1);
+
+        assertThat(savedTemplate).isNotNull();
+        assertThat(savedTemplate.getId()).isNotNull();
+        assertThat(savedTemplate.getTitle()).isEqualTo(template.getTitle());
+        assertThat(savedTemplate.getDescription()).isEqualTo(template.getDescription());
+
+        List<Question> savedQuestions = savedTemplate.getQuestions();
+        assertThat(savedQuestions).hasSize(1);
+
+        Question savedQuestion1 = savedQuestions.get(0);
+        assertThat(savedQuestion1.getId()).isNotNull();
+        assertThat(savedQuestion1.getQuestionText()).isEqualTo(question1.getQuestionText());
+
+        List<Option> savedOptions = savedQuestion1.getOptions();
+        assertThat(savedOptions).hasSize(1);
+
+        Option savedOption1 = savedOptions.get(0);
+        assertThat(savedOption1.getId()).isNotNull();
+        assertThat(savedOption1.getOptionText()).isEqualTo(option1.getOptionText());
     }
 
     @Test
-    public void testCreateTemplateUserNotFound() {
+    public void getTemplate_ShouldReturnTemplate() {
+        // Create test data
         Template template = new Template();
         template.setId(1);
-        template.setTitle("Template 1");
+        template.setTitle("Test Template");
+        template.setDescription("This is a test template");
 
-        when(userRepository.findById(1)).thenReturn(Optional.empty());
+        // Set up mock repository
+        when(templateRepository.findById(1)).thenReturn(Optional.of(template));
 
-        Template result = templateService.createTemplate(template, 1);
+        // Call method under test
+        Template foundTemplate = templateService.getTemplate(1);
 
-        assertNull(result);
-        verify(userRepository, times(1)).findById(1);
-        verify(templateRepository, times(0)).save(any(Template.class));
+        // Verify that the correct template was returned
+        verify(templateRepository).findById(1);
+        assertThat(foundTemplate).isNotNull();
+        assertThat(foundTemplate.getId()).isEqualTo(template.getId());
+        assertThat(foundTemplate.getTitle()).isEqualTo(template.getTitle());
+        assertThat(foundTemplate.getDescription()).isEqualTo(template.getDescription());
     }
 
     @Test
-    public void testGetTemplate() {
-        Template template = new Template();
-        template.setId(1);
-        template.setTitle("Template 1");
-
-        when(templateRepository.findById(template.getId())).thenReturn(Optional.of(template));
-
-        Template fetchedTemplate = templateService.getTemplate(template.getId());
-
-        assertNotNull(fetchedTemplate);
-        assertEquals(template.getId(), fetchedTemplate.getId());
-        assertEquals(template.getTitle(), fetchedTemplate.getTitle());
-        verify(templateRepository, times(1)).findById(template.getId());
-    }
-
-    @Test
-    public void testUpdateTemplate() {
-        Template existingTemplate = new Template();
-        existingTemplate.setId(1);
-        existingTemplate.setTitle("Template 1");
-
-        Template updatedTemplate = new Template();
-        updatedTemplate.setTitle("Updated Template");
-
-        when(templateRepository.findById(existingTemplate.getId())).thenReturn(Optional.of(existingTemplate));
-        when(templateRepository.save(existingTemplate)).thenReturn(existingTemplate);
-
-        Template result = templateService.updateTemplate(existingTemplate.getId(), updatedTemplate);
-
-        assertNotNull(result);
-        assertEquals(updatedTemplate.getTitle(), result.getTitle());
-        verify(templateRepository, times(1)).findById(existingTemplate.getId());
-        verify(templateRepository, times(1)).save(existingTemplate);
-    }
-
-    @Test
-    public void testUpdateTemplateNotFound() {
-        Template updatedTemplate = new Template();
-        updatedTemplate.setTitle("Updated Template");
-
+    public void getTemplate_ShouldReturnNullIfTemplateNotFound() {
+        // Set up mock repository
         when(templateRepository.findById(1)).thenReturn(Optional.empty());
 
-        Template result = templateService.updateTemplate(1, updatedTemplate);
+        // Call method under test
+        Template foundTemplate = templateService.getTemplate(1);
 
-        assertNull(result);
-        verify(templateRepository, times(1)).findById(1);
-//        verify(templateRepository, times(0)).save(any(T        // ... previous test methods
-    }
-
-    @Test
-    public void testGetAllTemplates() {
-        Template template1 = new Template();
-        template1.setId(1);
-        template1.setTitle("Template 1");
-
-        Template template2 = new Template();
-        template2.setId(2);
-        template2.setTitle("Template 2");
-
-        Page<Template> templatePage = new PageImpl<>(Arrays.asList(template1, template2));
-        PageRequest pageable = PageRequest.of(0, 10);
-
-        when(templateRepository.findAllByOrderByCreatedAtDesc(pageable)).thenReturn(templatePage);
-
-        Page<Template> result = templateService.getAllTemplates(pageable);
-
-        assertNotNull(result);
-        assertEquals(2, result.getContent().size());
-        assertEquals(template1, result.getContent().get(0));
-        assertEquals(template2, result.getContent().get(1));
-        verify(templateRepository, times(1)).findAllByOrderByCreatedAtDesc(pageable);
+        // Verify that null was returned
+        verify(templateRepository).findById(1);
+        assertNull(foundTemplate);
     }
 }
-

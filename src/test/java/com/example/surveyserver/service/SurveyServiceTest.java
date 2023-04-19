@@ -1,7 +1,6 @@
 package com.example.surveyserver.service;
 
-import com.example.surveyserver.model.Survey;
-import com.example.surveyserver.model.User;
+import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.SurveyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,11 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -27,45 +24,37 @@ public class SurveyServiceTest {
 
     @InjectMocks
     private SurveyService surveyService;
-
+    @Mock
+    private SurveyReplyService surveyReplyService;
     @Mock
     private SurveyRepository surveyRepository;
-
-    @Mock
-    private UserService userService;
-
     private Survey survey;
-    private User user;
 
     @BeforeEach
     public void setUp() {
         survey = new Survey();
         survey.setId(1);
+        Question question1 = new Question();
+        question1.setId(2);
+        question1.setQuestionText("Question 1");
 
-        user = new User();
-        user.setId(1);
+        Option option1 = new Option();
+        option1.setId(3);
+        option1.setOptionText("Option 1");
+
+        question1.setOptions(Arrays.asList(option1));
+        survey.setQuestions(Arrays.asList(question1));
+
     }
 
     @Test
     public void testCreateSurvey() {
-        when(userService.getUser(anyInt())).thenReturn(user);
         when(surveyRepository.save(any(Survey.class))).thenReturn(survey);
 
-        Survey result = surveyService.createSurvey(survey, 1);
+        Survey result = surveyService.createSurvey(survey);
 
         assertEquals(survey, result);
-        verify(userService, times(1)).getUser(1);
         verify(surveyRepository, times(1)).save(survey);
-    }
-
-    @Test
-    public void testCreateSurveyWithInvalidUser() {
-        when(userService.getUser(anyInt())).thenReturn(null);
-
-        Survey result = surveyService.createSurvey(survey, 1);
-
-        assertNull(result);
-        verify(userService, times(1)).getUser(1);
     }
 
     @Test
@@ -78,14 +67,66 @@ public class SurveyServiceTest {
         verify(surveyRepository, times(1)).findById(1);
     }
 
+
     @Test
     public void testUpdateSurvey() {
-        when(surveyRepository.save(any(Survey.class))).thenReturn(survey);
+        // Create the updated survey
+        Survey updatedSurvey = new Survey();
+        updatedSurvey.setId(1);
+        updatedSurvey.setTitle("Updated Title");
+        updatedSurvey.setDescription("Updated Description");
 
-        Survey result = surveyService.updateSurvey(survey);
+        Question question1 = new Question();
+        question1.setId(1);
+        question1.setQuestionText("Question 1 Text");
 
-        assertEquals(survey, result);
-        verify(surveyRepository, times(1)).save(survey);
+        Option option1 = new Option();
+        option1.setId(1);
+        option1.setOptionText("Option 1");
+
+        question1.setOptions(Arrays.asList(option1));
+        updatedSurvey.setQuestions(Arrays.asList(question1));
+
+        // Create the existing survey
+        Survey existingSurvey = new Survey();
+        existingSurvey.setId(1);
+        existingSurvey.setTitle("Original Title");
+        existingSurvey.setDescription("Original Description");
+
+        Question existingQuestion1 = new Question();
+        existingQuestion1.setId(1);
+        existingQuestion1.setQuestionText("Question 1 Text");
+
+        Option existingOption1 = new Option();
+        existingOption1.setId(1);
+        existingOption1.setOptionText("Option 1");
+
+        existingQuestion1.setOptions(Arrays.asList(existingOption1));
+        existingSurvey.setQuestions(Arrays.asList(existingQuestion1));
+
+        // Set up mock repository behavior
+        when(surveyRepository.findById(1)).thenReturn(Optional.of(existingSurvey));
+        when(surveyRepository.save(existingSurvey)).thenReturn(existingSurvey);
+
+        // Call the method to update the survey
+        Survey result = surveyService.updateSurvey(updatedSurvey);
+
+        // Verify that the existing survey was updated correctly
+        assertEquals("Updated Title", existingSurvey.getTitle());
+        assertEquals("Updated Description", existingSurvey.getDescription());
+
+        Question updatedQuestion1 = existingSurvey.getQuestions().get(0);
+        assertEquals("Question 1 Text", updatedQuestion1.getQuestionText());
+
+        Option updatedOption1 = updatedQuestion1.getOptions().get(0);
+        assertEquals("Option 1", updatedOption1.getOptionText());
+
+        // Verify that the method returned the existing survey
+        assertEquals(existingSurvey, result);
+
+        // Verify that the repository methods were called as expected
+        verify(surveyRepository, times(1)).findById(1);
+        verify(surveyRepository, times(1)).save(existingSurvey);
     }
 
     @Test
@@ -98,5 +139,33 @@ public class SurveyServiceTest {
 
         assertEquals(surveyPage, result);
         verify(surveyRepository, times(1)).findByUserIdOrderById(1, pageable);
+    }
+
+    @Test
+    public void testGenerateRepliesCsvContent() {
+        // Set up mock data
+        Integer surveyId = 1;
+        List<SurveyReply> surveyReplies = new ArrayList<>();
+        SurveyReply surveyReply = new SurveyReply();
+        surveyReply.setId(1);
+        Question question = new Question();
+        question.setQuestionText("What is your name?");
+        question.setQuestionType(Question.QuestionType.TEXT.name());
+        QuestionReply questionReply = new QuestionReply();
+        questionReply.setQuestion(question);
+        questionReply.setReplyText("John");
+        surveyReply.setQuestionReplies(Collections.singletonList(questionReply));
+        surveyReplies.add(surveyReply);
+        when(surveyReplyService.getRepliesBySurveyId(surveyId)).thenReturn(surveyReplies);
+        Survey survey = new Survey();
+        survey.setQuestions(Collections.singletonList(question));
+        when(surveyRepository.findById(surveyId)).thenReturn(Optional.of(survey));
+
+        // Call the method being tested
+        String csvContent = surveyService.generateRepliesCsvContent(surveyId);
+
+        // Verify the result
+        String expectedCsvContent = "Survey Reply ID,What is your name?\n1,John\n";
+        assertEquals(expectedCsvContent, csvContent);
     }
 }
