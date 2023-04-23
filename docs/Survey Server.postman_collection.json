@@ -213,15 +213,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/survey/2/csv",
+					"raw": "{{base_url}}/api/surveys/2/replies/csv",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
-						"survey-replies",
-						"survey",
+						"surveys",
 						"2",
+						"replies",
 						"csv"
 					]
 				}
@@ -399,7 +399,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": " {\n        \"id\": 2,\n        \"userId\": 1,\n        \"title\": \"Test Survey 2\",\n        \"description\": \"Tes Survey Description 1\",\n        \"allowAnonymousReply\": false,\n        \"allowResubmit\": false,\n        \"startTime\": null,\n        \"endTime\": null,\n        \"maxReplies\": null,\n        \"isDeleted\": false,\n        \"createdAt\": \"2023-04-15T09:23:18.245+00:00\",\n        \"lastModified\": \"2023-04-15T09:23:18.245+00:00\",\n        \"questions\": [\n            {\n                \"id\": 3,\n                \"questionType\": \"TEXT\",\n                \"questionText\": \"Your name 2?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": []\n            },\n            {\n                \"id\": 4,\n                \"questionType\": \"RADIO\",\n                \"questionText\": \"Your Gender?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 6,\n                        \"optionText\": \"Male 2\"\n                    },\n                    {\n                        \"id\": 7,\n                        \"optionText\": \"Female\"\n                    }\n                ]\n            },\n            {\n                \"id\": 5,\n                \"questionType\": \"CHECKBOX\",\n                \"questionText\": \"Your favor color?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 8,\n                        \"optionText\": \"red\"\n                    },\n                    {\n                        \"id\": 9,\n                        \"optionText\": \"blue\"\n                    },\n                    {\n                        \"id\": 10,\n                        \"optionText\": \"green\"\n                    }\n                ]\n            }\n        ]\n    }"
+					"raw": "{\n        \"id\": 2,\n        \"userId\": 1,\n        \"title\": \"Test Survey 2\",\n        \"description\": \"Tes Survey Description 1\",\n        \"allowAnonymousReply\": false,\n        \"allowResubmit\": false,\n        \"startTime\": null,\n        \"endTime\": null,\n        \"maxReplies\": null,\n        \"isDeleted\": false,\n        \"createdAt\": \"2023-04-15T11:42:20.004+00:00\",\n        \"lastModified\": \"2023-04-15T11:42:20.004+00:00\",\n        \"questions\": [\n            {\n                \"questionType\": \"TEXT\",\n                \"questionText\": \"Your name 3?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": []\n            },\n            {\n                \"id\": 4,\n                \"questionType\": \"RADIO\",\n                \"questionText\": \"Your Gender?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 5,\n                        \"optionText\": \"Male 2\"\n                    },\n                    {\n                        \"optionText\": \"Female 2\"\n                    }\n                ]\n            },\n            {\n                \"id\": 7,\n                \"questionType\": \"CHECKBOX\",\n                \"questionText\": \"Your favor color?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 8,\n                        \"optionText\": \"red\"\n                    },\n                    {\n                        \"id\": 9,\n                        \"optionText\": \"blue\"\n                    },\n                    {\n                        \"id\": 10,\n                        \"optionText\": \"green\"\n                    }\n                ]\n            }\n        ]\n    }"
 				},
 				"url": {
 					"raw": "{{base_url}}/api/surveys/2",
@@ -444,6 +444,26 @@
 							"key": "sortBy",
 							"value": "createdAt"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Reply Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/surveys/2/summary",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"surveys",
+						"2",
+						"summary"
 					]
 				}
 			},
