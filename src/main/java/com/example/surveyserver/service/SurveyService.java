@@ -40,11 +40,10 @@ public class SurveyService {
     }
 
     public Survey getSurvey(Integer id) {
-        return surveyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
+        return surveyRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
     }
 
     public List<Survey> getAllSurveys() {
-        //TODO, how to avoid loading questions and options here? FetchType.LAZY not work
         /* ChatGPT
         In your example, FetchType.LAZY should work as expected for the @OneToMany relationship between Survey and Question.
         However, when you are serializing the Survey object into JSON format and the getter for the questions field is called,
@@ -91,7 +90,7 @@ public class SurveyService {
     }
 
     public Page<Survey> getSurveysByUser(Integer userId, Pageable pageable) {
-        return surveyRepository.findByUserIdOrderById(userId, pageable);
+        return surveyRepository.findByUserIdAndIsDeletedFalseOrderById(userId, pageable);
     }
 
     public Survey deleteSurvey(Integer id) {
