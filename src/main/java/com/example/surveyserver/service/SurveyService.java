@@ -110,7 +110,7 @@ public class SurveyService {
     }
 
     public Page<Survey> getTemplates(Pageable pageable) {
-        return surveyRepository.findByIsTemplateTrueOrderByIdDesc(pageable);
+        return surveyRepository.findByIsTemplateTrueAndIsDeletedFalseOrderByIdDesc(pageable);
     }
 
     public Survey deleteSurvey(Integer id) {
