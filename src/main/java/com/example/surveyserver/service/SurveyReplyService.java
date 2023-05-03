@@ -1,6 +1,6 @@
 package com.example.surveyserver.service;
 
-import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +17,18 @@ public class SurveyReplyService {
     private SurveyReplyRepository surveyReplyRepository;
 
     public SurveyReply createSurveyReply(SurveyReply surveyReply) {
+        List<QuestionReply> questionReplies = surveyReply.getQuestionReplies();
+        questionReplies.forEach(questionReply -> {
+            // bidirectional association to reduce sql statements
+            // https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+            questionReply.setSurveyReply(surveyReply);
+            List<OptionReply> optionReplies = questionReply.getOptionReplies();
+            if (optionReplies != null) {
+                optionReplies.forEach(optionReply -> {
+                    optionReply.setQuestionReply(questionReply);
+                });
+            }
+        });
         return surveyReplyRepository.save(surveyReply);
     }
 

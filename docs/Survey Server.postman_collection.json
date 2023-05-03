@@ -6,229 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Create Template",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Template Title\",\n    \"description\": \"Template description\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/templates/user/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates",
-						"user",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Template",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/templates/{{templateId}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates",
-						"{{templateId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Template",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/templates/{{templateId}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates",
-						"{{templateId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Templates",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/templates?page=0&size=10",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "0"
-						},
-						{
-							"key": "size",
-							"value": "10"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Submit Survey Reply",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"userId\": 1,\n    \"surveyId\": 2,\n    \"questionReplies\": [\n        {\n            \"question\": {\n                \"id\": 3\n            },\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"question\": {\n                \"id\": 4\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 5\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 6\n                    },\n                    \"selected\": false\n                }\n            ]\n        },\n        {\n            \"question\": {\n                \"id\": 7\n            },\n            \"optionReplies\": [\n                {\n                    \"option\": {\n                        \"id\": 8\n                    },\n                    \"selected\": true\n                },\n                {\n                    \"option\": {\n                        \"id\": 9\n                    },\n                    \"selected\": false\n                },\n                {\n                    \"option\": {\n                        \"id\": 10\n                    },\n                    \"selected\": false\n                }\n            ]\n        }\n    ]\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/survey-replies",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"survey-replies"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Survey Reply CSV by Survey ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/survey-replies/11",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"survey-replies",
-						"11"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Survey Replies",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/survey-replies",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"survey-replies"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get survey replies by user id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/survey-replies/user/1?page=0&size=10&sort=createdAt,desc",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"survey-replies",
-						"user",
-						"1"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "0"
-						},
-						{
-							"key": "size",
-							"value": "10"
-						},
-						{
-							"key": "sort",
-							"value": "createdAt,desc"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Survey Reply CSV by Survey ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/surveys/2/replies/csv",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"surveys",
-						"2",
-						"replies",
-						"csv"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create User",
 			"request": {
 				"method": "POST",
@@ -256,6 +33,29 @@
 					"path": [
 						"api",
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"updatedUser\",\n  \"email\": \"updateduser@example.com\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"1"
 					]
 				}
 			},
@@ -299,29 +99,6 @@
 			"response": []
 		},
 		{
-			"name": "Update User",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"username\": \"updatedUser\",\n  \"email\": \"updateduser@example.com\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/users/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create Survey",
 			"request": {
 				"method": "POST",
@@ -336,43 +113,6 @@
 					"mode": "raw",
 					"raw": "{\n  \"userId\" : 1,\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/api/surveys",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"surveys"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Survey",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/surveys/2",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"surveys",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Survey",
-			"request": {
-				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "{{base_url}}/api/surveys",
 					"host": [
@@ -410,6 +150,43 @@
 						"api",
 						"surveys",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/surveys/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"surveys",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Survey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/surveys",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"surveys"
 					]
 				}
 			},
@@ -464,6 +241,211 @@
 						"surveys",
 						"2",
 						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Survey Reply",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": 1,\n    \"surveyId\": 2,\n    \"questionReplies\": [\n        {\n            \"questionId\": 3,\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"questionId\": 4,\n            \"optionReplies\": [\n                {\n                    \"optionId\": 5,\n                    \"selected\": true\n                }\n            ]\n        },\n        {\n            \"questionId\": 7,\n            \"optionReplies\": [\n                {\n                    \"optionId\": 8,\n                    \"selected\": true\n                }\n            ]\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get survey replies by user id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/user/1?page=0&size=10&sort=createdAt,desc",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"user",
+						"1"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "createdAt,desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Replies by Survey ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/11",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Reply CSV by Survey ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/surveys/2/replies/csv",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"surveys",
+						"2",
+						"replies",
+						"csv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Template",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Template Title\",\n    \"description\": \"Template description\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/templates/user/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"templates",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Template",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/templates/{{templateId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"templates",
+						"{{templateId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Template",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/templates/{{templateId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"templates",
+						"{{templateId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Templates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/templates?page=0&size=10",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"templates"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
 					]
 				}
 			},

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -111,6 +112,13 @@ public class SurveyService {
         List<SurveyReply> surveyReplies = surveyReplyService.getRepliesBySurveyId(surveyId);
         Survey survey = getSurvey(surveyId);
 
+        Map<Integer, Question> questionMap = survey.getQuestions().stream()
+                .collect(Collectors.toMap(Question::getId, Function.identity()));
+
+        Map<Integer, Option> optionMap = survey.getQuestions().stream()
+                .flatMap(question -> question.getOptions().stream())
+                .collect(Collectors.toMap(Option::getId, Function.identity()));
+
         StringBuilder csvContent = new StringBuilder();
 
         // Add header row
@@ -125,17 +133,20 @@ public class SurveyService {
             csvContent.append(surveyReply.getId());
             for (QuestionReply questionReply : surveyReply.getQuestionReplies()) {
                 csvContent.append(",");
-                Question.QuestionType questionType = Question.QuestionType.valueOf(questionReply.getQuestion().getQuestionType());
+                Question question = questionMap.get(questionReply.getQuestionId());
+                Question.QuestionType questionType = Question.QuestionType.valueOf(question.getQuestionType());
                 switch (questionType) {
                     case TEXT:
-                    case TEXTAREA:
                         csvContent.append(questionReply.getReplyText());
                         break;
                     case RADIO:
                     case CHECKBOX:
                         List<String> selectedOptions = questionReply.getOptionReplies().stream()
                                 .filter(OptionReply::isSelected)
-                                .map(optionReply -> optionReply.getOption().getOptionText())
+                                .map(optionReply -> {
+                                    Option option = optionMap.get(optionReply.getOptionId());
+                                    return option.getOptionText();
+                                })
                                 .collect(Collectors.toList());
                         String optionTexts = String.join(", ", selectedOptions);
                         csvContent.append(optionTexts);
@@ -151,6 +162,13 @@ public class SurveyService {
     public SurveySummary getSurveySummary(Integer surveyId) {
         Survey survey = getSurvey(surveyId);
 
+        Map<Integer, Question> questionMap = survey.getQuestions().stream()
+                .collect(Collectors.toMap(Question::getId, Function.identity()));
+
+        Map<Integer, Option> optionMap = survey.getQuestions().stream()
+                .flatMap(question -> question.getOptions().stream())
+                .collect(Collectors.toMap(Option::getId, Function.identity()));
+
         // Calculate survey summary
         List<SurveyReply> surveyReplies = surveyReplyService.getRepliesBySurveyId(surveyId);
         int totalReplies = surveyReplies.size();
@@ -164,16 +182,17 @@ public class SurveyService {
                 optionCounts.put(option.getOptionText(), 0);
             }
 
-            for (SurveyReply reply : surveyReplies) {
-                QuestionReply questionReply = reply.getQuestionReplies().stream()
-                        .filter(qr -> qr.getQuestion().getId().equals(question.getId()))
+            for (SurveyReply surveyReply : surveyReplies) {
+                QuestionReply questionReply = surveyReply.getQuestionReplies().stream()
+                        .filter(qr -> qr.getQuestionId().equals(question.getId()))
                         .findFirst().orElse(null);
 
                 if (questionReply != null) {
                     if (question.getQuestionType().equals(Question.QuestionType.RADIO.toString()) ||
                             question.getQuestionType().equals(Question.QuestionType.CHECKBOX.toString())) {
                         for (OptionReply optionReply : questionReply.getOptionReplies()) {
-                            String optionText = optionReply.getOption().getOptionText();
+                            Option option = optionMap.get(optionReply.getOptionId());
+                            String optionText = option.getOptionText();
                             optionCounts.put(optionText, optionCounts.get(optionText) + 1);
                         }
                     }

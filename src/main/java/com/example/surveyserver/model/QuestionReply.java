@@ -23,10 +23,8 @@ public class QuestionReply {
     @JsonIgnore
     private SurveyReply surveyReply;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
-
+    @Column(nullable = false)
+    private Integer questionId;
 
     @OneToMany(mappedBy = "questionReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OptionReply> optionReplies;

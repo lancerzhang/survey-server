@@ -21,9 +21,8 @@ public class OptionReply {
     @JsonIgnore
     private QuestionReply questionReply;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_id")
-    private Option option;
+    @Column(nullable = false)
+    private Integer optionId;
 
     private boolean selected = true; // No record if user not select it.
 }
