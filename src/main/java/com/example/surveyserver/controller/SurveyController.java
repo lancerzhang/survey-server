@@ -37,11 +37,6 @@ public class SurveyController {
         return surveyService.getSurvey(id);
     }
 
-    @GetMapping
-    public List<Survey> getSurvey() {
-        return surveyService.getAllSurveys();
-    }
-
     @PutMapping("/{id}")
     public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey) {
         Survey survey = surveyService.getSurvey(id);

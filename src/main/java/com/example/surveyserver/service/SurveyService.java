@@ -25,6 +25,16 @@ public class SurveyService {
     private SurveyReplyService surveyReplyService;
 
     public Survey createSurvey(Survey survey) {
+        survey.setIsTemplate(false);
+        return saveSurvey(survey);
+    }
+
+    public Survey createTemplate(Survey survey) {
+        survey.setIsTemplate(true);
+        return saveSurvey(survey);
+    }
+
+    public Survey saveSurvey(Survey survey) {
         List<Question> questions = survey.getQuestions();
         questions.forEach(question -> {
             // bidirectional association to reduce sql statements
@@ -96,7 +106,11 @@ public class SurveyService {
     }
 
     public Page<Survey> getSurveysByUser(Integer userId, Pageable pageable) {
-        return surveyRepository.findByUserIdAndIsDeletedFalseOrderById(userId, pageable);
+        return surveyRepository.findByUserIdAndIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(userId, pageable);
+    }
+
+    public Page<Survey> getTemplates(Pageable pageable) {
+        return surveyRepository.findByIsTemplateTrueOrderByIdDesc(pageable);
     }
 
     public Survey deleteSurvey(Integer id) {

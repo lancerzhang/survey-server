@@ -1,7 +1,6 @@
 package com.example.surveyserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,11 +38,6 @@ public class Question {
     @JoinColumn(name = "survey_id")
     @JsonIgnore
     private Survey survey;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id")
-    @JsonIgnore
-    private Template template;
 
     @PrePersist
     public void prePersist() {

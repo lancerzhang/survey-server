@@ -40,6 +40,8 @@ public class Survey {
 
     private Boolean isDeleted;
 
+    private Boolean isTemplate;
+
     @Column(updatable = false)
     private Date createdAt;
 

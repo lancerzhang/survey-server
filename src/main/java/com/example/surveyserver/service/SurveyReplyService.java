@@ -1,6 +1,8 @@
 package com.example.surveyserver.service;
 
-import com.example.surveyserver.model.*;
+import com.example.surveyserver.model.OptionReply;
+import com.example.surveyserver.model.QuestionReply;
+import com.example.surveyserver.model.SurveyReply;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -175,24 +175,6 @@
 			"response": []
 		},
 		{
-			"name": "Get All Survey",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/surveys",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"surveys"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get Surveys By User",
 			"request": {
 				"method": "GET",
@@ -359,18 +341,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Template Title\",\n    \"description\": \"Template description\"\n}"
+					"raw": "{\n  \"userId\" : 1,\n  \"title\": \"Template Survey Title\",\n  \"description\": \"Template Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/templates/user/1",
+					"raw": "{{base_url}}/api/templates",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
-						"templates",
-						"user",
-						"1"
+						"templates"
 					]
 				}
 			},
@@ -391,14 +371,14 @@
 					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/templates/{{templateId}}",
+					"raw": "{{base_url}}/api/templates/17",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"templates",
-						"{{templateId}}"
+						"17"
 					]
 				}
 			},
@@ -410,14 +390,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/templates/{{templateId}}",
+					"raw": "{{base_url}}/api/templates/17",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"templates",
-						"{{templateId}}"
+						"17"
 					]
 				}
 			},

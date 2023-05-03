@@ -133,12 +133,12 @@ public class SurveyServiceTest {
     public void testGetSurveysByUser() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Survey> surveyPage = new PageImpl<>(Arrays.asList(survey), pageable, 1);
-        when(surveyRepository.findByUserIdAndIsDeletedFalseOrderById(anyInt(), any(Pageable.class))).thenReturn(surveyPage);
+        when(surveyRepository.findByUserIdAndIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(anyInt(), any(Pageable.class))).thenReturn(surveyPage);
 
         Page<Survey> result = surveyService.getSurveysByUser(1, pageable);
 
         assertEquals(surveyPage, result);
-        verify(surveyRepository, times(1)).findByUserIdAndIsDeletedFalseOrderById(1, pageable);
+        verify(surveyRepository, times(1)).findByUserIdAndIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(1, pageable);
     }
 
     @Test
