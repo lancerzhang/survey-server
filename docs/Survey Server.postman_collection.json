@@ -209,20 +209,35 @@
 			"response": []
 		},
 		{
-			"name": "Get Survey Reply Summary",
+			"name": "Get Replied Surveys By User",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/2/summary",
+					"raw": "{{base_url}}/api/surveys/replied/user/1?page=0&size=10&sortBy=createdAt",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"surveys",
-						"2",
-						"summary"
+						"replied",
+						"user",
+						"1"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "createdAt"
+						}
 					]
 				}
 			},
@@ -288,7 +303,7 @@
 			"response": []
 		},
 		{
-			"name": "Submit Survey Reply",
+			"name": "Create Survey Reply",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -309,6 +324,34 @@
 					"path": [
 						"api",
 						"survey-replies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Survey Reply",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"id\": 11,\n            \"userId\": 1,\n            \"surveyId\": 2,\n            \"createdAt\": \"2023-05-04T13:26:54.118+00:00\",\n            \"lastModified\": \"2023-05-04T13:26:54.118+00:00\",\n            \"questionReplies\": [\n                {\n                    \"id\": 12,\n                    \"questionId\": 3,\n                    \"optionReplies\": [],\n                    \"replyText\": \"Bill Gates\"\n                },\n                {\n                    \"id\": 13,\n                    \"questionId\": 4,\n                    \"optionReplies\": [\n                        {\n                            \"id\": 14,\n                            \"optionId\": 5,\n                            \"selected\": true\n                        }\n                    ],\n                    \"replyText\": null\n                },\n                {\n                    \"id\": 15,\n                    \"questionId\": 7,\n                    \"optionReplies\": [\n                        {\n                            \"id\": 16,\n                            \"optionId\": 8,\n                            \"selected\": true\n                        }\n                    ],\n                    \"replyText\": null\n                }\n            ]\n        }"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/11",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"11"
 					]
 				}
 			},
@@ -354,14 +397,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/11",
+					"raw": "{{base_url}}/api/survey-replies/surveys/2/user/1",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"survey-replies",
-						"11"
+						"surveys",
+						"2",
+						"user",
+						"1"
 					]
 				}
 			},
@@ -373,16 +419,37 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/2/replies/csv",
+					"raw": "{{base_url}}/api/survey-replies/surveys/2/csv",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
+						"survey-replies",
 						"surveys",
 						"2",
-						"replies",
 						"csv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Reply Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/surveys/2/summary",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"surveys",
+						"2",
+						"summary"
 					]
 				}
 			},

@@ -1,6 +1,8 @@
 package com.example.surveyserver.config;
 
-import com.example.surveyserver.model.*;
+import com.example.surveyserver.model.Survey;
+import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.OptionReplyRepository;
 import com.example.surveyserver.repository.QuestionReplyRepository;
 import com.example.surveyserver.repository.QuestionRepository;
@@ -13,8 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class InitialDataLoader implements CommandLineRunner {
@@ -57,6 +57,7 @@ public class InitialDataLoader implements CommandLineRunner {
                 "    \"userId\": 1,\n" +
                 "    \"title\": \"Test Survey 1\",\n" +
                 "    \"description\": \"Tes Survey Description 1\",\n" +
+                "    \"isTemplate\": false,\n" +
                 "    \"questions\":[\n" +
                 "      {\n" +
                 "          \"questionType\": \"TEXT\",\n" +

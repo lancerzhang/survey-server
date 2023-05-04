@@ -40,6 +40,7 @@ public class Survey {
 
     private Boolean isDeleted;
 
+    @Column(nullable = false)
     private Boolean isTemplate;
 
     @Column(updatable = false)

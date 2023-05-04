@@ -1,23 +1,16 @@
 package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.Survey;
-import com.example.surveyserver.model.SurveySummary;
 import com.example.surveyserver.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/api/surveys")
@@ -52,10 +45,7 @@ public class SurveyController {
     @PutMapping("/{id}")
     public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey) {
         Survey survey = surveyService.getSurvey(id);
-        if (survey == null) {
-            return null;
-        }
-        updatedSurvey.setId(id);
+        updatedSurvey.setId(survey.getId());
         return surveyService.updateSurvey(updatedSurvey);
     }
 
@@ -68,6 +58,11 @@ public class SurveyController {
         return surveyService.getSurveysByUser(userId, pageable);
     }
 
+    @GetMapping("/replied/user/{userId}")
+    public Page<Survey> getRepliedSurveysByUser(@PathVariable Integer userId, Pageable pageable) {
+        return surveyService.getRepliedSurveysByUser(userId, pageable);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Survey> deleteSurvey(@PathVariable Integer id) {
         Survey deletedSurvey = surveyService.deleteSurvey(id);
@@ -76,29 +71,6 @@ public class SurveyController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-
-    @GetMapping("/{surveyId}/replies/csv")
-    public ResponseEntity<Resource> downloadRepliesAsCsv(@PathVariable Integer surveyId) throws IOException {
-        String csvContent = surveyService.generateRepliesCsvContent(surveyId);
-
-        byte[] contentAsBytes = csvContent.getBytes(StandardCharsets.UTF_8);
-        ByteArrayResource byteArrayResource = new ByteArrayResource(contentAsBytes);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("text/csv"));
-        headers.setContentLength(contentAsBytes.length);
-        headers.set("Content-Disposition", "attachment; filename=survey_replies.csv");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(byteArrayResource);
-    }
-
-    @GetMapping("/{surveyId}/summary")
-    public SurveySummary getSurveySummary(@PathVariable Integer surveyId) {
-        return surveyService.getSurveySummary(surveyId);
     }
 }
 
