@@ -13,6 +13,9 @@ public interface SurveyRepository extends JpaRepository<Survey, Integer> {
     Page<Survey> findByUserIdAndIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(Integer userId, Pageable pageable);
 
     Optional<Survey> findByIdAndIsDeletedFalse(Integer id);
+
     Page<Survey> findByIsTemplateTrueAndIsDeletedFalseOrderByIdDesc(Pageable pageable);
+
+    Page<Survey> findByIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(Pageable pageable);
 }
 

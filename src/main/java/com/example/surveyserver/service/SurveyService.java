@@ -25,16 +25,9 @@ public class SurveyService {
     private SurveyReplyService surveyReplyService;
 
     public Survey createSurvey(Survey survey) {
-        survey.setIsTemplate(false);
-        return saveSurvey(survey);
-    }
-
-    public Survey createTemplate(Survey survey) {
-        survey.setIsTemplate(true);
-        return saveSurvey(survey);
-    }
-
-    public Survey saveSurvey(Survey survey) {
+        if (survey.getIsTemplate() == null) {
+            survey.setIsTemplate(false);
+        }
         List<Question> questions = survey.getQuestions();
         questions.forEach(question -> {
             // bidirectional association to reduce sql statements
@@ -54,7 +47,7 @@ public class SurveyService {
         return surveyRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
     }
 
-    public List<Survey> getAllSurveys() {
+    public Page<Survey> getAllSurveys(Pageable pageable) {
         /* ChatGPT
         In your example, FetchType.LAZY should work as expected for the @OneToMany relationship between Survey and Question.
         However, when you are serializing the Survey object into JSON format and the getter for the questions field is called,
@@ -70,7 +63,7 @@ public class SurveyService {
         Please note that with this change, the questions field will not be included in the JSON output when you call the getAllSurveys() method.
         If you need to load the questions field explicitly, you will have to do so in your service or repository layer.
         */
-        return surveyRepository.findAll();
+        return surveyRepository.findByIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(pageable);
     }
 
     public Survey updateSurvey(Survey updatedSurvey) {
@@ -109,7 +102,7 @@ public class SurveyService {
         return surveyRepository.findByUserIdAndIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(userId, pageable);
     }
 
-    public Page<Survey> getTemplates(Pageable pageable) {
+    public Page<Survey> getAllTemplates(Pageable pageable) {
         return surveyRepository.findByIsTemplateTrueAndIsDeletedFalseOrderByIdDesc(pageable);
     }
 

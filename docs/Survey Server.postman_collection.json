@@ -229,6 +229,65 @@
 			"response": []
 		},
 		{
+			"name": "Create Template",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"isTemplate\" : true,\n  \"userId\" : 1,\n  \"title\": \"Template Survey Title\",\n  \"description\": \"Template Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/surveys",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Templates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/surveys?isTemplate=true&page=0&size=10",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"surveys"
+					],
+					"query": [
+						{
+							"key": "isTemplate",
+							"value": "true"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Submit Survey Reply",
 			"request": {
 				"method": "POST",
@@ -324,108 +383,6 @@
 						"2",
 						"replies",
 						"csv"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Template",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"userId\" : 1,\n  \"title\": \"Template Survey Title\",\n  \"description\": \"Template Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/templates",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Template",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Updated Template Title\",\n    \"description\": \"Updated template description\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/templates/17",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates",
-						"17"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Template",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/templates/17",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates",
-						"17"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Templates",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/templates?page=0&size=10",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"templates"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "0"
-						},
-						{
-							"key": "size",
-							"value": "10"
-						}
 					]
 				}
 			},

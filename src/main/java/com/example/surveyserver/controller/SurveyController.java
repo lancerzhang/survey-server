@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/surveys")
@@ -35,6 +34,19 @@ public class SurveyController {
     @GetMapping("/{id}")
     public Survey getSurvey(@PathVariable int id) {
         return surveyService.getSurvey(id);
+    }
+
+    @GetMapping
+    public Page<Survey> getSurveys(@RequestParam(defaultValue = "false") boolean isTemplate,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
+                                   @RequestParam(defaultValue = "createdAt") String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        if (isTemplate) {
+            return surveyService.getAllTemplates(pageable);
+        } else {
+            return surveyService.getAllSurveys(pageable);
+        }
     }
 
     @PutMapping("/{id}")
