@@ -49,7 +49,27 @@ public class SurveyReplyService {
     }
 
     public SurveyReply updateSurveyReply(SurveyReply surveyReply) {
-        return surveyReplyRepository.save(surveyReply);
+        SurveyReply existingSurveyReply = surveyReplyRepository.findById(surveyReply.getId())
+                .orElseThrow(() -> new RuntimeException("Survey reply not found"));
+
+        // Update the questions and options
+        existingSurveyReply.setQuestionReplies(surveyReply.getQuestionReplies());
+
+        // Set the survey reference for each question and update the options
+        for (QuestionReply questionReply : existingSurveyReply.getQuestionReplies()) {
+            questionReply.setSurveyReply(existingSurveyReply);
+
+            // Set the question reference for each option
+            List<OptionReply> optionReplies = questionReply.getOptionReplies();
+            if(optionReplies!=null){
+                for (OptionReply optionReply : optionReplies) {
+                    optionReply.setQuestionReply(questionReply);
+                }
+            }
+        }
+
+        // Save the updated survey
+        return surveyReplyRepository.save(existingSurveyReply);
     }
 
     public Page<SurveyReply> getRepliesByUser(Integer userId, Pageable pageable) {

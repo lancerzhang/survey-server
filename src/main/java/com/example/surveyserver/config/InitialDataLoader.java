@@ -112,6 +112,10 @@ public class InitialDataLoader implements CommandLineRunner {
                 "                {\n" +
                 "                    \"optionId\": 5,\n" +
                 "                    \"selected\": true\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"optionId\": 6,\n" +
+                "                    \"selected\": false\n" +
                 "                }\n" +
                 "            ]\n" +
                 "        },\n" +
@@ -121,6 +125,14 @@ public class InitialDataLoader implements CommandLineRunner {
                 "                {\n" +
                 "                    \"optionId\": 8,\n" +
                 "                    \"selected\": true\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"optionId\": 9,\n" +
+                "                    \"selected\": false\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"optionId\": 10,\n" +
+                "                    \"selected\": false\n" +
                 "                }\n" +
                 "            ]\n" +
                 "        }\n" +
