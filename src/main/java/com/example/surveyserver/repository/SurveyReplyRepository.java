@@ -16,4 +16,9 @@ public interface SurveyReplyRepository extends JpaRepository<SurveyReply, Intege
     List<SurveyReply> findBySurveyId(Integer surveyId);
 
     Optional<SurveyReply> findBySurveyIdAndUserId(Integer surveyId, Integer userId);
+
+    // get all replies by survey id with pagination
+    Page<SurveyReply> findBySurveyIdOrderByCreatedAtDesc(Integer surveyId, Pageable pageable);
+
+    long countBySurveyId(Integer surveyId);
 }

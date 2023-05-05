@@ -24,5 +24,5 @@ public class OptionReply {
     @Column(nullable = false)
     private Integer optionId;
 
-    private boolean selected = true; // No record if user not select it.
+    private boolean selected = true;
 }

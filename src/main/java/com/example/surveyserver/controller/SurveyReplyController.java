@@ -52,6 +52,12 @@ public class SurveyReplyController {
         return surveyReplyService.getSurveyReplyBySurveyIdAndUserId(surveyId, userId);
     }
 
+    // get all replies by survey id
+    @GetMapping("/surveys/{surveyId}")
+    public Page<SurveyReply> getRepliesBySurvey(@PathVariable Integer surveyId, Pageable pageable) {
+        return surveyReplyService.getAllRepliesBySurveyId(surveyId, pageable);
+    }
+
     @GetMapping("/surveys/{surveyId}/csv")
     public ResponseEntity<Resource> downloadRepliesAsCsv(@PathVariable Integer surveyId) throws IOException {
         String csvContent = surveyReplyService.generateRepliesCsvContent(surveyId);
@@ -72,6 +78,12 @@ public class SurveyReplyController {
     @GetMapping("/surveys/{surveyId}/summary")
     public SurveySummary getSurveySummary(@PathVariable Integer surveyId) {
         return surveyReplyService.getSurveySummary(surveyId);
+    }
+
+    @GetMapping("/surveys/{surveyId}/count")
+    public ResponseEntity<Long> countSurveyRepliesBySurveyId(@PathVariable Integer surveyId) {
+        long replyCount = surveyReplyService.countSurveyRepliesBySurveyId(surveyId);
+        return ResponseEntity.ok(replyCount);
     }
 }
 

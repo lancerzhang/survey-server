@@ -48,6 +48,15 @@ public class SurveyReplyService {
         return surveyReplyRepository.findBySurveyIdAndUserId(surveyId, userId).orElseThrow(() -> new ResourceNotFoundException("Survey reply not found."));
     }
 
+    // get all replies by survey id with pagination
+    public Page<SurveyReply> getAllRepliesBySurveyId(Integer surveyId, Pageable pageable) {
+        return surveyReplyRepository.findBySurveyIdOrderByCreatedAtDesc(surveyId, pageable);
+    }
+
+    public long countSurveyRepliesBySurveyId(Integer surveyId) {
+        return surveyReplyRepository.countBySurveyId(surveyId);
+    }
+
     public SurveyReply updateSurveyReply(SurveyReply surveyReply) {
         SurveyReply existingSurveyReply = surveyReplyRepository.findById(surveyReply.getId())
                 .orElseThrow(() -> new RuntimeException("Survey reply not found"));
@@ -61,7 +70,7 @@ public class SurveyReplyService {
 
             // Set the question reference for each option
             List<OptionReply> optionReplies = questionReply.getOptionReplies();
-            if(optionReplies!=null){
+            if (optionReplies != null) {
                 for (OptionReply optionReply : optionReplies) {
                     optionReply.setQuestionReply(questionReply);
                 }
