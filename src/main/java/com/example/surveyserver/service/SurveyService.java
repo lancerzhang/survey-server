@@ -4,6 +4,8 @@ import com.example.surveyserver.exception.ResourceNotFoundException;
 import com.example.surveyserver.model.Option;
 import com.example.surveyserver.model.Question;
 import com.example.surveyserver.model.Survey;
+import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,9 @@ public class SurveyService {
 
     @Autowired
     private SurveyRepository surveyRepository;
+
+    @Autowired
+    private SurveyReplyRepository surveyReplyRepository;
 
     public Survey createSurvey(Survey survey) {
         List<Question> questions = survey.getQuestions();
@@ -95,7 +100,8 @@ public class SurveyService {
     }
 
     public Page<Survey> getRepliedSurveysByUser(Integer userId, Pageable pageable) {
-        return surveyRepository.findRepliedSurveysByUserId(userId, pageable);
+        Page<SurveyReply> surveyReplies = surveyReplyRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
+        return surveyReplies.map(SurveyReply::getSurvey);
     }
 
     public Page<Survey> getAllTemplates(Pageable pageable) {

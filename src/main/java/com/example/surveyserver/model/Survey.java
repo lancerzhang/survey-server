@@ -1,5 +1,6 @@
 package com.example.surveyserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "surveys")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Survey {
     @Id
     @GeneratedValue

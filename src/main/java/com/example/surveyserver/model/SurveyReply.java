@@ -1,5 +1,6 @@
 package com.example.surveyserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +21,10 @@ public class SurveyReply {
     @Column(nullable = false)
     private Integer userId;
 
-    @Column(nullable = false)
-    private Integer surveyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "survey_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Survey survey;
 
     @Column(nullable = false)
     private Boolean isAnonymous;

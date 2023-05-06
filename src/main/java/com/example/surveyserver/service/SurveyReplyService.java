@@ -89,7 +89,6 @@ public class SurveyReplyService {
         return surveyReplyRepository.findBySurveyId(surveyId);
     }
 
-
     public String generateRepliesCsvContent(Integer surveyId) {
         List<SurveyReply> surveyReplies = getRepliesBySurveyId(surveyId);
         Survey survey = surveyService.getSurvey(surveyId);

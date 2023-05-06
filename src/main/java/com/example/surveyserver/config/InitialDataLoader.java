@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class InitialDataLoader implements CommandLineRunner {
 
@@ -97,7 +95,9 @@ public class InitialDataLoader implements CommandLineRunner {
 
         String replyJsonStr = "{\n" +
                 "    \"userId\": 1,\n" +
-                "    \"surveyId\": 2,\n" +
+                "    \"survey\": {\n" +
+                "        \"id\": 2\n" +
+                "    },\n" +
                 "    \"questionReplies\": [\n" +
                 "        {\n" +
                 "            \"questionId\": 3,\n" +
@@ -138,9 +138,9 @@ public class InitialDataLoader implements CommandLineRunner {
         SurveyReply surveyReply = new ObjectMapper().readValue(replyJsonStr, SurveyReply.class);
         surveyReplyService.createSurveyReply(surveyReply);
 
-        List<SurveyReply> allReplies = surveyReplyRepository.findAll();
+//        List<SurveyReply> allReplies = surveyReplyRepository.findAll();
 //        List<QuestionReply> allQuestionReply = questionReplyRepository.findAll();
 //        List<OptionReply> allOptionReplies = optionReplyRepository.findAll();
-        System.out.println(allReplies);
+//        System.out.println(allReplies);
     }
 }
