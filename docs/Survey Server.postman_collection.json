@@ -30,7 +30,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/users/search?searchString=123",
+					"raw": "{{base_url}}/api/users/search?searchString=Bill",
 					"host": [
 						"{{base_url}}"
 					],
@@ -42,7 +42,7 @@
 					"query": [
 						{
 							"key": "searchString",
-							"value": "123"
+							"value": "Bill"
 						}
 					]
 				}
@@ -446,6 +446,135 @@
 						"surveys",
 						"2",
 						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Delegate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"delegatorId\" : 1,\n  \"delegate\": {\n      \"id\": 1\n  }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/delegates",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"delegates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Delegates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/delegates/delegator/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"delegates",
+						"delegator",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Delegate",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/delegates/21",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"delegates",
+						"21"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Prize",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"surveyId\" : 2,\n  \"name\" : \"iPhone\",\n  \"description\" : \"prize iPhone\",\n  \"quantity\" : 1\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/prizes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"prizes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Prizes By SurveyId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/prizes?surveyId=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"prizes"
+					],
+					"query": [
+						{
+							"key": "surveyId",
+							"value": "2"
+						}
 					]
 				}
 			},

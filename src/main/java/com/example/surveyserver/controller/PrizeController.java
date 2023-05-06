@@ -1,7 +1,6 @@
 package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.Prize;
-import com.example.surveyserver.model.PrizeWithWinners;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.service.PrizeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class PrizeController {
 
     // get prizes with winners by surveyId
     @GetMapping
-    public List<PrizeWithWinners> getPrizesWithWinners(@Param("surveyId") Integer surveyId) {
-        return prizeService.getPrizesWithWinners(surveyId);
+    public List<Prize> getPrizes(@Param("surveyId") Integer surveyId) {
+        return prizeService.getPrizes(surveyId);
     }
 }

@@ -55,7 +55,7 @@ public class PrizeService {
             User user = new User();
             user.setId(reply.getUserId());
             winner.setUser(user);
-            winner.setPrizeId(prize.getId());
+            winner.setPrize(prize);
             winnerRepository.save(winner);
 
             // Add the winner to the list
@@ -67,22 +67,6 @@ public class PrizeService {
 
     public List<Prize> getPrizes(Integer surveyId) {
         return prizeRepository.findBySurveyId(surveyId);
-    }
-
-    // PrizeService.java
-    public List<PrizeWithWinners> getPrizesWithWinners(Integer surveyId) {
-        List<Prize> prizes = prizeRepository.findBySurveyId(surveyId);
-        List<PrizeWithWinners> prizeWithWinnersList = new ArrayList<>();
-
-        for (Prize prize : prizes) {
-            List<Winner> winners = winnerRepository.findByPrizeId(prize.getId());
-            List<User> winnerUsers = winners.stream()
-                    .map(Winner::getUser)
-                    .collect(Collectors.toList());
-            prizeWithWinnersList.add(new PrizeWithWinners(prize, winnerUsers));
-        }
-
-        return prizeWithWinnersList;
     }
 
 }

@@ -1,11 +1,13 @@
 package com.example.surveyserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +30,9 @@ public class Prize {
 
     @Column(nullable = false)
     private Integer quantity;
+
+    @OneToMany(mappedBy = "prize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Winner> winners;
 
     @Column(updatable = false)
     private Date createdAt;
