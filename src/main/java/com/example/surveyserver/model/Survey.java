@@ -25,7 +25,7 @@ public class Survey {
     @Size(max = 255)
     private String title;
 
-    @Size(max = 4000)
+    @Size(max = 8000)
     private String description;
 
     private Boolean allowAnonymousReply;
