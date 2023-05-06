@@ -42,7 +42,6 @@ http://localhost:8080/swagger-ui/
 * oauth login
 * Anonymous reply
 * Performance tuning, adding db index
-* Upload image
 
 ## Testing
 

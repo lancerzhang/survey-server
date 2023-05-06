@@ -173,9 +173,11 @@ public class SurveyReplyService {
                     if (question.getQuestionType().equals(Question.QuestionType.RADIO.toString()) ||
                             question.getQuestionType().equals(Question.QuestionType.CHECKBOX.toString())) {
                         for (OptionReply optionReply : questionReply.getOptionReplies()) {
-                            Option option = optionMap.get(optionReply.getOptionId());
-                            String optionText = option.getOptionText();
-                            optionCounts.put(optionText, optionCounts.get(optionText) + 1);
+                            if (optionReply.isSelected()) {
+                                Option option = optionMap.get(optionReply.getOptionId());
+                                String optionText = option.getOptionText();
+                                optionCounts.put(optionText, optionCounts.get(optionText) + 1);
+                            }
                         }
                     }
                 }
@@ -185,9 +187,9 @@ public class SurveyReplyService {
                 optionPercentages.put(optionText, (double) optionCounts.get(optionText) / totalReplies * 100);
             }
 
-            questionSummaries.add(new QuestionSummary(question.getId(), question.getQuestionText(), optionCounts, optionPercentages));
+            questionSummaries.add(new QuestionSummary(question.getId(), question.getQuestionType(), question.getQuestionText(), optionCounts, optionPercentages));
         }
 
-        return new SurveySummary(totalReplies, questionSummaries);
+        return new SurveySummary(survey.getTitle(), totalReplies, questionSummaries);
     }
 }
