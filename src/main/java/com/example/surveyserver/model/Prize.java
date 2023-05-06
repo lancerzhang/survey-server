@@ -16,18 +16,22 @@ public class Prize {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_id", nullable = false)
-    private Survey survey;
+    @Column(nullable = false)
+    private Integer surveyId;
+
     @Column(nullable = false)
     @Size(max = 255)
     private String name;
+
     @Size(max = 4000)
     private String description;
+
     @Column(nullable = false)
     private Integer quantity;
+
     @Column(updatable = false)
     private Date createdAt;
+
     private Date lastModified;
 
     @PrePersist

@@ -6,28 +6,27 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
 @Table(name = "winners")
 public class Winner {
     @Id
     @GeneratedValue
     private int id;
 
-    private Date wonAt;
+    @Column(nullable = false)
+    private Integer prizeId;
+
+    @Column(nullable = false)
+    private Integer surveyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_id", nullable = false)
-    private Survey survey;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prize_id", nullable = false)
-    private Prize prize;
+    private Date wonAt;
 
     @PrePersist
     public void prePersist() {
