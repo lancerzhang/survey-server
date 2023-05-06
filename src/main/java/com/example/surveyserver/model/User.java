@@ -21,7 +21,6 @@ public class User {
     private String username;
     @Size(max = 255)
     private String staffId;
-    private Boolean isAnonymous;
     @Size(max = 1000)
     private String publicKey;
     @Size(max = 255)
@@ -32,7 +31,6 @@ public class User {
 
     @PrePersist
     public void prePersist() {
-        this.isAnonymous = false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

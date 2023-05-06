@@ -7,12 +7,12 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SurveySummary {
+public class SurveyReplySummary {
     private String surveyTitle;
     private int totalReplies;
-    private List<QuestionSummary> questionSummaries;
+    private List<QuestionReplySummary> questionSummaries;
 
-    public SurveySummary(String surveyTitle, int totalReplies, List<QuestionSummary> questionSummaries) {
+    public SurveyReplySummary(String surveyTitle, int totalReplies, List<QuestionReplySummary> questionSummaries) {
         this.surveyTitle = surveyTitle;
         this.totalReplies = totalReplies;
         this.questionSummaries = questionSummaries;

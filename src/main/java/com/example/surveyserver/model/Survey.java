@@ -28,7 +28,7 @@ public class Survey {
     @Size(max = 8000)
     private String description;
 
-    private Boolean allowAnonymousReply;
+    private Boolean isAnonymous;
 
     private Boolean allowResubmit;
 
@@ -56,7 +56,7 @@ public class Survey {
 
     @PrePersist
     public void prePersist() {
-        this.allowAnonymousReply = false;
+        this.isAnonymous = false;
         this.allowResubmit = false;
         this.isDeleted = false;
         this.createdAt = new Date();

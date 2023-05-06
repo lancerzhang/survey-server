@@ -37,7 +37,6 @@ The application will start running at `http://localhost:8080`.
 http://localhost:8080/swagger-ui/
 
 ## To do feature
-* Test add and delete delegate.
 * Implement prize function.
 * oauth login
 * Anonymous reply

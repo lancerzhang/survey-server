@@ -23,6 +23,9 @@ public class SurveyReply {
     @Column(nullable = false)
     private Integer surveyId;
 
+    @Column(nullable = false)
+    private Boolean isAnonymous;
+
     @Column(updatable = false)
     private Date createdAt;
 
@@ -33,6 +36,7 @@ public class SurveyReply {
 
     @PrePersist
     public void prePersist() {
+        this.isAnonymous = false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }

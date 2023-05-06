@@ -141,7 +141,7 @@ public class SurveyReplyService {
         return csvContent.toString();
     }
 
-    public SurveySummary getSurveySummary(Integer surveyId) {
+    public SurveyReplySummary getSurveySummary(Integer surveyId) {
         Survey survey = surveyService.getSurvey(surveyId);
 
         Map<Integer, Question> questionMap = survey.getQuestions().stream()
@@ -154,7 +154,7 @@ public class SurveyReplyService {
         // Calculate survey summary
         List<SurveyReply> surveyReplies = getRepliesBySurveyId(surveyId);
         int totalReplies = surveyReplies.size();
-        List<QuestionSummary> questionSummaries = new ArrayList<>();
+        List<QuestionReplySummary> questionSummaries = new ArrayList<>();
 
         for (Question question : survey.getQuestions()) {
             Map<String, Integer> optionCounts = new HashMap<>();
@@ -187,9 +187,9 @@ public class SurveyReplyService {
                 optionPercentages.put(optionText, (double) optionCounts.get(optionText) / totalReplies * 100);
             }
 
-            questionSummaries.add(new QuestionSummary(question.getId(), question.getQuestionType(), question.getQuestionText(), optionCounts, optionPercentages));
+            questionSummaries.add(new QuestionReplySummary(question.getId(), question.getQuestionType(), question.getQuestionText(), optionCounts, optionPercentages));
         }
 
-        return new SurveySummary(survey.getTitle(), totalReplies, questionSummaries);
+        return new SurveyReplySummary(survey.getTitle(), totalReplies, questionSummaries);
     }
 }

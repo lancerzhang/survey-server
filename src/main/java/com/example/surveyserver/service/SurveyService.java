@@ -65,7 +65,7 @@ public class SurveyService {
         existingSurvey.setTitle(updatedSurvey.getTitle());
         existingSurvey.setDescription(updatedSurvey.getDescription());
         existingSurvey.setIsTemplate(updatedSurvey.getIsTemplate());
-        existingSurvey.setAllowAnonymousReply(updatedSurvey.getAllowAnonymousReply());
+        existingSurvey.setIsAnonymous(updatedSurvey.getIsAnonymous());
         existingSurvey.setAllowResubmit(updatedSurvey.getAllowResubmit());
         existingSurvey.setStartTime(updatedSurvey.getStartTime());
         existingSurvey.setEndTime(updatedSurvey.getEndTime());

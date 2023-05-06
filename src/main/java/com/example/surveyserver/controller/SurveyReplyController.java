@@ -1,7 +1,7 @@
 package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.SurveyReply;
-import com.example.surveyserver.model.SurveySummary;
+import com.example.surveyserver.model.SurveyReplySummary;
 import com.example.surveyserver.service.SurveyReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -76,7 +76,7 @@ public class SurveyReplyController {
     }
 
     @GetMapping("/surveys/{surveyId}/summary")
-    public SurveySummary getSurveySummary(@PathVariable Integer surveyId) {
+    public SurveyReplySummary getSurveySummary(@PathVariable Integer surveyId) {
         return surveyReplyService.getSurveySummary(surveyId);
     }
 
