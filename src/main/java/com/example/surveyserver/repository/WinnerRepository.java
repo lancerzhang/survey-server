@@ -10,5 +10,4 @@ import java.util.List;
 public interface WinnerRepository extends JpaRepository<Winner, Integer> {
     List<Winner> findBySurveyId(Integer surveyId);
 
-    List<Winner> findByPrizeId(Integer id);
 }

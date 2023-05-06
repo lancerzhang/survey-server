@@ -1,6 +1,9 @@
 package com.example.surveyserver.service;
 
-import com.example.surveyserver.model.*;
+import com.example.surveyserver.model.Prize;
+import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.model.User;
+import com.example.surveyserver.model.Winner;
 import com.example.surveyserver.repository.PrizeRepository;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.UserRepository;

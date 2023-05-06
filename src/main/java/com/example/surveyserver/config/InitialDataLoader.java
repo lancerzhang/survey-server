@@ -3,9 +3,6 @@ package com.example.surveyserver.config;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.model.SurveyReply;
 import com.example.surveyserver.model.User;
-import com.example.surveyserver.repository.OptionReplyRepository;
-import com.example.surveyserver.repository.QuestionReplyRepository;
-import com.example.surveyserver.repository.QuestionRepository;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.service.SurveyReplyService;
 import com.example.surveyserver.service.SurveyService;
@@ -15,6 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class InitialDataLoader implements CommandLineRunner {
@@ -29,17 +28,7 @@ public class InitialDataLoader implements CommandLineRunner {
     private SurveyReplyService surveyReplyService;
 
     @Autowired
-    private QuestionRepository questionRepository;
-
-    @Autowired
     private SurveyReplyRepository surveyReplyRepository;
-
-    @Autowired
-    private QuestionReplyRepository questionReplyRepository;
-
-    @Autowired
-    private OptionReplyRepository optionReplyRepository;
-
 
     @Override
     public void run(String... args) throws JsonProcessingException {
@@ -52,13 +41,13 @@ public class InitialDataLoader implements CommandLineRunner {
         User user = new ObjectMapper().readValue(userJsonStr, User.class);
         user = userService.createUser(user);
 
-        String userJsonStr2 = "{\n" +
-                "  \"username\": \"Bill Gates\",\n" +
-                "  \"staffId\": \"43215678\",\n" +
-                "  \"email\": \"bill.gates@example.com\"\n" +
-                "}";
-        User user2 = new ObjectMapper().readValue(userJsonStr2, User.class);
-        userService.createUser(user2);
+//        String userJsonStr2 = "{\n" +
+//                "  \"username\": \"Bill Gates\",\n" +
+//                "  \"staffId\": \"43215678\",\n" +
+//                "  \"email\": \"bill.gates@example.com\"\n" +
+//                "}";
+//        User user2 = new ObjectMapper().readValue(userJsonStr2, User.class);
+//        userService.createUser(user2);
 
         // Create a sample survey
         String surveyJsonStr = "{\n" +
@@ -149,9 +138,9 @@ public class InitialDataLoader implements CommandLineRunner {
         SurveyReply surveyReply = new ObjectMapper().readValue(replyJsonStr, SurveyReply.class);
         surveyReplyService.createSurveyReply(surveyReply);
 
-//        List<SurveyReply> allReplies = surveyReplyRepository.findAll();
+        List<SurveyReply> allReplies = surveyReplyRepository.findAll();
 //        List<QuestionReply> allQuestionReply = questionReplyRepository.findAll();
 //        List<OptionReply> allOptionReplies = optionReplyRepository.findAll();
-//        System.out.println(allReplies);
+        System.out.println(allReplies);
     }
 }
