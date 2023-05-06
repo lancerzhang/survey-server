@@ -52,6 +52,14 @@ public class InitialDataLoader implements CommandLineRunner {
         User user = new ObjectMapper().readValue(userJsonStr, User.class);
         user = userService.createUser(user);
 
+        String userJsonStr2 = "{\n" +
+                "  \"username\": \"Bill Gates\",\n" +
+                "  \"staffId\": \"43215678\",\n" +
+                "  \"email\": \"bill.gates@example.com\"\n" +
+                "}";
+        User user2 = new ObjectMapper().readValue(userJsonStr2, User.class);
+        userService.createUser(user2);
+
         // Create a sample survey
         String surveyJsonStr = "{\n" +
                 "    \"userId\": 1,\n" +

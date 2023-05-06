@@ -3,6 +3,8 @@ package com.example.surveyserver.service;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +34,10 @@ public class UserService {
         }
         updatedUser.setId(id);
         return userRepository.save(updatedUser);
+    }
+
+    public List<User> searchUsers(String searchString) {
+        Pageable pageable = PageRequest.of(0, 10);
+        return userRepository.searchByUsernameOrStaffId(searchString, pageable);
     }
 }

@@ -6,6 +6,8 @@ import com.example.surveyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DelegateService {
 
@@ -22,5 +24,9 @@ public class DelegateService {
 
     public void removeDelegate(Integer id) {
         delegateRepository.deleteById(id);
+    }
+
+    public List<Delegate> getDelegatesByDelegatorId(Integer delegatorId) {
+        return delegateRepository.findByDelegatorId(delegatorId);
     }
 }

@@ -6,62 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Create User",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"username\": \"user1\",\n  \"email\": \"user1@example.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/api/users",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update User",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"username\": \"updatedUser\",\n  \"email\": \"updateduser@example.com\"\n}"
-				},
-				"url": {
-					"raw": "{{base_url}}/api/users/1",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get User",
 			"request": {
 				"method": "GET",
@@ -75,6 +19,31 @@
 						"api",
 						"users",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/users/search?searchString=123",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "searchString",
+							"value": "123"
+						}
 					]
 				}
 			},
@@ -341,7 +310,12 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n            \"id\": 11,\n            \"userId\": 1,\n            \"surveyId\": 2,\n            \"createdAt\": \"2023-05-04T13:26:54.118+00:00\",\n            \"lastModified\": \"2023-05-04T13:26:54.118+00:00\",\n            \"questionReplies\": [\n                {\n                    \"id\": 12,\n                    \"questionId\": 3,\n                    \"optionReplies\": [],\n                    \"replyText\": \"Bill Gates\"\n                },\n                {\n                    \"id\": 13,\n                    \"questionId\": 4,\n                    \"optionReplies\": [\n                        {\n                            \"id\": 14,\n                            \"optionId\": 5,\n                            \"selected\": true\n                        }\n                    ],\n                    \"replyText\": null\n                },\n                {\n                    \"id\": 15,\n                    \"questionId\": 7,\n                    \"optionReplies\": [\n                        {\n                            \"id\": 16,\n                            \"optionId\": 8,\n                            \"selected\": true\n                        }\n                    ],\n                    \"replyText\": null\n                }\n            ]\n        }"
+					"raw": "{\n    \"id\": 11,\n    \"userId\": 1,\n    \"surveyId\": 2,\n    \"createdAt\": \"2023-05-04T14:51:50.851+00:00\",\n    \"lastModified\": \"2023-05-04T14:51:50.851+00:00\",\n    \"questionReplies\": [\n        {\n            \"id\": 12,\n            \"questionId\": 3,\n            \"optionReplies\": [],\n            \"replyText\": \"Bill Gates\"\n        },\n        {\n            \"id\": 13,\n            \"questionId\": 4,\n            \"optionReplies\": [\n                {\n                    \"id\": 14,\n                    \"optionId\": 5,\n                    \"selected\": false\n                },\n                {\n                    \"id\": 15,\n                    \"optionId\": 6,\n                    \"selected\": true\n                }\n            ],\n            \"replyText\": null\n        },\n        {\n            \"id\": 16,\n            \"questionId\": 7,\n            \"optionReplies\": [\n                {\n                    \"id\": 17,\n                    \"optionId\": 8,\n                    \"selected\": false\n                },\n                {\n                    \"id\": 18,\n                    \"optionId\": 9,\n                    \"selected\": true\n                },\n                {\n                    \"id\": 19,\n                    \"optionId\": 10,\n                    \"selected\": false\n                }\n            ],\n            \"replyText\": null\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "{{base_url}}/api/survey-replies/11",
@@ -393,6 +367,28 @@
 		},
 		{
 			"name": "Get Survey Replies by Survey ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/survey-replies/surveys/2/user/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"survey-replies",
+						"surveys",
+						"2",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey Replies by Survey ID and User ID",
 			"request": {
 				"method": "GET",
 				"header": [],

@@ -1,5 +1,6 @@
 package com.example.surveyserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,10 @@ public class Delegate {
     private Integer id;
 
     @Column(nullable = false)
-    private Integer delegator_id;
+    private Integer delegatorId;
 
-    @Column(nullable = false)
-    private Integer delegate_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delegate_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User delegate;
 }
