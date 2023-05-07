@@ -1,8 +1,7 @@
 package com.example.surveyserver.service;
 
 import com.example.surveyserver.exception.ResourceNotFoundException;
-import com.example.surveyserver.model.QuestionReply;
-import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,16 +26,39 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class SurveyReplyServiceTest {
 
+    @Mock
+    private SurveyService surveyService;
+
     @InjectMocks
     private SurveyReplyService surveyReplyService;
 
     @Mock
     private SurveyReplyRepository surveyReplyRepository;
 
+    private Survey survey;
+
     private SurveyReply surveyReply;
 
     @BeforeEach
     public void setUp() {
+
+        survey = new Survey();
+        survey.setId(1);
+        survey.setTitle("Test Survey");
+        survey.setDescription("This is a test survey.");
+        Question question1 = new Question();
+        question1.setId(2);
+        question1.setQuestionType(String.valueOf(Question.QuestionType.RADIO));
+        question1.setQuestionText("Question 1");
+
+        Option option1 = new Option();
+        option1.setId(3);
+        option1.setOptionText("Option 1");
+
+        question1.setOptions(Arrays.asList(option1));
+        survey.setQuestions(Arrays.asList(question1));
+
+
         surveyReply = new SurveyReply();
         surveyReply.setId(1);
         surveyReply.setUserId(1);
@@ -46,8 +68,14 @@ public class SurveyReplyServiceTest {
 
         QuestionReply questionReply = new QuestionReply();
         questionReply.setId(1);
-        questionReply.setQuestionId(1);
+        questionReply.setQuestionId(2);
         questionReply.setSurveyReply(surveyReply);
+
+        OptionReply optionReply = new OptionReply();
+        optionReply.setId(1);
+        optionReply.setOptionId(3);
+        optionReply.setQuestionReply(questionReply);
+        questionReply.setOptionReplies(Arrays.asList(optionReply));
 
         surveyReply.setQuestionReplies(Arrays.asList(questionReply));
     }
@@ -155,6 +183,50 @@ public class SurveyReplyServiceTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(surveyReply, result.get(0));
+    }
+
+    @Test
+    public void getSurveySummaryTest() {
+
+        List<SurveyReply> surveyReplies = Arrays.asList(surveyReply);
+
+        // Mock the dependencies
+        when(surveyService.getSurvey(1)).thenReturn(survey);
+        when(surveyReplyRepository.findBySurveyId(1)).thenReturn(surveyReplies);
+
+        // Call the method to be tested
+        SurveyReplySummary summary = surveyReplyService.getSurveySummary(1);
+
+        // Verify the results
+        assertEquals("Test Survey", summary.getSurveyTitle());
+        assertEquals(1, summary.getTotalReplies());
+        assertEquals(1, summary.getQuestionSummaries().size());
+        // Add more assertions to verify the content of summary.getQuestionSummaries() if needed
+    }
+
+    @Test
+    public void generateRepliesCsvContentTest() {
+        // Prepare sample data
+
+        List<SurveyReply> surveyReplies = Arrays.asList(surveyReply);
+
+        // Mock the dependencies
+        when(surveyService.getSurvey(1)).thenReturn(survey);
+        when(surveyReplyRepository.findBySurveyId(1)).thenReturn(surveyReplies);
+
+        // Call the method to be tested
+        String csvContent = surveyReplyService.generateRepliesCsvContent(1);
+
+        // Verify the results
+        String[] csvLines = csvContent.split("\n");
+
+        // Verify the header row
+        assertTrue(csvLines[0].startsWith("Survey Reply ID"));
+
+        // Verify the data rows
+        assertEquals(surveyReplies.size(), csvLines.length - 1);
+
+        // Add more assertions to verify the content of each row if needed
     }
 
 }

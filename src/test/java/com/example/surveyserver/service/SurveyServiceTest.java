@@ -55,6 +55,7 @@ public class SurveyServiceTest {
 
         question1.setOptions(Arrays.asList(option1));
         survey.setQuestions(Arrays.asList(question1));
+
         surveyReply = new SurveyReply();
         surveyReply.setId(1);
         surveyReply.setUserId(1);
