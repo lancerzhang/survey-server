@@ -42,18 +42,26 @@ public class PrizeServiceTest {
 
     @Test
     public void testCreatePrizeAndSelectWinners() {
+
+
         Prize prize = new Prize();
         prize.setSurveyId(1);
         prize.setQuantity(2);
 
+        User user1 = new User();
+        user1.setId(1);
         SurveyReply surveyReply1 = new SurveyReply();
-        surveyReply1.setUserId(1);
+        surveyReply1.setUser(user1);
 
+        User user2 = new User();
+        user2.setId(2);
         SurveyReply surveyReply2 = new SurveyReply();
-        surveyReply2.setUserId(2);
+        surveyReply2.setUser(user2);
 
+        User user3 = new User();
+        user3.setId(3);
         SurveyReply surveyReply3 = new SurveyReply();
-        surveyReply3.setUserId(3);
+        surveyReply3.setUser(user3);
 
         List<SurveyReply> surveyReplies = Arrays.asList(surveyReply1, surveyReply2, surveyReply3);
 

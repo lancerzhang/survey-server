@@ -1,10 +1,7 @@
 package com.example.surveyserver.service;
 
 import com.example.surveyserver.exception.ResourceNotFoundException;
-import com.example.surveyserver.model.Option;
-import com.example.surveyserver.model.Question;
-import com.example.surveyserver.model.Survey;
-import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.SurveyRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +38,10 @@ public class SurveyServiceTest {
 
     @BeforeEach
     public void setUp() {
+
+        User user = new User();
+        user.setId(1);
+
         survey = new Survey();
         survey.setId(1);
         survey.setTitle("Test Survey");
@@ -58,7 +59,7 @@ public class SurveyServiceTest {
 
         surveyReply = new SurveyReply();
         surveyReply.setId(1);
-        surveyReply.setUserId(1);
+        surveyReply.setUser(user);
         surveyReply.setSurvey(survey);
 
     }

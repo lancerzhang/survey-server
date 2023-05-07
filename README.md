@@ -38,7 +38,6 @@ http://localhost:8080/swagger-ui/
 
 ## To do feature
 * oauth login
-* Anonymous reply
 
 ## Testing
 

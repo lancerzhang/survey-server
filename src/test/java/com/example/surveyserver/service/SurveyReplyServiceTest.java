@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,13 +41,21 @@ public class SurveyReplyServiceTest {
 
     private SurveyReply surveyReply;
 
+    private User user;
+
     @BeforeEach
     public void setUp() {
+        user = new User();
+        user.setId(1);
 
         survey = new Survey();
         survey.setId(1);
         survey.setTitle("Test Survey");
         survey.setDescription("This is a test survey.");
+        survey.setIsTemplate(false);
+        survey.setIsDeleted(false);
+        survey.setIsAnonymous(false);
+        survey.setAllowResubmit(true);
         Question question1 = new Question();
         question1.setId(2);
         question1.setQuestionType(String.valueOf(Question.QuestionType.RADIO));
@@ -61,7 +71,7 @@ public class SurveyReplyServiceTest {
 
         surveyReply = new SurveyReply();
         surveyReply.setId(1);
-        surveyReply.setUserId(1);
+        surveyReply.setUser(user);
         surveyReply.setIsAnonymous(false);
         surveyReply.setCreatedAt(new Date());
         surveyReply.setLastModified(new Date());
@@ -78,6 +88,62 @@ public class SurveyReplyServiceTest {
         questionReply.setOptionReplies(Arrays.asList(optionReply));
 
         surveyReply.setQuestionReplies(Arrays.asList(questionReply));
+        surveyReply.setSurvey(survey);
+
+        // Set up mock behaviors
+        lenient().when(surveyService.getSurvey(anyInt())).thenReturn(survey);
+    }
+
+    @Test
+    public void createSurveyReply_TemplateSurvey_ShouldThrowException() {
+        survey.setIsTemplate(true);
+        assertThrows(IllegalArgumentException.class, () -> {
+            surveyReplyService.createSurveyReply(surveyReply);
+        });
+    }
+
+    @Test
+    public void createSurveyReply_DeletedSurvey_ShouldThrowException() {
+        survey.setIsDeleted(true);
+        assertThrows(IllegalArgumentException.class, () -> {
+            surveyReplyService.createSurveyReply(surveyReply);
+        });
+    }
+
+    @Test
+    public void createSurveyReply_BeforeStartTime_ShouldThrowException() {
+        survey.setStartTime(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
+        assertThrows(IllegalArgumentException.class, () -> {
+            surveyReplyService.createSurveyReply(surveyReply);
+        });
+    }
+
+    @Test
+    public void createSurveyReply_AfterEndTime_ShouldThrowException() {
+        survey.setEndTime(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
+        assertThrows(IllegalArgumentException.class, () -> {
+            surveyReplyService.createSurveyReply(surveyReply);
+        });
+    }
+
+    @Test
+    public void createSurveyReply_MaxRepliesReached_ShouldThrowException() {
+        survey.setMaxReplies(10);
+        when(surveyReplyRepository.countBySurveyId(anyInt())).thenReturn(10L);
+        assertThrows(IllegalArgumentException.class, () -> {
+            surveyReplyService.createSurveyReply(surveyReply);
+        });
+    }
+
+    @Test
+    public void createSurveyReply_ValidSurvey_ShouldCreateReply() {
+        survey.setIsAnonymous(true);
+        when(surveyReplyRepository.save(any(SurveyReply.class))).thenReturn(surveyReply);
+
+        SurveyReply createdReply = surveyReplyService.createSurveyReply(surveyReply);
+
+        assertNotNull(createdReply);
+        assertTrue(createdReply.getIsAnonymous());
     }
 
     @Test
@@ -136,10 +202,11 @@ public class SurveyReplyServiceTest {
     public void testUpdateSurveyReply() {
         SurveyReply updatedSurveyReply = new SurveyReply();
         updatedSurveyReply.setId(1);
-        updatedSurveyReply.setUserId(1);
+        updatedSurveyReply.setUser(user);
         updatedSurveyReply.setIsAnonymous(false);
         updatedSurveyReply.setCreatedAt(new Date());
         updatedSurveyReply.setLastModified(new Date());
+        updatedSurveyReply.setSurvey(survey);
 
         QuestionReply questionReply = new QuestionReply();
         questionReply.setId(2);

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,36 @@ public class SurveyReplyService {
     private SurveyService surveyService;
 
     public SurveyReply createSurveyReply(SurveyReply surveyReply) {
+        // Get the survey
+        Survey survey = surveyService.getSurvey(surveyReply.getSurvey().getId());
+
+        // Validate the survey
+        if (survey.getIsTemplate() || survey.getIsDeleted()) {
+            throw new IllegalArgumentException("Cannot create a survey reply for a template or deleted survey.");
+        }
+
+        // Validate the start and end times
+        LocalDateTime currentTime = LocalDateTime.now();
+        if (survey.getStartTime() != null && currentTime.isBefore(survey.getStartTime().toLocalDateTime())) {
+            throw new IllegalArgumentException("Cannot create a survey reply before the start time.");
+        }
+        if (survey.getEndTime() != null && currentTime.isAfter(survey.getEndTime().toLocalDateTime())) {
+            throw new IllegalArgumentException("Cannot create a survey reply after the end time.");
+        }
+
+        // Validate the max replies
+        if (survey.getMaxReplies() != null) {
+            long currentReplyCount = surveyReplyRepository.countBySurveyId(survey.getId());
+            if (currentReplyCount >= survey.getMaxReplies()) {
+                throw new IllegalArgumentException("Cannot create a survey reply as the maximum reply limit has been reached.");
+            }
+        }
+
+        // Set the isAnonymous property if it is true in the survey
+        if (survey.getIsAnonymous()) {
+            surveyReply.setIsAnonymous(true);
+        }
+
         List<QuestionReply> questionReplies = surveyReply.getQuestionReplies();
         questionReplies.forEach(questionReply -> {
             // bidirectional association to reduce sql statements
@@ -37,8 +68,10 @@ public class SurveyReplyService {
                 });
             }
         });
+
         return surveyReplyRepository.save(surveyReply);
     }
+
 
     public SurveyReply getSurveyReply(Integer id) {
         return surveyReplyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Survey reply not found with ID: " + id));
@@ -58,6 +91,22 @@ public class SurveyReplyService {
     }
 
     public SurveyReply updateSurveyReply(SurveyReply surveyReply) {
+        Survey survey = surveyService.getSurvey(surveyReply.getSurvey().getId());
+
+        if (survey.getIsTemplate() || survey.getIsDeleted() || !survey.getAllowResubmit()) {
+            throw new RuntimeException("Cannot update survey reply due to survey restrictions");
+        }
+
+        // Validate the start and end times
+        LocalDateTime currentTime = LocalDateTime.now();
+        if (survey.getStartTime() != null && currentTime.isBefore(survey.getStartTime().toLocalDateTime())) {
+            throw new RuntimeException("Cannot update survey reply before the survey start time");
+        }
+
+        if (survey.getEndTime() != null && currentTime.isAfter(survey.getEndTime().toLocalDateTime())) {
+            throw new RuntimeException("Cannot update survey reply after the survey end time");
+        }
+
         SurveyReply existingSurveyReply = surveyReplyRepository.findById(surveyReply.getId())
                 .orElseThrow(() -> new RuntimeException("Survey reply not found"));
 
@@ -80,6 +129,7 @@ public class SurveyReplyService {
         // Save the updated survey
         return surveyReplyRepository.save(existingSurveyReply);
     }
+
 
     public Page<SurveyReply> getRepliesByUser(Integer userId, Pageable pageable) {
         return surveyReplyRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
@@ -112,6 +162,11 @@ public class SurveyReplyService {
         // Add data rows
         for (SurveyReply surveyReply : surveyReplies) {
             csvContent.append(surveyReply.getId());
+            if (surveyReply.getIsAnonymous()) {
+                csvContent.append(",Anonymous");
+            } else {
+                csvContent.append(",").append(surveyReply.getUser().getUsername());
+            }
             for (QuestionReply questionReply : surveyReply.getQuestionReplies()) {
                 csvContent.append(",");
                 Question question = questionMap.get(questionReply.getQuestionId());

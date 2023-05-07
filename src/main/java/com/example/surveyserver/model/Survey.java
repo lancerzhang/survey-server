@@ -33,8 +33,10 @@ public class Survey {
     @Size(max = 8000)
     private String description;
 
+    @Column(nullable = false)
     private Boolean isAnonymous;
 
+    @Column(nullable = false)
     private Boolean allowResubmit;
 
     private Timestamp startTime;
@@ -62,8 +64,6 @@ public class Survey {
 
     @PrePersist
     public void prePersist() {
-        this.isAnonymous = false;
-        this.allowResubmit = false;
         this.isDeleted = false;
         this.createdAt = new Date();
         this.lastModified = new Date();

@@ -43,7 +43,7 @@ public class PrizeService {
         Set<Integer> winnerUserIds = winners.stream().map(w -> w.getUser().getId()).collect(Collectors.toSet());
 
         List<SurveyReply> eligibleReplies = surveyReplies.stream()
-                .filter(reply -> !winnerUserIds.contains(reply.getUserId()))
+                .filter(reply -> !winnerUserIds.contains(reply.getUser().getId()))
                 .collect(Collectors.toList());
 
         // Randomly select winners
@@ -56,13 +56,13 @@ public class PrizeService {
             Winner winner = new Winner();
             winner.setSurveyId(surveyId);
             User user = new User();
-            user.setId(reply.getUserId());
+            user.setId(reply.getUser().getId());
             winner.setUser(user);
             winner.setPrize(prize);
             winnerRepository.save(winner);
 
             // Add the winner to the list
-            selectedWinners.add(userRepository.findById(reply.getUserId()).get());
+            selectedWinners.add(userRepository.findById(reply.getUser().getId()).get());
         }
 
         return selectedWinners;

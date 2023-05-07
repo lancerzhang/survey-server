@@ -53,6 +53,8 @@ public class InitialDataLoader implements CommandLineRunner {
                 "    \"title\": \"Test Survey 1\",\n" +
                 "    \"description\": \"Tes Survey Description 1\",\n" +
                 "    \"isTemplate\": false,\n" +
+                "    \"allowResubmit\": false,\n" +
+                "    \"isAnonymous\": false,\n" +
                 "    \"questions\":[\n" +
                 "      {\n" +
                 "          \"questionType\": \"TEXT\",\n" +
@@ -94,7 +96,9 @@ public class InitialDataLoader implements CommandLineRunner {
 //        Survey survey1 = surveyService.getSurvey(survey.getId());
 
         String replyJsonStr = "{\n" +
-                "    \"userId\": 1,\n" +
+                "    \"user\": {\n" +
+                "        \"id\": 1\n" +
+                "    },\n" +
                 "    \"survey\": {\n" +
                 "        \"id\": 2\n" +
                 "    },\n" +
