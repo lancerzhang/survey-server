@@ -1,126 +1,103 @@
 @startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define relationship(x) x << (R,#AAFFAA) >>
 
-entity "users" as users {
-    id: INT <<PK>>
-    username: VARCHAR(255)
-    staffId: VARCHAR(255)
-    is_anonymous: BOOLEAN
-    public_key: VARCHAR(1000)
-    email: VARCHAR(255)
-    last_modified: TIMESTAMP
-    created_at: TIMESTAMP
+table(Delegate) {
+    +id: Integer
+    +delegator_id: Integer
+    +delegate_id: Integer
 }
 
-entity "surveys" as surveys {
-    id: INT <<PK>>
-    title: VARCHAR(255)
-    description: TEXT
-    user_id: INT <<FK>>
-    allow_anonymous_reply: BOOLEAN
-    allow_resubmit: BOOLEAN
-    is_deleted: BOOLEAN
-    start_time: TIMESTAMP
-    end_time: TIMESTAMP
-    max_replies: INT
-    last_modified: TIMESTAMP
-    created_at: TIMESTAMP
+table(Option) {
+    +id: Integer
+    +option_text: String
+    +question_id: Integer
 }
 
-entity "subpages" as subpages {
-    id: INT <<PK>>
-    survey_id: INT <<FK>>
-    title: VARCHAR(255)
-    description: TEXT
+table(OptionReply) {
+    +id: Integer
+    +questionReply_id: Integer
+    +option_id: Integer
+    +selected: Boolean
 }
 
-entity "templates" as templates {
-    id: INT <<PK>>
-    title: VARCHAR(255)
-    description: TEXT
-    user_id: INT <<FK>>
-    is_deleted: BOOLEAN
-    last_modified: TIMESTAMP
-    created_at: TIMESTAMP
+table(Prize) {
+    +id: Integer
+    +survey_id: Integer
+    +name: String
+    +description: String
+    +quantity: Integer
+    +created_at: Date
+    +last_modified: Date
 }
 
-entity "questions" as questions {
-    id: INT <<PK>>
-    survey_id: INT <<FK>>
-    subpage_id: INT <<FK>>
-    question_text: TEXT
-    question_type: ENUM
-    isMandatory: BOOLEAN
-    minSelection: INT
-    maxSelection: INT
+table(Question) {
+    +id: Integer
+    +question_type: String
+    +question_text: String
+    +is_mandatory: Boolean
+    +min_selection: Integer
+    +max_selection: Integer
+    +survey_id: Integer
 }
 
-entity "options" as options {
-    id: INT <<PK>>
-    question_id: INT <<FK>>
-    option_text: TEXT
+table(QuestionReply) {
+    +id: Integer
+    +surveyReply_id: Integer
+    +question_id: Integer
+    +reply_text: String
 }
 
-entity "survey_reply" as survey_reply {
-    id: INT <<PK>>
-    user_id: INT <<FK>>
-    survey_id: INT <<FK>>
-    last_modified: TIMESTAMP
-    created_at: TIMESTAMP
+table(Survey) {
+    +id: Integer
+    +user_id: Integer
+    +title: String
+    +description: String
+    +is_anonymous: Boolean
+    +allow_resubmit: Boolean
+    +start_time: Timestamp
+    +end_time: Timestamp
+    +max_replies: Integer
+    +is_deleted: Boolean
+    +is_template: Boolean
+    +created_at: Date
+    +last_modified: Date
 }
 
-entity "question_reply" as question_reply {
-    id: INT <<PK>>
-    survey_reply_id: INT <<FK>>
-    question_id: INT <<FK>>
-    reply_text: TEXT
+table(SurveyReply) {
+    +id: Integer
+    +user_id: Integer
+    +survey_id: Integer
+    +is_anonymous: Boolean
+    +created_at: Date
+    +last_modified: Date
 }
 
-entity "option_reply" as option_reply {
-    id: INT <<PK>>
-    question_reply_id: INT <<FK>>
-    option_id: INT <<FK>>
-    selected: BOOLEAN
+table(User) {
+    +id: Integer
+    +username: String
+    +staff_id: String
+    +public_key: String
+    +email: String
+    +created_at: Date
+    +last_modified: Date
 }
 
-entity "prizes" as prizes {
-    id: INT <<PK>>
-    survey_id: INT <<FK>>
-    prize_name: VARCHAR(255)
-    prize_description: TEXT
-    total_quantity: INT
-    remaining_quantity: INT
-    last_modified: TIMESTAMP
-    created_at: TIMESTAMP
+table(Winner) {
+    +id: Integer
+    +prize_id: Integer
+    +survey_id: Integer
+    +user_id: Integer
+    +won_at: Date
 }
 
-entity "winners" as winners {
-    id: INT <<PK>>
-    user_id: INT <<FK>>
-    survey_id: INT <<FK>>
-    prize_id: INT <<FK>>
-    won_at: TIMESTAMP
-}
-
-entity "delegate" as delegate {
-    id: INT <<PK>>
-    delegator_id: INT <<FK>>
-    delegate_id: INT <<FK>>
-}
-
-users -- surveys : user_id
-users -- templates : user_id
-users -- survey_reply : user_id
-users -- winners : user_id
-users -- delegate : delegator_id
-users -- delegate : delegate_id
-surveys -- questions : survey_id
-templates -- questions : template_id
-questions -- options : question_id
-survey_reply -- question_reply : survey_reply_id
-question_reply -- option_reply : question_reply_id
-options -- option_reply : option_id
-surveys -- prizes : survey_id
-prizes -- winners : prize_id
-surveys -- winners : survey_id
+Delegate "1" -- "0..1" User : delegate_id
+Option "1" -- "0..1" Question : question_id
+OptionReply "1" -- "0..1" QuestionReply : questionReply_id
+Prize "1" -- "0..*" Winner : prize_id
+Question "1" -- "0..1" Survey : survey_id
+QuestionReply "1" -- "0..1" SurveyReply : surveyReply_id
+Survey "1" -- "0..1" SurveyReply : survey_id
+User "1" -- "0..*" Winner : user_id
 
 @enduml

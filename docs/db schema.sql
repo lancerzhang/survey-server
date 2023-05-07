@@ -1,130 +1,96 @@
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    staffId VARCHAR(255) NOT NULL,
-    is_anonymous BOOLEAN NOT NULL DEFAULT false,
-    public_key VARCHAR(1000) NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE surveys (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    user_id INT NOT NULL,
-    allow_anonymous_reply BOOLEAN NOT NULL DEFAULT FALSE,
-    allow_resubmit BOOLEAN NOT NULL DEFAULT FALSE,
-    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    end_time TIMESTAMP,
-    max_replies INT,
-    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
-CREATE TABLE subpages (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    survey_id INT NOT NULL,
-    title VARCHAR(255),
-    description TEXT,
-    FOREIGN KEY (survey_id) REFERENCES surveys(id)
-);
-
-CREATE TABLE templates (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    user_id INT NOT NULL,
-    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
-
-CREATE TABLE questions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    survey_id INT NOT NULL,
-    subpage_id INT NOT NULL,
-    question_text TEXT NOT NULL,
-    question_type ENUM('TEXT', 'RADIO', 'CHECKBOX', 'TEXTAREA') NOT NULL,
-    isMandatory BOOLEAN NOT NULL DEFAULT FALSE,
-    minSelection INT,
-    maxSelection INT,
-    FOREIGN KEY (survey_id) REFERENCES surveys(id)
-    FOREIGN KEY (subpage_id) REFERENCES subpages(id)
-    FOREIGN KEY (template_id) REFERENCES templates(id)
+CREATE TABLE delegates (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    delegator_id INT NOT NULL,
+    delegate_id INT NOT NULL,
+    FOREIGN KEY (delegate_id) REFERENCES users(id)
 );
 
 CREATE TABLE options (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    question_id INT NOT NULL,
-    option_text TEXT NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    option_text VARCHAR(4000) NOT NULL,
+    question_id INT,
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
-CREATE TABLE survey_replies (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    survey_id INT NOT NULL,
-    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (survey_id) REFERENCES surveys(id),
-    UNIQUE (user_id, survey_id)
-);
-
-CREATE TABLE question_replies (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    survey_reply_id INT NOT NULL,
-    question_id INT NOT NULL,
-    reply_text TEXT,
-    FOREIGN KEY (survey_reply_id) REFERENCES survey_replies(id),
-    FOREIGN KEY (question_id) REFERENCES questions(id),
-    UNIQUE (survey_reply_id, question_id)
-);
-
 CREATE TABLE option_replies (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    question_reply_id INT NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    questionReply_id INT,
     option_id INT NOT NULL,
-    selected BOOLEAN NOT NULL DEFAULT false,
-    FOREIGN KEY (question_reply_id) REFERENCES question_replies(id),
-    FOREIGN KEY (option_id) REFERENCES options(id),
-    UNIQUE (question_reply_id, option_id)
+    selected BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (questionReply_id) REFERENCES question_replies(id)
 );
 
 CREATE TABLE prizes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     survey_id INT NOT NULL,
-    prize_name VARCHAR(255) NOT NULL,
-    prize_description TEXT,
-    total_quantity INT NOT NULL,
-    remaining_quantity INT NOT NULL,
-    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(4000),
+    quantity INT NOT NULL,
+    created_at TIMESTAMP,
+    last_modified TIMESTAMP
+);
+
+CREATE TABLE questions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    question_type VARCHAR(255) NOT NULL,
+    question_text VARCHAR(4000) NOT NULL,
+    is_mandatory BOOLEAN DEFAULT FALSE,
+    min_selection INT,
+    max_selection INT,
+    survey_id INT,
     FOREIGN KEY (survey_id) REFERENCES surveys(id)
 );
 
-CREATE TABLE winners (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    survey_id INT NOT NULL,
-    prize_id INT NOT NULL,
-    won_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (survey_id) REFERENCES surveys(id),
-    FOREIGN KEY (prize_id) REFERENCES prizes(id)
+CREATE TABLE question_replies (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    surveyReply_id INT,
+    question_id INT NOT NULL,
+    reply_text VARCHAR(4000),
+    FOREIGN KEY (surveyReply_id) REFERENCES survey_replies(id)
 );
 
-CREATE TABLE delegates (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    delegator_id INT NOT NULL,
-    delegate_id INT NOT NULL,
-    FOREIGN KEY (delegator_id) REFERENCES users(id),
-    FOREIGN KEY (delegate_id) REFERENCES users(id),
-    UNIQUE (delegator_id, delegate_id)
+CREATE TABLE surveys (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(8000),
+    is_anonymous BOOLEAN DEFAULT FALSE,
+    allow_resubmit BOOLEAN DEFAULT FALSE,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    max_replies INT,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    is_template BOOLEAN NOT NULL,
+    created_at TIMESTAMP,
+    last_modified TIMESTAMP
+);
+
+CREATE TABLE survey_replies (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    survey_id INT,
+    is_anonymous BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP,
+    last_modified TIMESTAMP,
+    FOREIGN KEY (survey_id) REFERENCES surveys(id)
+);
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    staff_id VARCHAR(255),
+    public_key VARCHAR(1000),
+    email VARCHAR(255),
+    created_at TIMESTAMP,
+    last_modified TIMESTAMP
+);
+
+CREATE TABLE winners (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    prize_id INT,
+    survey_id INT NOT NULL,
+    user_id INT,
+    won_at TIMESTAMP,
+    FOREIGN KEY (prize_id) REFERENCES prizes(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
