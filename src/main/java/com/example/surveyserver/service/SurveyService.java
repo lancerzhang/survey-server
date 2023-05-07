@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SurveyService {
@@ -75,6 +77,41 @@ public class SurveyService {
         existingSurvey.setStartTime(updatedSurvey.getStartTime());
         existingSurvey.setEndTime(updatedSurvey.getEndTime());
         existingSurvey.setMaxReplies(updatedSurvey.getMaxReplies());
+
+        // Find questions and options to remove
+        Set<Integer> updatedQuestionIds = updatedSurvey.getQuestions().stream()
+                .map(Question::getId)
+                .collect(Collectors.toSet());
+
+        List<Question> questionsToRemove = existingSurvey.getQuestions().stream()
+                .filter(question -> !updatedQuestionIds.contains(question.getId()))
+                .collect(Collectors.toList());
+
+        existingSurvey.getQuestions().removeAll(questionsToRemove);
+        questionsToRemove.forEach(question -> question.setSurvey(null));
+
+        // Update the questions and options
+        for (Question question : updatedSurvey.getQuestions()) {
+            Question existingQuestion = existingSurvey.getQuestions().stream()
+                    .filter(q -> q.getId().equals(question.getId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingQuestion != null) {
+                Set<Integer> updatedOptionIds = question.getOptions().stream()
+                        .map(Option::getId)
+                        .collect(Collectors.toSet());
+
+                List<Option> optionsToRemove = existingQuestion.getOptions().stream()
+                        .filter(option -> !updatedOptionIds.contains(option.getId()))
+                        .collect(Collectors.toList());
+
+                existingQuestion.getOptions().removeAll(optionsToRemove);
+                optionsToRemove.forEach(option -> option.setQuestion(null));
+            }
+        }
+        // remove questions and options first
+        surveyRepository.save(existingSurvey);
 
         // Update the questions and options
         existingSurvey.setQuestions(updatedSurvey.getQuestions());
