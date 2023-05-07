@@ -12,7 +12,13 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "winners")
+@Table(name = "winners",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_winner_user_prize", columnNames = {"prize_id", "user_id"})
+        },
+        indexes = {
+                @Index(name = "idx_winners_survey_id", columnList = "survey_id")
+        })
 public class Winner {
     @Id
     @GeneratedValue
@@ -23,7 +29,7 @@ public class Winner {
     @JsonIgnore
     private Prize prize;
 
-    @Column(nullable = false)
+    @Column(name = "survey_id", nullable = false)
     private Integer surveyId;
 
     @ManyToOne(fetch = FetchType.LAZY)

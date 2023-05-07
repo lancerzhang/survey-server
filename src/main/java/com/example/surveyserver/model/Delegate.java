@@ -9,14 +9,16 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "delegates")
+@Table(name = "delegates", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"delegator_id", "delegate_id"})
+})
 public class Delegate {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "delegator_id", nullable = false)
     private Integer delegatorId;
 
     @ManyToOne(fetch = FetchType.LAZY)

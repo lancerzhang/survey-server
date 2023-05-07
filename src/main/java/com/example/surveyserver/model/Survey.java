@@ -13,14 +13,17 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "surveys")
+@Table(name = "surveys", indexes = {
+        @Index(name = "idx_surveys_user_id", columnList = "user_id"),
+        @Index(name = "idx_surveys_template_deleted", columnList = "is_template,is_deleted")
+})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Survey {
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
 
     @Column(nullable = false)
@@ -40,9 +43,10 @@ public class Survey {
 
     private Integer maxReplies;
 
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
-    @Column(nullable = false)
+    @Column(name = "is_template", nullable = false)
     private Boolean isTemplate;
 
     @Column(updatable = false)
