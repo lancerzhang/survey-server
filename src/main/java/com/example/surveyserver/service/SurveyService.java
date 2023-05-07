@@ -63,7 +63,7 @@ public class SurveyService {
     }
 
     public Survey updateSurvey(Survey updatedSurvey) {
-        Survey existingSurvey = surveyRepository.findById(updatedSurvey.getId())
+        Survey existingSurvey = surveyRepository.findByIdAndIsDeletedFalse(updatedSurvey.getId())
                 .orElseThrow(() -> new RuntimeException("Survey not found"));
 
         // Update the survey details

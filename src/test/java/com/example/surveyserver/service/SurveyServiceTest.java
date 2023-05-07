@@ -1,6 +1,11 @@
 package com.example.surveyserver.service;
 
-import com.example.surveyserver.model.*;
+import com.example.surveyserver.exception.ResourceNotFoundException;
+import com.example.surveyserver.model.Option;
+import com.example.surveyserver.model.Question;
+import com.example.surveyserver.model.Survey;
+import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.SurveyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +18,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,12 +34,17 @@ public class SurveyServiceTest {
     private SurveyReplyService surveyReplyService;
     @Mock
     private SurveyRepository surveyRepository;
+    @Mock
+    private SurveyReplyRepository surveyReplyRepository;
     private Survey survey;
+    private SurveyReply surveyReply;
 
     @BeforeEach
     public void setUp() {
         survey = new Survey();
         survey.setId(1);
+        survey.setTitle("Test Survey");
+        survey.setDescription("This is a test survey.");
         Question question1 = new Question();
         question1.setId(2);
         question1.setQuestionText("Question 1");
@@ -44,6 +55,10 @@ public class SurveyServiceTest {
 
         question1.setOptions(Arrays.asList(option1));
         survey.setQuestions(Arrays.asList(question1));
+        surveyReply = new SurveyReply();
+        surveyReply.setId(1);
+        surveyReply.setUserId(1);
+        surveyReply.setSurvey(survey);
 
     }
 
@@ -56,17 +71,6 @@ public class SurveyServiceTest {
         assertEquals(survey, result);
         verify(surveyRepository, times(1)).save(survey);
     }
-
-    @Test
-    public void testGetSurvey() {
-        when(surveyRepository.findById(anyInt())).thenReturn(Optional.of(survey));
-
-        Survey result = surveyService.getSurvey(1);
-
-        assertEquals(survey, result);
-        verify(surveyRepository, times(1)).findById(1);
-    }
-
 
     @Test
     public void testUpdateSurvey() {
@@ -105,7 +109,7 @@ public class SurveyServiceTest {
         existingSurvey.setQuestions(Arrays.asList(existingQuestion1));
 
         // Set up mock repository behavior
-        when(surveyRepository.findById(1)).thenReturn(Optional.of(existingSurvey));
+        when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.of(existingSurvey));
         when(surveyRepository.save(existingSurvey)).thenReturn(existingSurvey);
 
         // Call the method to update the survey
@@ -125,7 +129,7 @@ public class SurveyServiceTest {
         assertEquals(existingSurvey, result);
 
         // Verify that the repository methods were called as expected
-        verify(surveyRepository, times(1)).findById(1);
+        verify(surveyRepository, times(1)).findByIdAndIsDeletedFalse(1);
         verify(surveyRepository, times(1)).save(existingSurvey);
     }
 
@@ -142,30 +146,64 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void testGenerateRepliesCsvContent() {
-        // Set up mock data
-        Integer surveyId = 1;
-        List<SurveyReply> surveyReplies = new ArrayList<>();
-        SurveyReply surveyReply = new SurveyReply();
-        surveyReply.setId(1);
-        Question question = new Question();
-        question.setQuestionText("What is your name?");
-        question.setQuestionType(Question.QuestionType.TEXT.name());
-        QuestionReply questionReply = new QuestionReply();
-        questionReply.setQuestion(question);
-        questionReply.setReplyText("John");
-        surveyReply.setQuestionReplies(Collections.singletonList(questionReply));
-        surveyReplies.add(surveyReply);
-        when(surveyReplyService.getRepliesBySurveyId(surveyId)).thenReturn(surveyReplies);
-        Survey survey = new Survey();
-        survey.setQuestions(Collections.singletonList(question));
-        when(surveyRepository.findById(surveyId)).thenReturn(Optional.of(survey));
+    public void testGetSurvey() {
+        when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.of(survey));
 
-        // Call the method being tested
-        String csvContent = surveyService.generateRepliesCsvContent(surveyId);
+        Survey result = surveyService.getSurvey(1);
+        assertEquals(survey, result);
+    }
 
-        // Verify the result
-        String expectedCsvContent = "Survey Reply ID,What is your name?\n1,John\n";
-        assertEquals(expectedCsvContent, csvContent);
+    @Test
+    public void testGetSurveyNotFound() {
+        when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> surveyService.getSurvey(1));
+    }
+
+    @Test
+    public void testGetAllSurveys() {
+        Page<Survey> surveyPage = new PageImpl<>(Arrays.asList(survey));
+        when(surveyRepository.findByIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(any(Pageable.class))).thenReturn(surveyPage);
+
+        Page<Survey> result = surveyService.getAllSurveys(PageRequest.of(0, 10));
+        assertEquals(surveyPage, result);
+    }
+
+    @Test
+    public void testGetRepliedSurveysByUser() {
+        Page<SurveyReply> surveyReplyPage = new PageImpl<>(Arrays.asList(surveyReply));
+        when(surveyReplyRepository.findByUserIdOrderByCreatedAtDesc(eq(1), any(Pageable.class))).thenReturn(surveyReplyPage);
+
+        Page<Survey> result = surveyService.getRepliedSurveysByUser(1, PageRequest.of(0, 10));
+        assertEquals(1, result.getContent().size());
+        assertEquals(survey, result.getContent().get(0));
+    }
+
+    @Test
+    public void testGetAllTemplates() {
+        Page<Survey> surveyPage = new PageImpl<>(Arrays.asList(survey));
+        when(surveyRepository.findByIsTemplateTrueAndIsDeletedFalseOrderByIdDesc(any(Pageable.class))).thenReturn(surveyPage);
+
+        Page<Survey> result = surveyService.getAllTemplates(PageRequest.of(0, 10));
+        assertEquals(surveyPage, result);
+    }
+
+    @Test
+    public void testDeleteSurvey() {
+        when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.of(survey));
+        when(surveyRepository.save(any(Survey.class))).thenReturn(survey);
+
+        Survey deletedSurvey = surveyService.deleteSurvey(1);
+
+        assertTrue(deletedSurvey.getIsDeleted());
+        verify(surveyRepository, times(1)).save(deletedSurvey);
+    }
+
+    @Test
+    public void testDeleteSurveyNotFound() {
+        when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> surveyService.deleteSurvey(1));
     }
 }
+

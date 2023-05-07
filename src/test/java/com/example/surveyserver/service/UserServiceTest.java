@@ -2,11 +2,14 @@ package com.example.surveyserver.service;
 
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +27,23 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    private List<User> userList;
+
+    @BeforeEach
+    public void setUp() {
+        User user1 = new User();
+        user1.setId(1);
+        user1.setUsername("john");
+        user1.setStaffId("001");
+
+        User user2 = new User();
+        user2.setId(2);
+        user2.setUsername("jane");
+        user2.setStaffId("002");
+
+        userList = Arrays.asList(user1, user2);
+    }
 
     @Test
     public void testCreateUser() {
@@ -112,6 +132,18 @@ public class UserServiceTest {
         assertNull(result);
         verify(userRepository, times(1)).findById(1);
         verify(userRepository, times(0)).save(any(User.class));
+    }
+
+    @Test
+    public void testSearchUsers() {
+        String searchString = "john";
+        Pageable pageable = PageRequest.of(0, 10);
+        when(userRepository.searchByUsernameOrStaffId(searchString, pageable)).thenReturn(userList);
+
+        List<User> result = userService.searchUsers(searchString);
+
+        assertEquals(userList, result);
+        verify(userRepository, times(1)).searchByUsernameOrStaffId(searchString, pageable);
     }
 }
 
