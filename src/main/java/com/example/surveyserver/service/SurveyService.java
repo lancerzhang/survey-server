@@ -98,6 +98,12 @@ public class SurveyService {
                     .orElse(null);
 
             if (existingQuestion != null) {
+                existingQuestion.setQuestionType(question.getQuestionType());
+                existingQuestion.setQuestionText(question.getQuestionText());
+                existingQuestion.setIsMandatory(question.getIsMandatory());
+                existingQuestion.setMinSelection(question.getMinSelection());
+                existingQuestion.setMaxSelection(question.getMaxSelection());
+
                 Set<Integer> updatedOptionIds = question.getOptions().stream()
                         .map(Option::getId)
                         .collect(Collectors.toSet());
@@ -108,21 +114,26 @@ public class SurveyService {
 
                 existingQuestion.getOptions().removeAll(optionsToRemove);
                 optionsToRemove.forEach(option -> option.setQuestion(null));
-            }
-        }
-        // remove questions and options first
-        surveyRepository.save(existingSurvey);
 
-        // Update the questions and options
-        existingSurvey.setQuestions(updatedSurvey.getQuestions());
+                for (Option option : question.getOptions()) {
+                    Option existingOption = existingQuestion.getOptions().stream()
+                            .filter(o -> o.getId().equals(option.getId()))
+                            .findFirst()
+                            .orElse(null);
 
-        // Set the survey reference for each question and update the options
-        for (Question question : existingSurvey.getQuestions()) {
-            question.setSurvey(existingSurvey);
-
-            // Set the question reference for each option
-            for (Option option : question.getOptions()) {
-                option.setQuestion(question);
+                    if (existingOption != null) {
+                        existingOption.setOptionText(option.getOptionText());
+                    } else {
+                        existingQuestion.getOptions().add(option);
+                        option.setQuestion(existingQuestion);
+                    }
+                }
+            } else {
+                existingSurvey.getQuestions().add(question);
+                question.setSurvey(existingSurvey);
+                for (Option option : question.getOptions()) {
+                    option.setQuestion(question);
+                }
             }
         }
 
