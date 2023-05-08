@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/users/1",
+					"raw": "{{base_url}}/users/1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -30,7 +30,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/users/search?searchString=Bill",
+					"raw": "{{base_url}}/users/search?searchString=Bill",
 					"host": [
 						"{{base_url}}"
 					],
@@ -55,7 +55,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/users",
+					"raw": "{{base_url}}/users",
 					"host": [
 						"{{base_url}}"
 					],
@@ -83,7 +83,7 @@
 					"raw": "{\n  \"userId\" : 1,\n  \"title\": \"Survey Title\",\n  \"description\": \"Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/surveys",
+					"raw": "{{base_url}}/surveys",
 					"host": [
 						"{{base_url}}"
 					],
@@ -108,10 +108,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"id\": 2,\n        \"userId\": 1,\n        \"title\": \"Test Survey 2\",\n        \"description\": \"Tes Survey Description 1\",\n        \"allowAnonymousReply\": false,\n        \"allowResubmit\": false,\n        \"startTime\": null,\n        \"endTime\": null,\n        \"maxReplies\": null,\n        \"isDeleted\": false,\n        \"createdAt\": \"2023-04-15T11:42:20.004+00:00\",\n        \"lastModified\": \"2023-04-15T11:42:20.004+00:00\",\n        \"questions\": [\n            {\n                \"questionType\": \"TEXT\",\n                \"questionText\": \"Your name 3?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": []\n            },\n            {\n                \"id\": 4,\n                \"questionType\": \"RADIO\",\n                \"questionText\": \"Your Gender?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 5,\n                        \"optionText\": \"Male 2\"\n                    },\n                    {\n                        \"optionText\": \"Female 2\"\n                    }\n                ]\n            },\n            {\n                \"id\": 7,\n                \"questionType\": \"CHECKBOX\",\n                \"questionText\": \"Your favor color?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 8,\n                        \"optionText\": \"red\"\n                    },\n                    {\n                        \"id\": 9,\n                        \"optionText\": \"blue\"\n                    },\n                    {\n                        \"id\": 10,\n                        \"optionText\": \"green\"\n                    }\n                ]\n            }\n        ]\n    }"
+					"raw": "{\n        \"id\": 2,\n        \"userId\": 1,\n        \"title\": \"Test Survey 2\",\n        \"description\": \"Tes Survey Description 1\",\n        \"isTemplate\": false,\n        \"isAnonymous\": false,\n        \"allowResubmit\": false,\n        \"startTime\": null,\n        \"endTime\": null,\n        \"maxReplies\": null,\n        \"isDeleted\": false,\n        \"createdAt\": \"2023-04-15T11:42:20.004+00:00\",\n        \"lastModified\": \"2023-04-15T11:42:20.004+00:00\",\n        \"questions\": [\n            {\n                \"questionType\": \"TEXT\",\n                \"questionText\": \"Your name 3?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": []\n            },\n            {\n                \"id\": 4,\n                \"questionType\": \"RADIO\",\n                \"questionText\": \"Your Gender?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 5,\n                        \"optionText\": \"Male 2\"\n                    },\n                    {\n                        \"optionText\": \"Female 2\"\n                    }\n                ]\n            },\n            {\n                \"id\": 7,\n                \"questionType\": \"CHECKBOX\",\n                \"questionText\": \"Your favor color?\",\n                \"isMandatory\": false,\n                \"minSelection\": null,\n                \"maxSelection\": null,\n                \"options\": [\n                    {\n                        \"id\": 8,\n                        \"optionText\": \"red\"\n                    },\n                    {\n                        \"id\": 9,\n                        \"optionText\": \"blue\"\n                    },\n                    {\n                        \"id\": 10,\n                        \"optionText\": \"green\"\n                    }\n                ]\n            }\n        ]\n    }"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/surveys/2",
+					"raw": "{{base_url}}/surveys/2",
 					"host": [
 						"{{base_url}}"
 					],
@@ -130,7 +130,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/2",
+					"raw": "{{base_url}}/surveys/2",
 					"host": [
 						"{{base_url}}"
 					],
@@ -149,7 +149,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/user/1?page=0&size=10&sortBy=createdAt",
+					"raw": "{{base_url}}/surveys/user/1?page=0&size=10&sortBy=createdAt",
 					"host": [
 						"{{base_url}}"
 					],
@@ -183,7 +183,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys/replied/user/1?page=0&size=10&sortBy=createdAt",
+					"raw": "{{base_url}}/surveys/replied/user/1?page=0&size=10&sortBy=createdAt",
 					"host": [
 						"{{base_url}}"
 					],
@@ -227,7 +227,7 @@
 					"raw": "{\n  \"isTemplate\" : true,\n  \"userId\" : 1,\n  \"title\": \"Template Survey Title\",\n  \"description\": \"Template Survey Description\",\n  \"questions\":[\n    {\n        \"questionType\": \"TEXT\",\n        \"questionText\": \"how are you\",\n        \"isMandatory\": false,\n        \"isMultiline\": true\n    },\n    {\n        \"sectionTitle\": \"page 2\",\n        \"sectionDescription\": \"page 2 summary\",\n        \"questionType\": \"RADIO\",\n        \"questionText\": \"your favor color?\",\n        \"isMandatory\": true,\n        \"options\": [\n            {\n                \"optionText\": \"red\"\n            },\n            {\n                \"optionText\": \"blue\"\n            },\n            {\n                \"optionText\": \"green\"\n            }\n        ]\n    }\n]\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/surveys",
+					"raw": "{{base_url}}/surveys",
 					"host": [
 						"{{base_url}}"
 					],
@@ -245,7 +245,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/surveys?isTemplate=true&page=0&size=10",
+					"raw": "{{base_url}}/surveys?isTemplate=true&page=0&size=10",
 					"host": [
 						"{{base_url}}"
 					],
@@ -286,7 +286,7 @@
 					"raw": "{\n    \"userId\": 1,\n    \"surveyId\": 2,\n    \"questionReplies\": [\n        {\n            \"questionId\": 3,\n            \"replyText\": \"Bill\"\n        },\n        {\n            \"questionId\": 4,\n            \"optionReplies\": [\n                {\n                    \"optionId\": 5,\n                    \"selected\": true\n                }\n            ]\n        },\n        {\n            \"questionId\": 7,\n            \"optionReplies\": [\n                {\n                    \"optionId\": 8,\n                    \"selected\": true\n                }\n            ]\n        }\n    ]\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies",
+					"raw": "{{base_url}}/survey-replies",
 					"host": [
 						"{{base_url}}"
 					],
@@ -318,7 +318,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/11",
+					"raw": "{{base_url}}/survey-replies/11",
 					"host": [
 						"{{base_url}}"
 					],
@@ -332,12 +332,12 @@
 			"response": []
 		},
 		{
-			"name": "Get survey replies by user id",
+			"name": "Get Survey Replies By User ID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/user/1?page=0&size=10&sort=createdAt,desc",
+					"raw": "{{base_url}}/survey-replies/user/1?page=0&size=10&sort=createdAt,desc",
 					"host": [
 						"{{base_url}}"
 					],
@@ -371,7 +371,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/surveys/2/user/1",
+					"raw": "{{base_url}}/survey-replies/surveys/2/user/1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -393,7 +393,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/surveys/2/user/1",
+					"raw": "{{base_url}}/survey-replies/surveys/2/user/1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -415,7 +415,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/surveys/2/csv",
+					"raw": "{{base_url}}/survey-replies/surveys/2/csv",
 					"host": [
 						"{{base_url}}"
 					],
@@ -436,7 +436,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/survey-replies/surveys/2/summary",
+					"raw": "{{base_url}}/survey-replies/surveys/2/summary",
 					"host": [
 						"{{base_url}}"
 					],
@@ -467,7 +467,7 @@
 					"raw": "{\n  \"delegatorId\" : 1,\n  \"delegate\": {\n      \"id\": 1\n  }\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/delegates",
+					"raw": "{{base_url}}/delegates",
 					"host": [
 						"{{base_url}}"
 					],
@@ -485,7 +485,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/delegates/delegator/1",
+					"raw": "{{base_url}}/delegates/delegator/1",
 					"host": [
 						"{{base_url}}"
 					],
@@ -515,7 +515,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{base_url}}/api/delegates/21",
+					"raw": "{{base_url}}/delegates/21",
 					"host": [
 						"{{base_url}}"
 					],
@@ -544,7 +544,7 @@
 					"raw": "{\n  \"surveyId\" : 2,\n  \"name\" : \"iPhone\",\n  \"description\" : \"prize iPhone\",\n  \"quantity\" : 1\n}"
 				},
 				"url": {
-					"raw": "{{base_url}}/api/prizes",
+					"raw": "{{base_url}}/prizes",
 					"host": [
 						"{{base_url}}"
 					],
@@ -562,7 +562,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/prizes?surveyId=2",
+					"raw": "{{base_url}}/prizes?surveyId=2",
 					"host": [
 						"{{base_url}}"
 					],

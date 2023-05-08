@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/delegates")
+@RequestMapping("/delegates")
 public class DelegateController {
 
     @Autowired

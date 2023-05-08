@@ -1,11 +1,27 @@
+server:
+  servlet:
+    context-path: /api/v1
+
 spring:
   servlet:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB
 
-
 logging:
   level:
     org.hibernate.SQL: DEBUG
 #    org.hibernate.type: TRACE
+
+security:
+  oauth2:
+    client:
+      accessTokenUri: http://localhost:8080/api/v1/oauth2/simulator/token
+      userAuthorizationUri: http://localhost:8080/api/v1/oauth2/simulator/authorize
+      clientAuthenticationScheme: form
+      clientId: client
+      clientSecret: secret
+    resource:
+      preferTokenInfo: false
+      userInfoUri: http://localhost:8080/api/v1/oauth2/simulator/simulator/me
+      tokenInfoUri: http://localhost:8080/api/v1/oauth2/simulator/check_token

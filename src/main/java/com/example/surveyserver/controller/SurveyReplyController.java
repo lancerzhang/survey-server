@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping("/api/survey-replies")
+@RequestMapping("/survey-replies")
 public class SurveyReplyController {
 
     @Autowired

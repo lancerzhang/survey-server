@@ -20,7 +20,7 @@ public class FileUploadController {
 
     private final String uploadDirectory = System.getProperty("user.dir") + "/uploads/";
 
-    @PostMapping("/api/upload")
+    @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) {
         if (file.isEmpty()) {
             return new ResponseEntity<>("Please select a file to upload", HttpStatus.BAD_REQUEST);
@@ -39,7 +39,7 @@ public class FileUploadController {
         return new ResponseEntity<>(filename, HttpStatus.OK);
     }
 
-    @GetMapping("/api/image/{filename}")
+    @GetMapping("/image/{filename}")
     public ResponseEntity<byte[]> getImage(@PathVariable String filename) throws IOException {
         File file = new File(uploadDirectory + filename);
         if (!file.exists()) {
