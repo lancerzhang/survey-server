@@ -77,8 +77,8 @@ CREATE TABLE survey_replies (
 
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(255) NOT NULL,
-    staff_id VARCHAR(255),
+    display_name VARCHAR(255) NOT NULL,
+    employee_id VARCHAR(255),
     public_key VARCHAR(1000),
     email VARCHAR(255),
     created_at TIMESTAMP,

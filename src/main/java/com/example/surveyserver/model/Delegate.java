@@ -18,8 +18,10 @@ public class Delegate {
     @GeneratedValue
     private Integer id;
 
-    @Column(name = "delegator_id", nullable = false)
-    private Integer delegatorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delegator_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User delegator;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delegate_id", nullable = false)

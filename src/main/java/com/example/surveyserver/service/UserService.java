@@ -38,6 +38,6 @@ public class UserService {
 
     public List<User> searchUsers(String searchString) {
         Pageable pageable = PageRequest.of(0, 10);
-        return userRepository.searchByUsernameOrStaffId(searchString, pageable);
+        return userRepository.searchByDisplayNameOrEmployeeId(searchString, pageable);
     }
 }

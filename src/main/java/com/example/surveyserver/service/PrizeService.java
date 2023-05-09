@@ -1,14 +1,13 @@
 package com.example.surveyserver.service;
 
-import com.example.surveyserver.model.Prize;
-import com.example.surveyserver.model.SurveyReply;
-import com.example.surveyserver.model.User;
-import com.example.surveyserver.model.Winner;
+import com.example.surveyserver.model.*;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.repository.PrizeRepository;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.UserRepository;
 import com.example.surveyserver.repository.WinnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,10 +31,16 @@ public class PrizeService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> createPrizeAndSelectWinners(Prize prize) {
+    @Autowired
+    private SurveyService surveyService;
+
+    public List<User> createPrizeAndSelectWinners(Prize prize, Authentication authentication) {
+        Integer surveyId = prize.getSurveyId();
+        Survey survey = surveyService.getSurvey(surveyId);
+        PrincipalValidator.validateUserPermission(survey.getUserId(), authentication);
+
         // Save the new prize
         prizeRepository.save(prize);
-        Integer surveyId = prize.getSurveyId();
 
         // Get all survey replies and filter out the winners
         List<SurveyReply> surveyReplies = surveyReplyRepository.findBySurveyId(surveyId);

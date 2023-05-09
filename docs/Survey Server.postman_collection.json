@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "058165b1-3e5f-4bf7-a05c-5c4b3781d4d4",
+		"_postman_id": "7528fe9d-b0e7-44aa-89c1-d71825e8fd6d",
 		"name": "Survey Server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -16,7 +16,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"users",
 						"1"
 					]
@@ -35,7 +34,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"users",
 						"search"
 					],
@@ -60,7 +58,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"users"
 					]
 				}
@@ -88,7 +85,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys"
 					]
 				}
@@ -116,7 +112,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys",
 						"2"
 					]
@@ -135,7 +130,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys",
 						"2"
 					]
@@ -154,7 +148,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys",
 						"user",
 						"1"
@@ -188,7 +181,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys",
 						"replied",
 						"user",
@@ -232,7 +224,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys"
 					]
 				}
@@ -250,7 +241,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"surveys"
 					],
 					"query": [
@@ -291,7 +281,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies"
 					]
 				}
@@ -323,7 +312,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies",
 						"11"
 					]
@@ -342,7 +330,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies",
 						"user",
 						"1"
@@ -376,7 +363,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies",
 						"surveys",
 						"2",
@@ -398,7 +384,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies",
 						"surveys",
 						"2",
@@ -420,7 +405,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies",
 						"surveys",
 						"2",
@@ -441,7 +425,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"survey-replies",
 						"surveys",
 						"2",
@@ -464,7 +447,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"delegatorId\" : 1,\n  \"delegate\": {\n      \"id\": 1\n  }\n}"
+					"raw": "{\n    \"delegator\": {\n        \"id\": 1\n    },\n    \"delegate\": {\n        \"id\": 1\n    }\n}"
 				},
 				"url": {
 					"raw": "{{base_url}}/delegates",
@@ -472,7 +455,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"delegates"
 					]
 				}
@@ -480,7 +462,7 @@
 			"response": []
 		},
 		{
-			"name": "Get All Delegates",
+			"name": "Get By Dedegator ID",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -490,9 +472,27 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"delegates",
 						"delegator",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get By Dedegate ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/delegates/delegate/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"delegates",
+						"delegate",
 						"1"
 					]
 				}
@@ -520,7 +520,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"delegates",
 						"21"
 					]
@@ -549,7 +548,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"prizes"
 					]
 				}
@@ -567,7 +565,6 @@
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
 						"prizes"
 					],
 					"query": [

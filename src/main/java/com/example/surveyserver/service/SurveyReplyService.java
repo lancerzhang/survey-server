@@ -25,9 +25,7 @@ public class SurveyReplyService {
     @Autowired
     private SurveyService surveyService;
 
-    public SurveyReply createSurveyReply(SurveyReply surveyReply) {
-        // Get the survey
-        Survey survey = surveyService.getSurvey(surveyReply.getSurvey().getId());
+    public SurveyReply createSurveyReply(SurveyReply surveyReply, Survey survey) {
 
         // Validate the survey
         if (survey.getIsTemplate() || survey.getIsDeleted()) {
@@ -165,7 +163,7 @@ public class SurveyReplyService {
             if (surveyReply.getIsAnonymous()) {
                 csvContent.append(",Anonymous");
             } else {
-                csvContent.append(",").append(surveyReply.getUser().getUsername());
+                csvContent.append(",").append(surveyReply.getUser().getDisplayName());
             }
             for (QuestionReply questionReply : surveyReply.getQuestionReplies()) {
                 csvContent.append(",");
@@ -175,8 +173,7 @@ public class SurveyReplyService {
                     case TEXT:
                         csvContent.append(questionReply.getReplyText());
                         break;
-                    case RADIO:
-                    case CHECKBOX:
+                    case CHOICE:
                         List<String> selectedOptions = questionReply.getOptionReplies().stream()
                                 .filter(OptionReply::isSelected)
                                 .map(optionReply -> {
@@ -224,8 +221,7 @@ public class SurveyReplyService {
                         .findFirst().orElse(null);
 
                 if (questionReply != null) {
-                    if (question.getQuestionType().equals(Question.QuestionType.RADIO.toString()) ||
-                            question.getQuestionType().equals(Question.QuestionType.CHECKBOX.toString())) {
+                    if (question.getQuestionType().equals(Question.QuestionType.CHOICE.toString())) {
                         for (OptionReply optionReply : questionReply.getOptionReplies()) {
                             if (optionReply.isSelected()) {
                                 Option option = optionMap.get(optionReply.getOptionId());

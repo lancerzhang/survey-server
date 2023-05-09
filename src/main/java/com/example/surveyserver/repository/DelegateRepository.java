@@ -10,4 +10,6 @@ import java.util.List;
 public interface DelegateRepository extends JpaRepository<Delegate, Integer> {
 
     List<Delegate> findByDelegatorId(Integer delegatorId);
+
+    List<Delegate> findByDelegateId(Integer delegateId);
 }

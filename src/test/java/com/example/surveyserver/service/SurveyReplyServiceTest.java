@@ -58,7 +58,7 @@ public class SurveyReplyServiceTest {
         survey.setAllowResubmit(true);
         Question question1 = new Question();
         question1.setId(2);
-        question1.setQuestionType(String.valueOf(Question.QuestionType.RADIO));
+        question1.setQuestionType(String.valueOf(Question.QuestionType.CHOICE));
         question1.setQuestionText("Question 1");
 
         Option option1 = new Option();

@@ -46,7 +46,6 @@ public class Question {
 
     public enum QuestionType {
         TEXT,
-        RADIO,
-        CHECKBOX
+        CHOICE
     }
 }

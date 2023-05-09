@@ -1,5 +1,6 @@
 package com.example.surveyserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,20 +12,21 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "users", indexes = {
-        @Index(name = "idx_users_username_staff_id", columnList = "username,staff_id")
+        @Index(name = "idx_users_display_name_employee_id", columnList = "display_name,employee_id")
 })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "display_name", nullable = false)
     @Size(max = 255)
-    private String username;
+    private String displayName;
 
-    @Column(name = "staff_id")
+    @Column(name = "employee_id")
     @Size(max = 255)
-    private String staffId;
+    private String employeeId;
 
     @Size(max = 1000)
     private String publicKey;

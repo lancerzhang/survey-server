@@ -1,9 +1,11 @@
 package com.example.surveyserver.config;
 
+import com.example.surveyserver.model.Delegate;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.model.SurveyReply;
 import com.example.surveyserver.model.User;
 import com.example.surveyserver.repository.SurveyReplyRepository;
+import com.example.surveyserver.service.DelegateService;
 import com.example.surveyserver.service.SurveyReplyService;
 import com.example.surveyserver.service.SurveyService;
 import com.example.surveyserver.service.UserService;
@@ -26,26 +28,21 @@ public class InitialDataLoader implements CommandLineRunner {
     private SurveyReplyService surveyReplyService;
 
     @Autowired
+    private DelegateService delegateService;
+
+    @Autowired
     private SurveyReplyRepository surveyReplyRepository;
 
     @Override
     public void run(String... args) throws JsonProcessingException {
         // Create a sample user
         String userJsonStr = "{\n" +
-                "  \"username\": \"sampleUser\",\n" +
-                "  \"staffId\": \"01234567\",\n" +
+                "  \"displayName\": \"sampleUser\",\n" +
+                "  \"employeeId\": \"01234567\",\n" +
                 "  \"email\": \"sample.user@example.com\"\n" +
                 "}";
         User user = new ObjectMapper().readValue(userJsonStr, User.class);
         user = userService.createUser(user);
-
-//        String userJsonStr2 = "{\n" +
-//                "  \"username\": \"Bill Gates\",\n" +
-//                "  \"staffId\": \"43215678\",\n" +
-//                "  \"email\": \"bill.gates@example.com\"\n" +
-//                "}";
-//        User user2 = new ObjectMapper().readValue(userJsonStr2, User.class);
-//        userService.createUser(user2);
 
         // Create a sample survey
         String surveyJsonStr = "{\n" +
@@ -61,7 +58,8 @@ public class InitialDataLoader implements CommandLineRunner {
                 "          \"questionText\": \"Your name?\"\n" +
                 "      },\n" +
                 "      {\n" +
-                "          \"questionType\": \"RADIO\",\n" +
+                "          \"questionType\": \"CHOICE\",\n" +
+                "          \"maxSelection\": 1,\n" +
                 "          \"questionText\": \"Your Gender?\",\n" +
                 "          \"options\": [\n" +
                 "              {\n" +
@@ -73,7 +71,7 @@ public class InitialDataLoader implements CommandLineRunner {
                 "          ]\n" +
                 "      },\n" +
                 "      {\n" +
-                "          \"questionType\": \"CHECKBOX\",\n" +
+                "          \"questionType\": \"CHOICE\",\n" +
                 "          \"questionText\": \"Your favor color?\",\n" +
                 "          \"options\": [\n" +
                 "              {\n" +
@@ -140,11 +138,30 @@ public class InitialDataLoader implements CommandLineRunner {
                 "    ]\n" +
                 "}";
         SurveyReply surveyReply = new ObjectMapper().readValue(replyJsonStr, SurveyReply.class);
-        surveyReplyService.createSurveyReply(surveyReply);
+        surveyReplyService.createSurveyReply(surveyReply, survey);
 
 //        List<SurveyReply> allReplies = surveyReplyRepository.findAll();
 //        List<QuestionReply> allQuestionReply = questionReplyRepository.findAll();
 //        List<OptionReply> allOptionReplies = optionReplyRepository.findAll();
 //        System.out.println(allReplies);
+
+        String userJsonStr2 = "{\n" +
+                "  \"displayName\": \"Bill Gates\",\n" +
+                "  \"employeeId\": \"43215678\",\n" +
+                "  \"email\": \"bill.gates@example.com\"\n" +
+                "}";
+        User user2 = new ObjectMapper().readValue(userJsonStr2, User.class);
+        userService.createUser(user2);
+
+        String delegateJsonStr = "{\n" +
+                "    \"delegator\": {\n" +
+                "        \"id\": " + user2.getId() + "\n" +
+                "    },\n" +
+                "    \"delegate\": {\n" +
+                "        \"id\": 1\n" +
+                "    }\n" +
+                "}";
+        Delegate delegate = new ObjectMapper().readValue(delegateJsonStr, Delegate.class);
+        delegateService.addDelegate(delegate);
     }
 }

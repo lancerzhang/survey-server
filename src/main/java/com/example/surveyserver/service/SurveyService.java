@@ -5,11 +5,13 @@ import com.example.surveyserver.model.Option;
 import com.example.surveyserver.model.Question;
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.model.SurveyReply;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -156,13 +158,11 @@ public class SurveyService {
         return surveyRepository.findByIsTemplateTrueAndIsDeletedFalseOrderByIdDesc(pageable);
     }
 
-    public Survey deleteSurvey(Integer id) {
+    public Survey deleteSurvey(Integer id, Authentication authentication) {
         Survey survey = getSurvey(id);
-        if (survey != null) {
-            survey.setIsDeleted(true);
-            return updateSurvey(survey);
-        }
-        return null;
+        PrincipalValidator.validateUserPermission(survey.getUserId(), authentication);
+        survey.setIsDeleted(true);
+        return updateSurvey(survey);
     }
 
 }

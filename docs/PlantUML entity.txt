@@ -75,8 +75,8 @@ table(SurveyReply) {
 
 table(User) {
     +id: Integer
-    +username: String
-    +staff_id: String
+    +display_name: String
+    +employee_id: String
     +public_key: String
     +email: String
     +created_at: Date

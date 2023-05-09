@@ -34,13 +34,13 @@ public class UserServiceTest {
     public void setUp() {
         User user1 = new User();
         user1.setId(1);
-        user1.setUsername("john");
-        user1.setStaffId("001");
+        user1.setDisplayName("john");
+        user1.setEmployeeId("001");
 
         User user2 = new User();
         user2.setId(2);
-        user2.setUsername("jane");
-        user2.setStaffId("002");
+        user2.setDisplayName("jane");
+        user2.setEmployeeId("002");
 
         userList = Arrays.asList(user1, user2);
     }
@@ -48,13 +48,13 @@ public class UserServiceTest {
     @Test
     public void testCreateUser() {
         User user = new User();
-        user.setUsername("John");
+        user.setDisplayName("John");
 
         when(userRepository.save(user)).thenReturn(user);
 
         User createdUser = userService.createUser(user);
 
-        assertEquals(user.getUsername(), createdUser.getUsername());
+        assertEquals(user.getDisplayName(), createdUser.getDisplayName());
         verify(userRepository, times(1)).save(user);
     }
 
@@ -62,14 +62,14 @@ public class UserServiceTest {
     public void testGetUser() {
         User user = new User();
         user.setId(1);
-        user.setUsername("John");
+        user.setDisplayName("John");
 
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         User foundUser = userService.getUser(1);
 
         assertEquals(user.getId(), foundUser.getId());
-        assertEquals(user.getUsername(), foundUser.getUsername());
+        assertEquals(user.getDisplayName(), foundUser.getDisplayName());
         verify(userRepository, times(1)).findById(1);
     }
 
@@ -86,10 +86,10 @@ public class UserServiceTest {
     @Test
     public void testGetAllUsers() {
         User user1 = new User();
-        user1.setUsername("John");
+        user1.setDisplayName("John");
 
         User user2 = new User();
-        user2.setUsername("Jane");
+        user2.setDisplayName("Jane");
 
         List<User> users = Arrays.asList(user1, user2);
 
@@ -105,17 +105,17 @@ public class UserServiceTest {
     public void testUpdateUser() {
         User existingUser = new User();
         existingUser.setId(1);
-        existingUser.setUsername("John");
+        existingUser.setDisplayName("John");
 
         User updatedUser = new User();
-        updatedUser.setUsername("Jane");
+        updatedUser.setDisplayName("Jane");
 
         when(userRepository.findById(1)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(updatedUser)).thenReturn(updatedUser);
 
         User result = userService.updateUser(1, updatedUser);
 
-        assertEquals(updatedUser.getUsername(), result.getUsername());
+        assertEquals(updatedUser.getDisplayName(), result.getDisplayName());
         verify(userRepository, times(1)).findById(1);
         verify(userRepository, times(1)).save(updatedUser);
     }
@@ -123,7 +123,7 @@ public class UserServiceTest {
     @Test
     public void testUpdateUserNotFound() {
         User updatedUser = new User();
-        updatedUser.setUsername("Jane");
+        updatedUser.setDisplayName("Jane");
 
         when(userRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -138,12 +138,12 @@ public class UserServiceTest {
     public void testSearchUsers() {
         String searchString = "john";
         Pageable pageable = PageRequest.of(0, 10);
-        when(userRepository.searchByUsernameOrStaffId(searchString, pageable)).thenReturn(userList);
+        when(userRepository.searchByDisplayNameOrEmployeeId(searchString, pageable)).thenReturn(userList);
 
         List<User> result = userService.searchUsers(searchString);
 
         assertEquals(userList, result);
-        verify(userRepository, times(1)).searchByUsernameOrStaffId(searchString, pageable);
+        verify(userRepository, times(1)).searchByDisplayNameOrEmployeeId(searchString, pageable);
     }
 }
 

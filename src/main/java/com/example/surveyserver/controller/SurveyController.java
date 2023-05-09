@@ -1,6 +1,7 @@
 package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.Survey;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +22,8 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @PostMapping
-    public Survey createSurvey(@Valid @RequestBody Survey survey) {
+    public Survey createSurvey(@Valid @RequestBody Survey survey, Authentication authentication) {
+        PrincipalValidator.validateUserPermission(survey.getUserId(), authentication);
         return surveyService.createSurvey(survey);
     }
 
@@ -43,7 +46,8 @@ public class SurveyController {
     }
 
     @PutMapping("/{id}")
-    public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey) {
+    public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey, Authentication authentication) {
+        PrincipalValidator.validateUserPermission(updatedSurvey.getUserId(), authentication);
         Survey survey = surveyService.getSurvey(id);
         updatedSurvey.setId(survey.getId());
         return surveyService.updateSurvey(updatedSurvey);
@@ -64,8 +68,8 @@ public class SurveyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Survey> deleteSurvey(@PathVariable Integer id) {
-        Survey deletedSurvey = surveyService.deleteSurvey(id);
+    public ResponseEntity<Survey> deleteSurvey(@PathVariable Integer id, Authentication authentication) {
+        Survey deletedSurvey = surveyService.deleteSurvey(id, authentication);
         if (deletedSurvey != null) {
             return ResponseEntity.ok(deletedSurvey);
         } else {
