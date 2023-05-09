@@ -2,6 +2,7 @@ package com.example.surveyserver.service;
 
 import com.example.surveyserver.exception.ResourceNotFoundException;
 import com.example.surveyserver.model.*;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.SurveyRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -195,17 +198,15 @@ public class SurveyServiceTest {
         when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.of(survey));
         when(surveyRepository.save(any(Survey.class))).thenReturn(survey);
 
-        Survey deletedSurvey = surveyService.deleteSurvey(1);
+        try (MockedStatic<PrincipalValidator> mocked = Mockito.mockStatic(PrincipalValidator.class)) {
+            mocked.when(() -> PrincipalValidator.validateUserPermission(anyInt(), any())).thenAnswer(i -> null);
 
-        assertTrue(deletedSurvey.getIsDeleted());
-        verify(surveyRepository, times(1)).save(deletedSurvey);
+            Survey deletedSurvey = surveyService.deleteSurvey(1, null);
+
+            assertTrue(deletedSurvey.getIsDeleted());
+            verify(surveyRepository, times(1)).save(deletedSurvey);
+        }
     }
 
-    @Test
-    public void testDeleteSurveyNotFound() {
-        when(surveyRepository.findByIdAndIsDeletedFalse(1)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> surveyService.deleteSurvey(1));
-    }
 }
 

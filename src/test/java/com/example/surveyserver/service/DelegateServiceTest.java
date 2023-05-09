@@ -1,6 +1,9 @@
 package com.example.surveyserver.service;
 
 import com.example.surveyserver.model.Delegate;
+import com.example.surveyserver.model.User;
+import com.example.surveyserver.oauth2.PrincipalUser;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.repository.DelegateRepository;
 import com.example.surveyserver.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,10 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -30,6 +37,8 @@ public class DelegateServiceTest {
 
     private List<Delegate> delegateList;
 
+    private PrincipalUser dummyPrincipal;
+
     @BeforeEach
     public void setUp() {
         Delegate delegate1 = new Delegate();
@@ -41,6 +50,9 @@ public class DelegateServiceTest {
         // Set other properties for delegate2
 
         delegateList = Arrays.asList(delegate1, delegate2);
+
+        dummyPrincipal = new PrincipalUser(1, "01234567", "sampleUser", "sample.user@example.com");
+        dummyPrincipal.setDelegators(Collections.singletonList(1));
     }
 
     @Test
@@ -57,15 +69,6 @@ public class DelegateServiceTest {
     }
 
     @Test
-    public void testRemoveDelegate() {
-        Integer delegateId = 1;
-
-        delegateService.removeDelegate(delegateId);
-
-        verify(delegateRepository, times(1)).deleteById(delegateId);
-    }
-
-    @Test
     public void testGetDelegatesByDelegatorId() {
         Integer delegatorId = 1;
         when(delegateRepository.findByDelegatorId(delegatorId)).thenReturn(delegateList);
@@ -75,4 +78,28 @@ public class DelegateServiceTest {
         assertEquals(delegateList, result);
         verify(delegateRepository, times(1)).findByDelegatorId(delegatorId);
     }
+
+    @Test
+    public void removeDelegateSuccessfully() {
+        // Arrange
+        Integer id = 1;
+        Delegate delegate = new Delegate();
+        User delegator = new User();
+        delegator.setId(1);
+        delegate.setDelegator(delegator);
+
+        when(delegateRepository.findById(id)).thenReturn(Optional.of(delegate));
+        try (MockedStatic<PrincipalValidator> mocked = Mockito.mockStatic(PrincipalValidator.class)) {
+            mocked.when(() -> PrincipalValidator.validateUserPermission(anyInt(), any())).thenAnswer(i -> null);
+
+            // Act
+            delegateService.removeDelegate(id, null);
+
+            // Assert
+            verify(delegateRepository, times(1)).findById(id);
+            verify(delegateRepository, times(1)).deleteById(id);
+            mocked.verify(() -> PrincipalValidator.validateUserPermission(anyInt(), any()), times(1));
+        }
+    }
+
 }

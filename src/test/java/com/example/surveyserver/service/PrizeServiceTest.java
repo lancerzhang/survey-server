@@ -1,8 +1,10 @@
 package com.example.surveyserver.service;
 
 import com.example.surveyserver.model.Prize;
+import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.model.SurveyReply;
 import com.example.surveyserver.model.User;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.repository.PrizeRepository;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import com.example.surveyserver.repository.UserRepository;
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -19,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +32,9 @@ public class PrizeServiceTest {
 
     @InjectMocks
     private PrizeService prizeService;
+
+    @Mock
+    private SurveyService surveyService;
 
     @Mock
     private PrizeRepository prizeRepository;
@@ -67,7 +75,9 @@ public class PrizeServiceTest {
 
         when(surveyReplyRepository.findBySurveyId(1)).thenReturn(surveyReplies);
         when(winnerRepository.findBySurveyId(1)).thenReturn(Collections.emptyList());
-
+        Survey survey = new Survey();
+        survey.setId(1);
+        when(surveyService.getSurvey(1)).thenReturn(survey);
         // Updated stubbing
         when(userRepository.findById(anyInt())).thenAnswer(invocation -> {
             Integer userId = invocation.getArgument(0);
@@ -76,9 +86,12 @@ public class PrizeServiceTest {
             return Optional.of(user);
         });
 
-        List<User> winners = prizeService.createPrizeAndSelectWinners(prize);
+        try (MockedStatic<PrincipalValidator> mocked = Mockito.mockStatic(PrincipalValidator.class)) {
+            mocked.when(() -> PrincipalValidator.validateUserPermission(anyInt(), any())).thenAnswer(i -> null);
 
-        assertEquals(2, winners.size());
+            List<User> winners = prizeService.createPrizeAndSelectWinners(prize, null);
+            assertEquals(2, winners.size());
+        }
     }
 
 

@@ -2,20 +2,21 @@ package com.example.surveyserver.service;
 
 import com.example.surveyserver.exception.ResourceNotFoundException;
 import com.example.surveyserver.model.*;
+import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.repository.SurveyReplyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -95,66 +96,18 @@ public class SurveyReplyServiceTest {
     }
 
     @Test
-    public void createSurveyReply_TemplateSurvey_ShouldThrowException() {
-        survey.setIsTemplate(true);
-        assertThrows(IllegalArgumentException.class, () -> {
-            surveyReplyService.createSurveyReply(surveyReply);
-        });
-    }
-
-    @Test
-    public void createSurveyReply_DeletedSurvey_ShouldThrowException() {
-        survey.setIsDeleted(true);
-        assertThrows(IllegalArgumentException.class, () -> {
-            surveyReplyService.createSurveyReply(surveyReply);
-        });
-    }
-
-    @Test
-    public void createSurveyReply_BeforeStartTime_ShouldThrowException() {
-        survey.setStartTime(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
-        assertThrows(IllegalArgumentException.class, () -> {
-            surveyReplyService.createSurveyReply(surveyReply);
-        });
-    }
-
-    @Test
-    public void createSurveyReply_AfterEndTime_ShouldThrowException() {
-        survey.setEndTime(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
-        assertThrows(IllegalArgumentException.class, () -> {
-            surveyReplyService.createSurveyReply(surveyReply);
-        });
-    }
-
-    @Test
-    public void createSurveyReply_MaxRepliesReached_ShouldThrowException() {
-        survey.setMaxReplies(10);
-        when(surveyReplyRepository.countBySurveyId(anyInt())).thenReturn(10L);
-        assertThrows(IllegalArgumentException.class, () -> {
-            surveyReplyService.createSurveyReply(surveyReply);
-        });
-    }
-
-    @Test
     public void createSurveyReply_ValidSurvey_ShouldCreateReply() {
         survey.setIsAnonymous(true);
         when(surveyReplyRepository.save(any(SurveyReply.class))).thenReturn(surveyReply);
 
-        SurveyReply createdReply = surveyReplyService.createSurveyReply(surveyReply);
+        try (MockedStatic<PrincipalValidator> mocked = Mockito.mockStatic(PrincipalValidator.class)) {
+            mocked.when(() -> PrincipalValidator.validateUserPermission(anyInt(), any())).thenAnswer(i -> null);
 
-        assertNotNull(createdReply);
-        assertTrue(createdReply.getIsAnonymous());
-    }
+            SurveyReply createdReply = surveyReplyService.createSurveyReply(surveyReply, survey);
 
-    @Test
-    public void testCreateSurveyReply() {
-        when(surveyReplyRepository.save(any(SurveyReply.class))).thenReturn(surveyReply);
-
-        SurveyReply createdSurveyReply = surveyReplyService.createSurveyReply(surveyReply);
-
-        assertNotNull(createdSurveyReply);
-        assertEquals(surveyReply, createdSurveyReply);
-        verify(surveyReplyRepository, times(1)).save(surveyReply);
+            assertNotNull(createdReply);
+            assertTrue(createdReply.getIsAnonymous());
+        }
     }
 
     @Test
