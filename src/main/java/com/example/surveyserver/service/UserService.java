@@ -42,6 +42,6 @@ public class UserService {
     }
 
     public User findEmployeeId(String employeeId) {
-        return userRepository.findEmployeeId(employeeId).orElse(null);
+        return userRepository.findByEmployeeId(employeeId).orElse(null);
     }
 }

@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE LOWER(u.displayName) LIKE LOWER(CONCAT('%', :searchString, '%')) OR LOWER(u.employeeId) LIKE LOWER(CONCAT('%', :searchString, '%'))")
     List<User> searchByDisplayNameOrEmployeeId(@Param("searchString") String searchString, Pageable pageable);
 
-    Optional<User> findEmployeeId(String employeeId);
+    Optional<User> findByEmployeeId(String employeeId);
 }
