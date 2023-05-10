@@ -40,4 +40,8 @@ public class UserService {
         Pageable pageable = PageRequest.of(0, 10);
         return userRepository.searchByDisplayNameOrEmployeeId(searchString, pageable);
     }
+
+    public User findEmployeeId(String employeeId) {
+        return userRepository.findEmployeeId(employeeId).orElse(null);
+    }
 }
