@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/delegates")
+@RequestMapping("/api/v1/delegates")
 public class DelegateController {
 
     @Autowired

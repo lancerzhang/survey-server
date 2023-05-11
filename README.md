@@ -32,6 +32,14 @@ http://localhost:8080/api/v1/swagger-ui/
 
 You can use Postman to test the API endpoints. Import the Postman collections provided in the previous sections to get started quickly.
 
+## TODO features
+* Split survey to multiple pages
+* Add more question types, e.g. star rating, date picker, matrix / rating scale etc.
+* Add "other" option for choice question types.
+* Conditional logic for questions.
+* Move questions between pages.
+* End-to-end encryption for survey responses.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

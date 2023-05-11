@@ -50,9 +50,7 @@ public class SurveyReplyService {
         }
 
         // Set the isAnonymous property if it is true in the survey
-        if (survey.getIsAnonymous()) {
-            surveyReply.setIsAnonymous(true);
-        }
+        surveyReply.setIsAnonymous(survey.getIsAnonymous());
 
         List<QuestionReply> questionReplies = surveyReply.getQuestionReplies();
         questionReplies.forEach(questionReply -> {

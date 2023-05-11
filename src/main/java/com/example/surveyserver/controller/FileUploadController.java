@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/v1/files")
 public class FileUploadController {
 
     private final String uploadDirectory = System.getProperty("user.dir") + "/uploads/";

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/surveys")
+@RequestMapping("/api/v1/surveys")
 public class SurveyController {
 
     @Autowired

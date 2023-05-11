@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping("/survey-replies")
+@RequestMapping("/api/v1/survey-replies")
 public class SurveyReplyController {
 
     @Autowired

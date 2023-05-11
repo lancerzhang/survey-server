@@ -25,6 +25,7 @@ public class UserConverter extends DefaultUserAuthenticationConverter {
 
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
+        Authentication authentication = super.extractAuthentication(map);
         String employeeId = (String) map.get("employeeId");
         String displayName = (String) map.get("displayName");
         String email = (String) map.get("email");
@@ -42,7 +43,7 @@ public class UserConverter extends DefaultUserAuthenticationConverter {
         List<Integer> delegatorIds = delegates.stream().map(d -> d.getDelegator().getId()).collect(Collectors.toList());
         delegatorIds.add(myId);
         principalUser.setDelegators(delegatorIds);
-        return new UsernamePasswordAuthenticationToken(principalUser, null, null);
+        return new UsernamePasswordAuthenticationToken(principalUser, authentication.getCredentials(), authentication.getAuthorities());
     }
 
 }

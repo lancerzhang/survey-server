@@ -39,11 +39,6 @@ public class Question {
     @JsonIgnore
     private Survey survey;
 
-    @PrePersist
-    public void prePersist() {
-        this.isMandatory = false;
-    }
-
     public enum QuestionType {
         TEXT,
         CHOICE

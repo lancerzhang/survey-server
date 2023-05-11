@@ -1,8 +1,6 @@
-server:
-  servlet:
-    context-path: /api/v1
-
 spring:
+  resources:
+    static-locations: classpath:/static/
   servlet:
     multipart:
       max-file-size: 5MB

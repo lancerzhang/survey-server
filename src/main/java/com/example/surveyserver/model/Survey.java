@@ -59,9 +59,6 @@ public class Survey {
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Subpage> subpages;
-
     @PrePersist
     public void prePersist() {
         this.isDeleted = false;

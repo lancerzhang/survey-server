@@ -48,7 +48,6 @@ public class SurveyReply {
 
     @PrePersist
     public void prePersist() {
-        this.isAnonymous = false;
         this.createdAt = new Date();
         this.lastModified = new Date();
     }
