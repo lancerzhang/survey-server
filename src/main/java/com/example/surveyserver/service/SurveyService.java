@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,11 +41,18 @@ public class SurveyService {
                 });
             }
         });
+        setDisplayOrder(survey);
         return surveyRepository.save(survey);
     }
 
     public Survey getSurvey(Integer id) {
-        return surveyRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
+        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
+        List<Question> sortedQuestions = survey.getQuestions().stream()
+                .sorted(Comparator.comparingInt(Question::getDisplayOrder))
+                .collect(Collectors.toList());
+
+        survey.setQuestions(sortedQuestions);
+        return survey;
     }
 
     public Page<Survey> getAllSurveys(Pageable pageable) {
@@ -66,9 +74,18 @@ public class SurveyService {
         return surveyRepository.findByIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(pageable);
     }
 
+    public void setDisplayOrder(Survey updatedSurvey) {
+        for (int i = 0; i < updatedSurvey.getQuestions().size(); i++) {
+            Question updatedQuestion = updatedSurvey.getQuestions().get(i);
+            updatedQuestion.setDisplayOrder(i);  // Set the order
+        }
+    }
+
     public Survey updateSurvey(Survey updatedSurvey) {
         Survey existingSurvey = surveyRepository.findByIdAndIsDeletedFalse(updatedSurvey.getId())
                 .orElseThrow(() -> new RuntimeException("Survey not found"));
+
+        setDisplayOrder(updatedSurvey);
 
         // Update the survey details
         existingSurvey.setTitle(updatedSurvey.getTitle());
@@ -105,6 +122,7 @@ public class SurveyService {
                 existingQuestion.setIsMandatory(question.getIsMandatory());
                 existingQuestion.setMinSelection(question.getMinSelection());
                 existingQuestion.setMaxSelection(question.getMaxSelection());
+                existingQuestion.setDisplayOrder(question.getDisplayOrder());
 
                 Set<Integer> updatedOptionIds = question.getOptions().stream()
                         .map(Option::getId)
