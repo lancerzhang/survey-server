@@ -3,11 +3,14 @@ package com.example.surveyserver.service;
 import com.example.surveyserver.exception.ResourceNotFoundException;
 import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.SurveyReplyRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +70,6 @@ public class SurveyReplyService {
 
         return surveyReplyRepository.save(surveyReply);
     }
-
 
     public SurveyReply getSurveyReply(Integer id) {
         return surveyReplyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Survey reply not found with ID: " + id));
@@ -135,7 +137,7 @@ public class SurveyReplyService {
         return surveyReplyRepository.findBySurveyId(surveyId);
     }
 
-    public String generateRepliesCsvContent(Integer surveyId) {
+    public String generateRepliesCsvContent(Integer surveyId) throws IOException {
         List<SurveyReply> surveyReplies = getRepliesBySurveyId(surveyId);
         Survey survey = surveyService.getSurvey(surveyId);
 
@@ -147,29 +149,31 @@ public class SurveyReplyService {
                 .collect(Collectors.toMap(Option::getId, Function.identity()));
 
         StringBuilder csvContent = new StringBuilder();
+        CSVPrinter csvPrinter = new CSVPrinter(csvContent, CSVFormat.DEFAULT);
 
         // Add header row
-        csvContent.append("Survey Reply ID");
+        List<String> headers = new ArrayList<>();
+        headers.add("Survey Reply ID");
         for (Question question : survey.getQuestions()) {
-            csvContent.append(",").append(question.getQuestionText());
+            headers.add(question.getQuestionText());
         }
-        csvContent.append("\n");
+        csvPrinter.printRecord(headers);
 
         // Add data rows
         for (SurveyReply surveyReply : surveyReplies) {
-            csvContent.append(surveyReply.getId());
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(surveyReply.getId()));
             if (surveyReply.getIsAnonymous()) {
-                csvContent.append(",Anonymous");
+                row.add("Anonymous");
             } else {
-                csvContent.append(",").append(surveyReply.getUser().getDisplayName());
+                row.add(surveyReply.getUser().getDisplayName());
             }
             for (QuestionReply questionReply : surveyReply.getQuestionReplies()) {
-                csvContent.append(",");
                 Question question = questionMap.get(questionReply.getQuestionId());
                 Question.QuestionType questionType = Question.QuestionType.valueOf(question.getQuestionType());
                 switch (questionType) {
                     case TEXT:
-                        csvContent.append(questionReply.getReplyText());
+                        row.add(questionReply.getReplyText());
                         break;
                     case CHOICE:
                         List<String> selectedOptions = questionReply.getOptionReplies().stream()
@@ -180,11 +184,11 @@ public class SurveyReplyService {
                                 })
                                 .collect(Collectors.toList());
                         String optionTexts = String.join(", ", selectedOptions);
-                        csvContent.append(optionTexts);
+                        row.add(optionTexts);
                         break;
                 }
             }
-            csvContent.append("\n");
+            csvPrinter.printRecord(row);
         }
 
         return csvContent.toString();
