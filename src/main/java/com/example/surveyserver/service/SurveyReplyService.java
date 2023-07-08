@@ -164,7 +164,8 @@ public class SurveyReplyService {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(surveyReply.getId()));
             if (surveyReply.getIsAnonymous()) {
-                row.add("Anonymous");
+                row.add("Anonymous ID");
+                row.add("Anonymous Name");
             } else {
                 row.add(surveyReply.getUser().getDisplayName());
             }

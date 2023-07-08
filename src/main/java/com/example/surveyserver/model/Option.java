@@ -24,4 +24,7 @@ public class Option {
     @JoinColumn(name = "question_id")
     @JsonIgnore
     private Question question;
+
+    @Column(name = "next_question_index")
+    private Integer nextQuestionIndex;
 }

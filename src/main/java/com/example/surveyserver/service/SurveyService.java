@@ -143,6 +143,7 @@ public class SurveyService {
 
                     if (existingOption != null) {
                         existingOption.setOptionText(option.getOptionText());
+                        existingOption.setNextQuestionIndex(option.getNextQuestionIndex());
                     } else {
                         existingQuestion.getOptions().add(option);
                         option.setQuestion(existingQuestion);
