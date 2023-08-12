@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name = "users", indexes = {
         @Index(name = "idx_users_display_name_employee_id", columnList = "display_name,employee_id")
-})
+}, uniqueConstraints = {@UniqueConstraint(name = "uc_users_employee_id", columnNames = "employee_id")})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
