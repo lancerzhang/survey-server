@@ -94,3 +94,12 @@ CREATE TABLE winners (
     FOREIGN KEY (prize_id) REFERENCES prizes(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE survey_access (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    survey_id INT NOT NULL,
+    user_id INT NOT NULL,
+    granted_at TIMESTAMP,
+    FOREIGN KEY (survey_id) REFERENCES surveys(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

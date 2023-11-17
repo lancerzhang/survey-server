@@ -165,7 +165,7 @@ public class SurveyService {
     }
 
     public Page<Survey> getSurveysByUser(Integer userId, Pageable pageable) {
-        return surveyRepository.findByUserIdAndIsTemplateFalseAndIsDeletedFalseOrderByIdDesc(userId, pageable);
+        return surveyRepository.findSurveysByUser(userId, pageable);
     }
 
     public Page<Survey> getRepliedSurveysByUser(Integer userId, Pageable pageable) {

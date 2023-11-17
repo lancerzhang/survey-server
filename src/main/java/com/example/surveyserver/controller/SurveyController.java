@@ -56,9 +56,8 @@ public class SurveyController {
     @GetMapping("/user/{userId}")
     public Page<Survey> getSurveysByUser(@PathVariable Integer userId,
                                          @RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "10") int size,
-                                         @RequestParam(defaultValue = "createdAt") String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+                                         @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         return surveyService.getSurveysByUser(userId, pageable);
     }
 
