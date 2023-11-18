@@ -1,5 +1,6 @@
 package com.example.surveyserver.service;
 
+import com.example.surveyserver.exception.ResourceNotFoundException;
 import com.example.surveyserver.model.*;
 import com.example.surveyserver.oauth2.PrincipalUser;
 import com.example.surveyserver.oauth2.PrincipalValidator;
@@ -33,5 +34,23 @@ public class SurveyAccessService {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to perform this action");
             }
         }
+    }
+
+    public SurveyAccess addSurveyAccess(SurveyAccess surveyAccess) {
+        return surveyAccessRepository.save(surveyAccess);
+    }
+
+    public List<SurveyAccess> getSurveyAccessSurveyId(Integer surveyId) {
+        return surveyAccessRepository.findBySurveyId(surveyId);
+    }
+
+    public void removeSurveyAccess(Integer id, Authentication authentication) {
+        // Fetch the surveyAccess from the repository
+        SurveyAccess surveyAccess = surveyAccessRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SurveyAccess not found with ID: " + id));
+
+        // Validate if the authenticated user has the right to remove the surveyAccess
+        PrincipalValidator.validateUserPermission(surveyAccess.getUserId(), authentication);
+
+        surveyAccessRepository.deleteById(id);
     }
 }
