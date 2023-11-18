@@ -2,6 +2,7 @@ package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.oauth2.PrincipalValidator;
+import com.example.surveyserver.service.SurveyAccessService;
 import com.example.surveyserver.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,8 @@ public class SurveyController {
 
     @Autowired
     private SurveyService surveyService;
+    @Autowired
+    private SurveyAccessService surveyAccessService;
 
     @PostMapping
     public Survey createSurvey(@Valid @RequestBody Survey survey, Authentication authentication) {
@@ -48,6 +51,7 @@ public class SurveyController {
     @PutMapping("/{id}")
     public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey, Authentication authentication) {
         PrincipalValidator.validateUserPermission(updatedSurvey.getUserId(), authentication);
+        surveyAccessService.validateSurveyAccess(updatedSurvey,authentication);
         Survey survey = surveyService.getSurvey(id);
         updatedSurvey.setId(survey.getId());
         return surveyService.updateSurvey(updatedSurvey);

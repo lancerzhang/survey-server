@@ -3,7 +3,7 @@ package com.example.surveyserver.model;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "survey_access")
@@ -19,6 +19,6 @@ public class SurveyAccess {
 
     private Integer userId;
 
-    private LocalDateTime grantedAt;
+    private Date grantedAt;
 
 }
