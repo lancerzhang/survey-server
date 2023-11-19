@@ -2,7 +2,6 @@ package com.example.surveyserver.controller;
 
 import com.example.surveyserver.model.Survey;
 import com.example.surveyserver.model.SurveyAccess;
-import com.example.surveyserver.model.SurveyAccess;
 import com.example.surveyserver.oauth2.PrincipalValidator;
 import com.example.surveyserver.service.SurveyAccessService;
 import com.example.surveyserver.service.SurveyService;
@@ -24,14 +23,14 @@ public class SurveyAccessController {
 
     @PostMapping
     public SurveyAccess addSurveyAccess(@Valid @RequestBody SurveyAccess surveyAccess, Authentication authentication) {
-        Survey survey=surveyService.getSurvey(surveyAccess.getSurveyId());
+        Survey survey = surveyService.getSurvey(surveyAccess.getSurveyId());
         PrincipalValidator.validateUserPermission(survey.getUserId(), authentication);
         return surveyAccessService.addSurveyAccess(surveyAccess);
     }
 
-    @GetMapping
-    public List<SurveyAccess> getSurveyAccessSurveyId(@PathVariable Integer surveyId) {
-        return surveyAccessService.getSurveyAccessSurveyId(surveyId);
+    @GetMapping("/{id}")
+    public List<SurveyAccess> getSurveyAccessSurveyId(@PathVariable Integer id) {
+        return surveyAccessService.getSurveyAccessSurveyId(id);
     }
 
     @DeleteMapping("/{id}")

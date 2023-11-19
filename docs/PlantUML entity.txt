@@ -91,6 +91,13 @@ table(Winner) {
     +won_at: Date
 }
 
+table(survey_access) {
+    +id: Integer
+    +survey_id: Integer
+    +user_id: Integer
+    +granted_at: Timestamp
+}
+
 Delegate "1" -- "0..1" User : delegate_id
 Option "1" -- "0..1" Question : question_id
 OptionReply "1" -- "0..1" QuestionReply : questionReply_id
@@ -99,5 +106,7 @@ Question "1" -- "0..1" Survey : survey_id
 QuestionReply "1" -- "0..1" SurveyReply : surveyReply_id
 Survey "1" -- "0..1" SurveyReply : survey_id
 User "1" -- "0..*" Winner : user_id
+Survey "1" -- "0..*" survey_access : survey_id
+User "1" -- "0..*" survey_access : user_id
 
 @enduml

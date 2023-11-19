@@ -1,14 +1,8 @@
 package com.example.surveyserver.config;
 
-import com.example.surveyserver.model.Delegate;
-import com.example.surveyserver.model.Survey;
-import com.example.surveyserver.model.SurveyReply;
-import com.example.surveyserver.model.User;
+import com.example.surveyserver.model.*;
 import com.example.surveyserver.repository.SurveyReplyRepository;
-import com.example.surveyserver.service.DelegateService;
-import com.example.surveyserver.service.SurveyReplyService;
-import com.example.surveyserver.service.SurveyService;
-import com.example.surveyserver.service.UserService;
+import com.example.surveyserver.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +26,8 @@ public class InitialDataLoader implements CommandLineRunner {
 
     @Autowired
     private SurveyReplyRepository surveyReplyRepository;
+    @Autowired
+    private SurveyAccessService surveyAccessService;
 
     @Override
     public void run(String... args) throws JsonProcessingException {
@@ -163,5 +159,14 @@ public class InitialDataLoader implements CommandLineRunner {
                 "}";
         Delegate delegate = new ObjectMapper().readValue(delegateJsonStr, Delegate.class);
         delegateService.addDelegate(delegate);
+
+        String surveyAccessJsonStr = "{\n" +
+                "    \"surveyId\": "+survey.getId()+",\n" +
+                "    \"user\": {\n" +
+                "        \"id\": " + user2.getId() + "\n" +
+                "    }\n" +
+                "}";
+        SurveyAccess surveyAccess = new ObjectMapper().readValue(surveyAccessJsonStr, SurveyAccess.class);
+        surveyAccessService.addSurveyAccess(surveyAccess);
     }
 }

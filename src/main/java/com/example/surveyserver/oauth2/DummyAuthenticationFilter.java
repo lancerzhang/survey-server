@@ -24,6 +24,7 @@ public class DummyAuthenticationFilter extends GenericFilterBean {
 
     private Authentication createDummyAuthentication() {
         PrincipalUser dummyPrincipal = new PrincipalUser(1, "01234567", "sampleUser", "sample.user@example.com");
+//        PrincipalUser dummyPrincipal = new PrincipalUser(20, "43215678", "Bill Gates", "bill.gates@example.com");
         dummyPrincipal.setDelegators(Collections.singletonList(1));
         return new UsernamePasswordAuthenticationToken(dummyPrincipal, null, null);
     }

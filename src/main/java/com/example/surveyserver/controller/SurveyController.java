@@ -51,7 +51,7 @@ public class SurveyController {
     @PutMapping("/{id}")
     public Survey updateSurvey(@PathVariable Integer id, @Valid @RequestBody Survey updatedSurvey, Authentication authentication) {
         PrincipalValidator.validateUserPermission(updatedSurvey.getUserId(), authentication);
-        surveyAccessService.validateSurveyAccess(updatedSurvey,authentication);
+        surveyAccessService.validateSurveyAccess(updatedSurvey, authentication);
         Survey survey = surveyService.getSurvey(id);
         updatedSurvey.setId(survey.getId());
         return surveyService.updateSurvey(updatedSurvey);

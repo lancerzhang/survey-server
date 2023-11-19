@@ -1,8 +1,10 @@
 package com.example.surveyserver.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -17,7 +19,10 @@ public class SurveyAccess {
 
     private Integer surveyId;
 
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
 
     private Date grantedAt;
 

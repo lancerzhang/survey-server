@@ -1,27 +1,27 @@
 package com.example.surveyserver.service;
 
 import com.example.surveyserver.exception.ResourceNotFoundException;
-import com.example.surveyserver.model.*;
+import com.example.surveyserver.model.Survey;
+import com.example.surveyserver.model.SurveyAccess;
 import com.example.surveyserver.oauth2.PrincipalUser;
 import com.example.surveyserver.oauth2.PrincipalValidator;
-import com.example.surveyserver.repository.*;
+import com.example.surveyserver.repository.SurveyAccessRepository;
+import com.example.surveyserver.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class SurveyAccessService {
 
     @Autowired
     private SurveyAccessRepository surveyAccessRepository;
+    @Autowired
+    private SurveyRepository surveyRepository;
 
     public void validateSurveyAccess(Survey survey, Authentication authentication) {
         PrincipalUser authenticatedUser = (PrincipalUser) authentication.getPrincipal();
@@ -47,9 +47,9 @@ public class SurveyAccessService {
     public void removeSurveyAccess(Integer id, Authentication authentication) {
         // Fetch the surveyAccess from the repository
         SurveyAccess surveyAccess = surveyAccessRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SurveyAccess not found with ID: " + id));
-
+        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyAccess.getSurveyId()).orElseThrow(() -> new ResourceNotFoundException("Survey not found with ID: " + id));
         // Validate if the authenticated user has the right to remove the surveyAccess
-        PrincipalValidator.validateUserPermission(surveyAccess.getUserId(), authentication);
+        PrincipalValidator.validateUserPermission(survey.getUserId(), authentication);
 
         surveyAccessRepository.deleteById(id);
     }
